@@ -1,0 +1,3 @@
+[submodule "cdp-auction"]
+	path = cdp-auction
+	url = https://github.com/michaelhly/cdp-auction.git
