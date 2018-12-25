@@ -8,7 +8,7 @@ class Navbar extends Component {
           CDP.Auction
         </a>
 
-        <ul class="navbar-nav navbar-expand-lg mr-auto">
+        <ul class="navbar-nav navbar-expand mr-auto">
           <li class="nav-item m-2 active">
             <a class="nav-link" href="#">
               Home <span class="sr-only">(current)</span>
@@ -30,7 +30,7 @@ class Navbar extends Component {
           <input
             class="form-control mr-sm-2"
             type="search"
-            placeholder="Search"
+            placeholder="AuctionID"
             aria-label="Search"
           />
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">

@@ -3,7 +3,7 @@ import CdpPreview from "./cdpPreview";
 
 class Cdps extends Component {
   displayAuctions = props => {
-    if (this.props.auctions.length == 0) {
+    if (this.props.auctions.length === 0) {
       return <div />;
     } else {
       return (
