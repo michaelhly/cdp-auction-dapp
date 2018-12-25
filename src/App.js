@@ -13,10 +13,10 @@ class App extends Component {
     var auctions = [];
     try {
       auctions = await loadAuctions();
+      this.setState({ auctions });
     } catch (err) {
       console.log("Error:", err.message);
     }
-    this.setState({ auctions });
     console.log(this.state.auctions);
   }
 
