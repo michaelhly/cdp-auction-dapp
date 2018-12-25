@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import CdpCard from "./cdpCard";
+import CdpPreview from "./cdpPreview";
 
 class Cdps extends Component {
   displayAuctions = props => {
     if (this.props.auctions.length == 0) {
-      return <div>No auctions found!</div>;
+      return <div />;
     } else {
       return (
         <div>
           {this.props.auctions.map(auction => (
-            <CdpCard key={auction.id} auction={auction} />
+            <CdpPreview key={auction.id} auction={auction} />
           ))}
         </div>
       );
