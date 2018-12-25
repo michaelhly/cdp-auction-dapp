@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { loadAuctions } from "./services/loadAuctions";
+import Cdps from "./components/cdps";
 
 class App extends Component {
   state = {
-    auctions: null,
-    user: { id: 0, gitHubUsername: null }
+    auctions: []
   };
 
   async componentDidMount() {
@@ -22,22 +22,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <React.Fragment>
+        <main className="container">
+          <Cdps auctions={this.state.auctions} />
+        </main>
+      </React.Fragment>
     );
   }
 }
