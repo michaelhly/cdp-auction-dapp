@@ -1,8 +1,25 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { loadAuctions } from "./services/loadAuctions";
 
 class App extends Component {
+  state = {
+    auctions: null,
+    user: { id: 0, gitHubUsername: null }
+  };
+
+  async componentDidMount() {
+    var auctions = [];
+    try {
+      auctions = await loadAuctions();
+    } catch (err) {
+      console.log("Error:", err.message);
+    }
+    this.setState({ auctions });
+    console.log(this.state.auctions);
+  }
+
   render() {
     return (
       <div className="App">
