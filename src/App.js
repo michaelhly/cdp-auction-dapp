@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import { loadAuctions } from "./services/loadAuctions";
 import Cdps from "./components/cdps";
+import Navbar from "./components/navbar";
 
 class App extends Component {
   state = {
@@ -23,6 +24,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <Navbar />
         <main className="container">
           <Cdps auctions={this.state.auctions} />
         </main>

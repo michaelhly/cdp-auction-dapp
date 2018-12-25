@@ -29,7 +29,7 @@ export const loadAuctions = async () => {
 
     var auctionEntry = {
       id: auction.id,
-      cdp: auction.cdp,
+      cdp: web3.utils.hexToNumber(auction.cdp),
       seller: auction.seller,
       token: auction.token,
       ask: auction.ask,

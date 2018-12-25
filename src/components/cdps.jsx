@@ -9,7 +9,7 @@ class Cdps extends Component {
       return (
         <div>
           {this.props.auctions.map(auction => (
-            <CdpCard key={auction.id} />
+            <CdpCard key={auction.id} auction={auction} />
           ))}
         </div>
       );
