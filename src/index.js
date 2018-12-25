@@ -4,8 +4,18 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
+import Web3Provider from "web3-react";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+function AppWrapper() {
+  return (
+    <Web3Provider supportedNetworks={[42]}>
+      <App />
+    </Web3Provider>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<AppWrapper />, rootElement);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
