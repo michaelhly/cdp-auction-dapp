@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { loadAuctions } from "./services/loadAuctions";
-import Cdps from "./components/cdps";
+import CdpContainer from "./components/cdpContainer";
 import Navbar from "./components/navbar";
 
 class App extends Component {
@@ -26,7 +25,7 @@ class App extends Component {
       <React.Fragment>
         <Navbar />
         <main className="container">
-          <Cdps auctions={this.state.auctions} />
+          <CdpContainer auctions={this.state.auctions} />
         </main>
       </React.Fragment>
     );
