@@ -25,6 +25,13 @@ function UserBox() {
     setProxy(maker.service("proxy").currentProxy());
   };
 
+  const createProxy = async () => {
+    const proxyService = maker.service("proxy");
+    if (!proxyService.currentProxy()) {
+      return await proxyService.build();
+    }
+  };
+
   const displayBox = () => {
     if (!proxy) {
       return (
@@ -35,9 +42,11 @@ function UserBox() {
             theme="outlined"
           />
           <p style={{ marginTop: "3em" }}>
-            No proxy found. Please create a proxy profile.
+            No proxy found. Please create a profile proxy with Maker.
           </p>
-          <Button color="primary">Create Proxy</Button>
+          <Button color="primary" onClick={() => createProxy()}>
+            Create Proxy
+          </Button>
         </React.Fragment>
       );
     }
