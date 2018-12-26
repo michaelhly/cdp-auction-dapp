@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
+import { Container, Row, Col } from "reactstrap";
+import { Card, Button, CardTitle, CardText } from "reactstrap";
+
 import { loadAuctions } from "./services/loadAuctions";
 import CdpContainer from "./components/cdpContainer";
 import Navbar from "./components/navbar";
@@ -24,9 +26,14 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar />
-        <main className="container">
-          <CdpContainer auctions={this.state.auctions} />
-        </main>
+        <Container>
+          <Row>
+            <Col>TODO: User Menu</Col>
+            <Col lg="9">
+              <CdpContainer auctions={this.state.auctions} />
+            </Col>
+          </Row>
+        </Container>
       </React.Fragment>
     );
   }
