@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
-import { Card, Button, CardTitle, CardText } from "reactstrap";
 
 import { loadAuctions } from "./services/loadAuctions";
 import CdpContainer from "./components/cdpContainer";
