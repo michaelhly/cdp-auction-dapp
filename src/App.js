@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "reactstrap";
+import { Container } from "reactstrap";
 
 import StickyBox from "react-sticky-box";
 import { loadAuctions } from "./services/loadAuctions";

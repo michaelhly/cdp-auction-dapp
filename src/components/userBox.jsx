@@ -1,49 +1,53 @@
 import React, { useState, useEffect } from "react";
-import { Card } from "reactstrap";
 import styled from "styled-components";
+import { Icon } from "antd";
+import { Button } from "reactstrap";
 
 const Maker = require("@makerdao/dai");
 const maker = Maker.create("browser");
 
-const Content = styled.div`
+const Container = styled.div`
   position: relative;
+  text-align: center;
   height: 60vh;
   width: 15vw;
+  padding: 3em;
   margin-right: 5em;
   box-shadow: 0 0 20px -5px rgba(0, 0, 0, 0.4);
   background: white;
 `;
 
 function UserBox() {
-  const [account, setAccount] = useState(null);
   const [proxy, setProxy] = useState(null);
-  //const [cdps, setCdps] = useState([]);
 
-  const fetchData = async () => {
+  const fetchProxy = async () => {
     await maker.authenticate();
-    console.log(maker);
-    setAccount(maker.currentAccount().address);
     setProxy(maker.service("proxy").currentProxy());
-    if (proxy) {
-      //Fetch cdps
+  };
+
+  const displayBox = () => {
+    if (!proxy) {
+      return (
+        <React.Fragment>
+          <Icon
+            type="exclamation-circle"
+            style={{ fontSize: "48px", color: "red" }}
+            theme="outlined"
+          />
+          <p style={{ marginTop: "3em" }}>
+            No proxy found. Please create a proxy profile.
+          </p>
+          <Button color="primary">Create Proxy</Button>
+        </React.Fragment>
+      );
     }
   };
 
-  const trimAddress = addr => {
-    if (addr) return [addr.substring(0, 7), "..."];
-    return addr;
-  };
-
-  const findProxy = proxy => {
-    if (!proxy) return <div> Proxy not found </div>;
-    return trimAddress(proxy);
-  };
-
   useEffect(() => {
-    fetchData();
+    fetchProxy();
   }, []);
-
-  return <Content />;
+  console.log(proxy);
+  return <Container>{displayBox()}</Container>;
 }
 
 /*

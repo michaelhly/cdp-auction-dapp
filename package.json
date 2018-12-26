@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@makerdao/dai": "^0.9.10",
+    "antd": "^3.11.6",
     "bootstrap": "^4.2.1",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
