@@ -31,7 +31,7 @@ function Menu(props) {
   const [proxy, setProxy] = useState("pending");
   const [cdps, setCdps] = useState("pending");
   const [form, setForm] = useState(false);
-  var selectedCdp = [];
+  const [selected, setSelected] = useState([]);
 
   const fetchData = async () => {
     await maker.authenticate();
@@ -67,12 +67,12 @@ function Menu(props) {
   };
 
   const handleClick = (e, cdp) => {
-    selectedCdp = cdp;
+    setSelected(cdp);
     setForm(true);
   };
 
   const hideListingForm = () => {
-    selectedCdp = [];
+    setSelected([]);
     setForm(false);
   };
 
@@ -83,7 +83,8 @@ function Menu(props) {
           <Spin size="large" />
         </div>
       );
-    } else if (!cdps) return <p>No CDPs found.</p>;
+    } else if (cdps.length === 0)
+      return <p style={{ marginTop: "2em" }}>No CDPs found.</p>;
     else {
       return (
         <ul class="menu" style={{ marginTop: "2em" }}>
@@ -114,7 +115,7 @@ function Menu(props) {
     if (form) {
       return (
         <React.Fragment>
-          <ListingForm onBack={hideListingForm} cdp={selectedCdp} />
+          <ListingForm onBack={hideListingForm} cdp={selected} />
         </React.Fragment>
       );
     } else {
