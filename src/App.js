@@ -5,7 +5,7 @@ import "./App.css";
 import StickyBox from "react-sticky-box";
 import CdpContainer from "./components/CdpContainer";
 import Navbar from "./components/Navbar";
-import UserPanel from "./components/UserPanel";
+import CdpManager from "./components/CdpManager";
 
 import { loadAuctions } from "./services/AuctionService";
 
@@ -32,7 +32,7 @@ class App extends Component {
         <Container>
           <div style={{ display: "flex", alignItems: "flex-start" }}>
             <StickyBox offsetTop={50}>
-              <UserPanel />
+              <CdpManager />
             </StickyBox>
             <div>
               <CdpContainer auctions={this.state.auctions} />
