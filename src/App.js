@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "reactstrap";
+import "./App.css";
 
 import StickyBox from "react-sticky-box";
 import { loadAuctions } from "./services/loadAuctions";
@@ -29,7 +30,7 @@ class App extends Component {
         <Navbar />
         <Container>
           <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <StickyBox>
+            <StickyBox offsetTop={50}>
               <UserBox />
             </StickyBox>
             <div>

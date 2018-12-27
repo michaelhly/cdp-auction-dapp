@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Icon } from "antd";
+import { Spin, Icon } from "antd";
 import { Button } from "reactstrap";
 
 const Maker = require("@makerdao/dai");
@@ -13,8 +13,9 @@ const Container = styled.div`
   width: 15vw;
   padding: 3em;
   margin-right: 5em;
-  box-shadow: 0 0 20px -5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   background: white;
+  min-width: 200px;
 `;
 
 function UserBox() {
@@ -26,9 +27,11 @@ function UserBox() {
   };
 
   const createProxy = async () => {
-    const proxyService = maker.service("proxy");
-    if (!proxyService.currentProxy()) {
-      return await proxyService.build();
+    setProxy("pending");
+    try {
+      const tx = await maker.service("proxy").build();
+    } catch {
+      setProxy(null);
     }
   };
 
@@ -38,15 +41,35 @@ function UserBox() {
         <React.Fragment>
           <Icon
             type="exclamation-circle"
-            style={{ fontSize: "48px", color: "red" }}
+            style={{ fontSize: "42px", color: "red" }}
             theme="outlined"
           />
-          <p style={{ marginTop: "3em" }}>
+          <p style={{ marginTop: "2em" }}>
             No proxy found. Please create a profile proxy with Maker.
           </p>
-          <Button color="primary" onClick={() => createProxy()}>
+          <Button
+            color="primary"
+            onClick={() => createProxy()}
+            style={{ marginTop: "2em" }}
+          >
             Create Proxy
           </Button>
+        </React.Fragment>
+      );
+    } else if (proxy === "pending") {
+      return (
+        <React.Fragment>
+          <Spin
+            size="large"
+            indicator={
+              <Icon
+                type="loading"
+                style={{ color: "green" }}
+                theme="outlined"
+              />
+            }
+          />
+          <p style={{ marginTop: "4em" }}>Initializing proxy...</p>
         </React.Fragment>
       );
     }
@@ -55,7 +78,7 @@ function UserBox() {
   useEffect(() => {
     fetchProxy();
   }, []);
-  console.log(proxy);
+
   return <Container>{displayBox()}</Container>;
 }
 
