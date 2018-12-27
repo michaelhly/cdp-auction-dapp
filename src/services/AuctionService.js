@@ -20,7 +20,7 @@ export const loadAuctions = async () => {
   var auctions = [];
   var stopIndex = totalListings - 100 > 0 ? totalListings - 100 : 0;
 
-  for (let i = totalListings; i >= stopIndex; i--) {
+  for (let i = totalListings; i > stopIndex; i--) {
     try {
       var auction = await auctionInstance.methods
         .getAuctionInfoByIndex(i)
