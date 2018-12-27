@@ -4,7 +4,7 @@ import { Spin, Icon } from "antd";
 import { Button } from "reactstrap";
 import makeBlockie from "ethereum-blockies-base64";
 
-import { loadCdps } from "../services/CdpService";
+import { loadCdps } from "../../services/CdpService";
 
 const Maker = require("@makerdao/dai");
 const maker = Maker.create("browser");
@@ -26,7 +26,7 @@ const CircleImage = styled.img`
   overflow: "hidden";
 `;
 
-function UserPanel() {
+function Menu() {
   const [proxy, setProxy] = useState("pending");
   const [cdps, setCdps] = useState("pending");
 
@@ -134,4 +134,4 @@ function UserPanel() {
   return <Panel>{displayPanel()}</Panel>;
 }
 
-export default UserPanel;
+export default Menu;
