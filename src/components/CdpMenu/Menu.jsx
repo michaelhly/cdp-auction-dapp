@@ -4,6 +4,7 @@ import { Spin, Icon } from "antd";
 import { Button } from "reactstrap";
 import makeBlockie from "ethereum-blockies-base64";
 
+import ListingForm from "./ListingForm";
 import { loadCdps } from "../../services/CdpService";
 
 const Maker = require("@makerdao/dai");
@@ -26,9 +27,11 @@ const CircleImage = styled.img`
   overflow: "hidden";
 `;
 
-function Menu() {
+function Menu(props) {
   const [proxy, setProxy] = useState("pending");
   const [cdps, setCdps] = useState("pending");
+  const [form, setForm] = useState(false);
+  var selectedCdp = [];
 
   const fetchData = async () => {
     await maker.authenticate();
@@ -42,7 +45,6 @@ function Menu() {
           0
         );
         setCdps(result);
-        console.log(result);
       } catch (err) {
         console.log(err.message);
         setCdps([]);
@@ -64,6 +66,16 @@ function Menu() {
     return [addr.substring(0, 7), "..."];
   };
 
+  const handleClick = (e, cdp) => {
+    selectedCdp = cdp;
+    setForm(true);
+  };
+
+  const hideListingForm = () => {
+    selectedCdp = [];
+    setForm(false);
+  };
+
   const displayCdps = () => {
     if (cdps == "pending") {
       return (
@@ -76,7 +88,18 @@ function Menu() {
       return (
         <ul class="menu" style={{ marginTop: "2em" }}>
           {cdps.map(cdp => (
-            <li>{cdp}</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {cdp.id}
+              <span>
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  onClick={e => handleClick(e, cdp)}
+                >
+                  List
+                </button>
+              </span>
+            </li>
           ))}
         </ul>
       );
@@ -88,42 +111,50 @@ function Menu() {
       <Icon type="loading" style={{ color: "green" }} theme="outlined" />
     );
     Spin.setDefaultIndicator(spinner);
-    if (!proxy) {
+    if (form) {
       return (
         <React.Fragment>
-          <Icon
-            type="exclamation-circle"
-            style={{ fontSize: "42px", color: "red" }}
-            theme="outlined"
-          />
-          <p style={{ marginTop: "2em" }}>
-            No proxy found. Please create a profile proxy with Maker.
-          </p>
-          <Button
-            color="primary"
-            onClick={() => createProxy()}
-            style={{ marginTop: "2em" }}
-          >
-            Create Proxy
-          </Button>
-        </React.Fragment>
-      );
-    } else if (proxy === "pending") {
-      return (
-        <React.Fragment>
-          <Spin size="large" />
+          <ListingForm onBack={hideListingForm} cdp={selectedCdp} />
         </React.Fragment>
       );
     } else {
-      return (
-        <React.Fragment>
-          <CircleImage src={makeBlockie(proxy)} width="42px" align="middle" />
-          <div>
-            <font size="1">Proxy: {trimAddress(proxy)}</font>
-          </div>
-          {displayCdps()}
-        </React.Fragment>
-      );
+      if (!proxy) {
+        return (
+          <React.Fragment>
+            <Icon
+              type="exclamation-circle"
+              style={{ fontSize: "42px", color: "red" }}
+              theme="outlined"
+            />
+            <p style={{ marginTop: "2em" }}>
+              No proxy found. Please create a profile proxy with Maker.
+            </p>
+            <Button
+              color="primary"
+              onClick={() => createProxy()}
+              style={{ marginTop: "2em" }}
+            >
+              Create Proxy
+            </Button>
+          </React.Fragment>
+        );
+      } else if (proxy === "pending") {
+        return (
+          <React.Fragment>
+            <Spin size="large" />
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <CircleImage src={makeBlockie(proxy)} width="42px" align="middle" />
+            <div>
+              <font size="1">Proxy: {trimAddress(proxy)}</font>
+            </div>
+            {displayCdps()}
+          </React.Fragment>
+        );
+      }
     }
   };
 

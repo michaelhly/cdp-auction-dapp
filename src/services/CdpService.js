@@ -19,7 +19,7 @@ export const loadCdps = async (user, proxy, block) => {
       var ink = await tub.methods.ink(cup).call();
       var lad = await tub.methods.lad(cup).call();
       if (ink > 0 && lad === proxy) {
-        cdps.push(web3.utils.hexToNumber(cup));
+        cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
       }
     }
   } catch (err) {
