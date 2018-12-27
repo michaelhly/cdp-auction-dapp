@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Cdp from "./cdp";
+import Cdp from "./Cdp";
 
 class CdpContainer extends Component {
   displayAuctions = props => {

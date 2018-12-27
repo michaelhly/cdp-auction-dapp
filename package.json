@@ -6,6 +6,7 @@
     "@makerdao/dai": "^0.9.10",
     "antd": "^3.11.6",
     "bootstrap": "^4.2.1",
+    "ethereum-blockies-base64": "^1.0.2",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-scripts": "2.1.1",

@@ -2,24 +2,30 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Spin, Icon } from "antd";
 import { Button } from "reactstrap";
+import makeBlockie from "ethereum-blockies-base64";
 
 const Maker = require("@makerdao/dai");
 const maker = Maker.create("browser");
 
-const Container = styled.div`
+const Panel = styled.div`
   position: relative;
   text-align: center;
   height: 60vh;
   width: 15vw;
-  padding: 3em;
+  padding: 2em;
   margin-right: 5em;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   background: white;
   min-width: 200px;
 `;
 
-function UserBox() {
-  const [proxy, setProxy] = useState(null);
+const CircleImage = styled.img`
+  border-radius: 50%;
+  overflow: "hidden";
+`;
+
+function UserPanel() {
+  const [proxy, setProxy] = useState("pending");
 
   const fetchProxy = async () => {
     await maker.authenticate();
@@ -33,6 +39,10 @@ function UserBox() {
     } catch {
       setProxy(null);
     }
+  };
+
+  const trimAddress = addr => {
+    return [addr.substring(0, 7), "..."];
   };
 
   const displayBox = () => {
@@ -69,7 +79,15 @@ function UserBox() {
               />
             }
           />
-          <p style={{ marginTop: "4em" }}>Initializing proxy...</p>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <CircleImage src={makeBlockie(proxy)} width="42px" align="middle" />
+          <div>
+            <font size="1"> Proxy: {trimAddress(proxy)}</font>
+          </div>
         </React.Fragment>
       );
     }
@@ -79,22 +97,7 @@ function UserBox() {
     fetchProxy();
   }, []);
 
-  return <Container>{displayBox()}</Container>;
+  return <Panel>{displayBox()}</Panel>;
 }
 
-/*
-
-class UserBox extends Component {
-  state = {
-    proxy: null,
-    account: null,
-    cdps: []
-  };
-
-  render() {
-    return <Container />;
-  }
-}
-*/
-
-export default UserBox;
+export default UserPanel;

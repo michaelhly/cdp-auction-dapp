@@ -3,10 +3,11 @@ import { Container } from "reactstrap";
 import "./App.css";
 
 import StickyBox from "react-sticky-box";
-import { loadAuctions } from "./services/loadAuctions";
-import CdpContainer from "./components/cdpContainer";
-import Navbar from "./components/navbar";
-import UserBox from "./components/userBox";
+import CdpContainer from "./components/CdpContainer";
+import Navbar from "./components/Navbar";
+import UserPanel from "./components/UserPanel";
+
+import { loadAuctions } from "./services/AuctionService";
 
 class App extends Component {
   state = {
@@ -31,7 +32,7 @@ class App extends Component {
         <Container>
           <div style={{ display: "flex", alignItems: "flex-start" }}>
             <StickyBox offsetTop={50}>
-              <UserBox />
+              <UserPanel />
             </StickyBox>
             <div>
               <CdpContainer auctions={this.state.auctions} />
