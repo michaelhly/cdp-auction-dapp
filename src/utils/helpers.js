@@ -1,4 +1,4 @@
-export const encode = (web3, abi, method, params) => {
+export const encodeAbi = (web3, abi, method, params) => {
   const func = abi.filter(function(element) {
     return element.name == method;
   });
