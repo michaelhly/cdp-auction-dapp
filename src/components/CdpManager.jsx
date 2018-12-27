@@ -4,6 +4,8 @@ import { Spin, Icon } from "antd";
 import { Button } from "reactstrap";
 import makeBlockie from "ethereum-blockies-base64";
 
+import { loadCdps } from "../services/CdpService";
+
 const Maker = require("@makerdao/dai");
 const maker = Maker.create("browser");
 
@@ -26,17 +28,34 @@ const CircleImage = styled.img`
 
 function UserPanel() {
   const [proxy, setProxy] = useState("pending");
+  const [cdps, setCdps] = useState("pending");
 
-  const fetchProxy = async () => {
+  const fetchData = async () => {
     await maker.authenticate();
     setProxy(maker.service("proxy").currentProxy());
+    if (proxy) {
+      var user = maker.currentAccount().address;
+      try {
+        const result = await loadCdps(
+          user,
+          maker.service("proxy").currentProxy(),
+          0
+        );
+        setCdps(result);
+        console.log(result);
+      } catch (err) {
+        console.log(err.message);
+        setCdps([]);
+      }
+    }
   };
 
   const createProxy = async () => {
     setProxy("pending");
     try {
       const tx = await maker.service("proxy").build();
-    } catch {
+    } catch (err) {
+      console.log(err.message);
       setProxy(null);
     }
   };
@@ -45,7 +64,30 @@ function UserPanel() {
     return [addr.substring(0, 7), "..."];
   };
 
-  const displayBox = () => {
+  const displayCdps = () => {
+    if (cdps == "pending") {
+      return (
+        <div style={{ marginTop: "2em" }}>
+          <Spin size="large" />
+        </div>
+      );
+    } else if (!cdps) return <p>No CDPs found.</p>;
+    else {
+      return (
+        <ul class="menu" style={{ marginTop: "2em" }}>
+          {cdps.map(cdp => (
+            <li>{cdp}</li>
+          ))}
+        </ul>
+      );
+    }
+  };
+
+  const displayPanel = () => {
+    const spinner = (
+      <Icon type="loading" style={{ color: "green" }} theme="outlined" />
+    );
+    Spin.setDefaultIndicator(spinner);
     if (!proxy) {
       return (
         <React.Fragment>
@@ -69,16 +111,7 @@ function UserPanel() {
     } else if (proxy === "pending") {
       return (
         <React.Fragment>
-          <Spin
-            size="large"
-            indicator={
-              <Icon
-                type="loading"
-                style={{ color: "green" }}
-                theme="outlined"
-              />
-            }
-          />
+          <Spin size="large" />
         </React.Fragment>
       );
     } else {
@@ -86,18 +119,19 @@ function UserPanel() {
         <React.Fragment>
           <CircleImage src={makeBlockie(proxy)} width="42px" align="middle" />
           <div>
-            <font size="1"> Proxy: {trimAddress(proxy)}</font>
+            <font size="1">Proxy: {trimAddress(proxy)}</font>
           </div>
+          {displayCdps()}
         </React.Fragment>
       );
     }
   };
 
   useEffect(() => {
-    fetchProxy();
+    fetchData();
   }, []);
 
-  return <Panel>{displayBox()}</Panel>;
+  return <Panel>{displayPanel()}</Panel>;
 }
 
 export default UserPanel;
