@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Container } from "reactstrap";
 import "./App.css";
 
 import StickyBox from "react-sticky-box";
@@ -29,16 +28,24 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar />
-        <Container>
-          <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <StickyBox offsetTop={50}>
-              <CdpMenu />
-            </StickyBox>
-            <div>
+        <div class="container">
+          <div class="row">
+            <div
+              class="col-md-auto"
+              style={{ display: "flex", alignItems: "flex-start" }}
+            >
+              <StickyBox offsetTop={50}>
+                <CdpMenu />
+              </StickyBox>
+            </div>
+            <div
+              class="col-md-8"
+              style={{ display: "flex", alignItems: "flex-start" }}
+            >
               <CdpContainer auctions={this.state.auctions} />
             </div>
           </div>
-        </Container>
+        </div>
       </React.Fragment>
     );
   }

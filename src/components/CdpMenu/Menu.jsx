@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Spin, Icon } from "antd";
-import { Button } from "reactstrap";
 import makeBlockie from "ethereum-blockies-base64";
 import { useAccountEffect } from "web3-react/hooks";
 
@@ -16,7 +15,8 @@ const Panel = styled.div`
   height: 60vh;
   width: 15vw;
   padding: 2em;
-  margin-right: 5em;
+  margin-right: 3em;
+  margin-bottom: 3em;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   background: white;
   min-width: 200px;
@@ -136,13 +136,13 @@ function Menu(props) {
             <p style={{ marginTop: "2em" }}>
               No proxy found. Please create a profile proxy with Maker.
             </p>
-            <Button
-              color="primary"
+            <button
+              class="btn btn-primary"
               onClick={() => createProxy()}
               style={{ marginTop: "2em" }}
             >
               Create Proxy
-            </Button>
+            </button>
           </React.Fragment>
         );
       } else {
