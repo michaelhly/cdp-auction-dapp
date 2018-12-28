@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -9,7 +10,9 @@ import Web3Provider from "web3-react";
 function AppWrapper() {
   return (
     <Web3Provider supportedNetworks={[42]}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Web3Provider>
   );
 }
