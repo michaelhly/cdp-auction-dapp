@@ -15,9 +15,12 @@ function ListingForm(props) {
   const [expiry, setExpiry] = useState(0);
 
   const callProxy = async calldata => {
-    const proxyIntance = new web3.web3js.eth.Contract(DSProxy.abi, props.proxy);
-    console.log(proxyIntance);
-    await proxyIntance.methods["0x1cff79cd"](
+    const proxyInstance = new web3.web3js.eth.Contract(
+      DSProxy.abi,
+      props.proxy
+    );
+    console.log(proxyInstance);
+    await proxyInstance.methods["0x1cff79cd"](
       AddressBook.kovan.auctionProxy,
       calldata
     ).send({ from: web3.account });

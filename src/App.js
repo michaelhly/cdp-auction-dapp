@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 
 import StickyBox from "react-sticky-box";
 import CdpContainer from "./components/CdpContainer";
