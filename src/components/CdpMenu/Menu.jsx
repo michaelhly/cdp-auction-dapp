@@ -115,7 +115,7 @@ function Menu(props) {
     if (form) {
       return (
         <React.Fragment>
-          <ListingForm onBack={hideListingForm} cdp={selected} />
+          <ListingForm onBack={hideListingForm} cdp={selected} proxy={proxy} />
         </React.Fragment>
       );
     } else {
