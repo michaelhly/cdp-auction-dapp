@@ -1,28 +1,29 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-light bg-light shadow-sm p-3 mb-4">
-        <a className="navbar-brand" href="#">
+        <div className="navbar-brand" to="/">
           CDP.Auction
-        </a>
+        </div>
 
         <ul className="navbar-nav navbar-expand mr-auto">
           <li className="nav-item m-2 active">
-            <a className="nav-link" href="#">
+            <NavLink className="nav-link" to="/">
               Home <span className="sr-only">(current)</span>
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item m-2">
-            <a className="nav-link" href="#">
+            <NavLink className="nav-link" to="/myauctions">
               My Auctions
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item m-2">
-            <a className="nav-link" href="#">
+            <NavLink className="nav-link" to="/mybids">
               My Bids
-            </a>
+            </NavLink>
           </li>
         </ul>
 

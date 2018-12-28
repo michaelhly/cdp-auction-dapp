@@ -14,10 +14,11 @@ class App extends Component {
         <Navbar />
         <main class="container">
           <Switch>
+            <Route path="/" exact component={Home} />
             <Route path="/myauctions" component={MyAuctions} />
             <Route path="/mybids" component={MyBids} />
             <Route path="/page-not-found" component={NotFoundPage} />
-            <Route path="/" component={Home} />
+            <Redirect to="page-not-found" />
           </Switch>
         </main>
       </React.Fragment>
