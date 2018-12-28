@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Spin, Icon } from "antd";
 import { Button } from "reactstrap";
 import makeBlockie from "ethereum-blockies-base64";
+import { useAccountEffect } from "web3-react/hooks";
 
 import ListingForm from "./ListingForm";
 import { loadCdps } from "../../services/CdpService";
 
 const Maker = require("@makerdao/dai");
-const maker = Maker.create("browser");
 
 const Panel = styled.div`
   position: relative;
@@ -28,37 +28,43 @@ const CircleImage = styled.img`
 `;
 
 function Menu(props) {
-  const [proxy, setProxy] = useState("pending");
-  const [cdps, setCdps] = useState("pending");
+  const maker = Maker.create("browser");
+  const [proxy, setProxy] = useState(null);
+  const [cdps, setCdps] = useState(null);
   const [form, setForm] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState([]);
 
-  const fetchData = async () => {
+  const fetchProxy = async () => {
     await maker.authenticate();
     setProxy(maker.service("proxy").currentProxy());
-    if (proxy) {
+    if (maker.service("proxy").currentProxy()) {
       var user = maker.currentAccount().address;
       try {
-        const result = await loadCdps(
+        var result = await loadCdps(
           user,
           maker.service("proxy").currentProxy(),
           0
         );
         setCdps(result);
+        setLoading(false);
       } catch (err) {
         console.log(err.message);
         setCdps([]);
+        setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   };
 
   const createProxy = async () => {
-    setProxy("pending");
+    setLoading(true);
     try {
       const tx = await maker.service("proxy").build();
     } catch (err) {
       console.log(err.message);
-      setProxy(null);
+      setLoading(false);
     }
   };
 
@@ -77,15 +83,9 @@ function Menu(props) {
   };
 
   const displayCdps = () => {
-    if (cdps == "pending") {
-      return (
-        <div style={{ marginTop: "2em" }}>
-          <Spin size="large" />
-        </div>
-      );
-    } else if (cdps.length === 0)
+    if (cdps.length === 0) {
       return <p style={{ marginTop: "2em" }}>No CDPs found.</p>;
-    else {
+    } else {
       return (
         <ul class="menu" style={{ marginTop: "2em" }}>
           {cdps.map(cdp => (
@@ -112,7 +112,13 @@ function Menu(props) {
       <Icon type="loading" style={{ color: "green" }} theme="outlined" />
     );
     Spin.setDefaultIndicator(spinner);
-    if (form) {
+    if (loading) {
+      return (
+        <React.Fragment>
+          <Spin size="large" />
+        </React.Fragment>
+      );
+    } else if (form) {
       return (
         <React.Fragment>
           <ListingForm onBack={hideListingForm} cdp={selected} proxy={proxy} />
@@ -139,12 +145,6 @@ function Menu(props) {
             </Button>
           </React.Fragment>
         );
-      } else if (proxy === "pending") {
-        return (
-          <React.Fragment>
-            <Spin size="large" />
-          </React.Fragment>
-        );
       } else {
         return (
           <React.Fragment>
@@ -159,11 +159,16 @@ function Menu(props) {
     }
   };
 
-  useEffect(() => {
-    fetchData();
+  useAccountEffect(() => {
+    setLoading(true);
+    fetchProxy();
   }, []);
 
-  return <Panel>{displayPanel()}</Panel>;
+  return (
+    <Panel>
+      <div>{displayPanel()}</div>
+    </Panel>
+  );
 }
 
 export default Menu;
