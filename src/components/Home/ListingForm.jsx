@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { BLOCKS_PER_DAY, random, extractFunction } from "../../utils/helpers";
 import { useWeb3Context } from "web3-react/hooks";
-import BigNumber from "bignumber.js";
 
+const BN = require("bn.js");
 const AddressBook = require("../../utils/addressBook.json");
 const Tokens = require("../../utils/tokens.json");
 const DSProxy = require("../../artifacts/DSProxy.json");
@@ -33,9 +33,11 @@ function ListingForm(props) {
 
     var token = Tokens.kovan.filter(token => token.symbol === input_symbol)[0];
 
-    var amount = new BigNumber(input_ask * 10 ** token.decimals);
-    var expiryBlocks = new BigNumber(Math.floor(BLOCKS_PER_DAY * input_expiry));
-    var salt = new BigNumber(random(10000000000000));
+    var amount = web3.web3js.utils.toWei(input_ask.toString(), "ether");
+    console.log(amount);
+    console.log(amount.toString());
+    var expiryBlocks = new BN(Math.floor(BLOCKS_PER_DAY * input_expiry));
+    var salt = new BN(random(10000000000000));
 
     const abi = extractFunction(AuctionProxy.abi, "createAuction");
 
@@ -65,49 +67,66 @@ function ListingForm(props) {
     setExpiry(e.target.value);
   };
 
+  const dayToggler = days => {
+    if (days <= 1) return "day";
+    return "days";
+  };
+
   return (
-    <div>
+    <div class="text-align-left">
       <button
         type="button"
-        class="btn btn-light"
+        class="btn btn-light btn-sm"
         onClick={() => props.onBack()}
       >
         Back
       </button>
-      <h1>{props.cdp.id}</h1>
+      <h6>Listing CDP {props.cdp.id}</h6>
       <form>
-        <label>Token</label>
-        <select
-          class="form-control form-control"
-          id="token"
-          value={symbol}
-          onChange={e => handleTokenChange(e)}
+        <div style={{ textAlign: "left", fontSize: "11px" }}>
+          <label for="token-input">Token to recieve</label>
+          <select
+            class="form-control form-control"
+            id="token-input"
+            value={symbol}
+            onChange={e => handleTokenChange(e)}
+          >
+            {Tokens.kovan.map(token => (
+              <option>{token.symbol}</option>
+            ))}
+          </select>
+          <label>Ask amount</label>
+          <input
+            class="form-control"
+            type="text"
+            id="ask"
+            placeholder="token(s)"
+            value={ask}
+            onChange={e => handleAskChange(e)}
+          />
+          <label>Days to expiration</label>
+          <input
+            class="form-control"
+            type="text"
+            id="expiry"
+            placeholder="day(s)"
+            value={expiry}
+            onChange={e => handleExpiryChange(e)}
+          />
+        </div>
+        <div
+          class="day-in-blocks"
+          style={{ textAlign: "right", fontSize: "11px" }}
         >
-          {Tokens.kovan.map(token => (
-            <option>{token.symbol}</option>
-          ))}
-        </select>
-        <label>Ask amount</label>
-        <input
-          class="form-control"
-          type="text"
-          id="ask"
-          placeholder="123"
-          value={ask}
-          onChange={e => handleAskChange(e)}
-        />
-        <label>Days to expiration</label>
-        <input
-          class="form-control"
-          type="text"
-          id="expiry"
-          placeholder="5"
-          value={expiry}
-          onChange={e => handleExpiryChange(e)}
-        />
+          {Math.round(BLOCKS_PER_DAY * expiry)} blocks
+        </div>
       </form>
-      <button type="button" class="btn btn-success" onClick={() => listCDP()}>
-        List CDP
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        onClick={() => listCDP()}
+      >
+        Submit Listing
       </button>
     </div>
   );

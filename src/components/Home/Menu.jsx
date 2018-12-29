@@ -4,8 +4,8 @@ import { Spin, Icon } from "antd";
 import makeBlockie from "ethereum-blockies-base64";
 import { useAccountEffect } from "web3-react/hooks";
 
-import ListingForm from "./ListingForm";
 import { loadCdps } from "../../services/CdpService";
+import ListingForm from "./ListingForm";
 
 const Maker = require("@makerdao/dai");
 
@@ -87,22 +87,25 @@ function Menu(props) {
       return <p style={{ marginTop: "2em" }}>No CDPs found.</p>;
     } else {
       return (
-        <ul class="menu" style={{ marginTop: "2em" }}>
-          {cdps.map(cdp => (
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              {cdp.id}
-              <span>
-                <button
-                  type="button"
-                  class="btn btn-light"
-                  onClick={e => handleClick(e, cdp)}
-                >
-                  List
-                </button>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <h6 style={{ marginTop: "2em" }}>Your CDPs</h6>
+          <ul class="list-group list-group-flush">
+            {cdps.map(cdp => (
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {cdp.id}
+                <span>
+                  <button
+                    type="button"
+                    class="btn btn-light btn-sm"
+                    onClick={e => handleClick(e, cdp)}
+                  >
+                    List
+                  </button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       );
     }
   };
