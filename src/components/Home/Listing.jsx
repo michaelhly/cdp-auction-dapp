@@ -13,13 +13,13 @@ const Listing = props => {
           <div className="container">
             <div className="row justify-content-center align-self-center">
               <div className="col-sm-offeset-3 center-block ml-4 p-3">
-                <h5 className="CDP-ID">CDP {props.auction.cdp}</h5>
+                <h5 className="CDP-ID">CDP {props.auction.cdpId}</h5>
               </div>
               <div className="col-sm-offset-3 center-block ml-4  p-3">
                 <font className="Value"> Value Ξ 0 </font>
               </div>
               <div className="col-sm-offset-3 center-block ml-2 p-3">
-                <font className="Bids"> {props.auction.bids} Bids </font>
+                <font className="Bids"> {props.auction.bids.length} Bids </font>
               </div>
               <div className="col-lg-auto center-block ml-2 p-3">
                 <font className="Expiry">Expire in 5 days</font>
