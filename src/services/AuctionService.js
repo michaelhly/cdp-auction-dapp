@@ -24,7 +24,7 @@ export const loadAuctions = async () => {
   var auctions = [];
   var stopIndex = totalListings - 100 > 0 ? totalListings - 100 : 0;
 
-  for (let i = totalListings; i > stopIndex; i--) {
+  for (let i = totalListings; i > totalListings - 2; i--) {
     try {
       var auction = await auctionInstance.methods
         .getAuctionInfoByIndex(i)
@@ -64,4 +64,35 @@ export const loadAuctions = async () => {
     auctions.push(auctionEntry);
   }
   return auctions;
+};
+
+const random = max => Math.floor(Math.random() * (max + 1));
+
+const tokens = [
+  "0xc778417e063141139fce010982780140aa0cd5ab",
+  "0x4e17c87c52d0e9a0cad3fbc53b77d9514f003807",
+  "0xb06d72a24df50d4e2cac133b320c5e7de3ef94cb"
+];
+
+const genFakeAuctions = () => {
+  return {
+    id: web3.utils.padLeft(web3.utils.numberToHex(random(10000000)), 40),
+    cdpId: random(10000),
+    seller: web3.utils.padLeft(web3.utils.numberToHex(random(10000000)), 40),
+    token: tokens[random(2)],
+    ask: random(100),
+    expiry: random(5760 * 30),
+    state: random(1),
+    bids: [...Array(random(10))].map(element => {
+      return web3.utils.padLeft(web3.utils.numberToHex(random(10000000), 40));
+    }),
+    cdpDebt: random(300),
+    cdpFee: random(5),
+    cdpLiquidation: random(100),
+    cdpCollateral: random(10)
+  };
+};
+
+export const loadDummyAuctions = number => {
+  return [...Array(number)].map(element => genFakeAuctions());
 };

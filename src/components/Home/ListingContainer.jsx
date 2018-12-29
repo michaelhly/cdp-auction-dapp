@@ -5,8 +5,6 @@ import styled from "styled-components";
 
 const Sdiv = styled.div`
   position: absolute;
-  right: 30vh;
-  width: 30vh;
 `;
 
 const ListingContainer = props => {

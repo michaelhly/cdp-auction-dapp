@@ -8,7 +8,7 @@ import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
 import Auction from "./components/Auction";
 
-import { loadAuctions } from "./services/AuctionService";
+import { loadAuctions, loadDummyAuctions } from "./services/AuctionService";
 import { fetchPrice } from "./services/MkrService";
 
 class App extends Component {
@@ -35,7 +35,11 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    await this.fetchData();
+    const auctions = loadDummyAuctions(10);
+    this.setState({ auctions });
+    this.setState({ loading: false });
+    console.log(auctions);
+    // this.fetchData();
   }
 
   render() {
@@ -47,7 +51,13 @@ class App extends Component {
             {this.state.auctions.map(auction => (
               <Route
                 path={`/${auction.id}`}
-                render={() => <Auction data={auction} />}
+                render={() => (
+                  <Auction
+                    data={auction}
+                    ethPrice={this.state.ethPrice}
+                    ratio={this.state.pwRatio}
+                  />
+                )}
               />
             ))}
             <Route path="/myauctions" component={MyAuctions} />

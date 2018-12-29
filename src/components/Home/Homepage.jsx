@@ -18,7 +18,7 @@ const Homepage = props => {
           </div>
           <div
             class="col-md-8"
-            style={{ display: "flex", alignItems: "center" }}
+            style={{ display: "flex", alignItems: "flex-start" }}
           >
             <ListingContainer
               auctions={props.auctions}

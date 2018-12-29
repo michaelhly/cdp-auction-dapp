@@ -1,7 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { BLOCKS_PER_DAY } from "../../utils/helpers";
 
 const Listing = props => {
+  const bidUnit = bids => {
+    return bids === 1 ? "Bid" : "Bids";
+  };
+
+  const convertExpiryBlocks = expiry => {
+    var days = expiry / BLOCKS_PER_DAY;
+    if (days < 1) {
+      var hours = days * 24;
+      if (hours < 1) {
+        var minutes = hours * 60;
+        if (minutes < 1) {
+          return "less than 1 minute";
+        } else {
+          return Math.round(minutes) === 1
+            ? "1 minute"
+            : `${Math.round(minutes)} minutes`;
+        }
+      } else {
+        return Math.round(hours) === 1
+          ? "1 hours"
+          : `${Math.round(hours)} hours`;
+      }
+    } else {
+      return Math.round(days) === 1 ? "1 day" : `${Math.round(days)} days`;
+    }
+  };
+
   return (
     <div class="shadow float-right w-100 mb-5 bg-white rounded">
       <Link
@@ -19,10 +47,15 @@ const Listing = props => {
                 <font className="Value"> Value Ξ 0 </font>
               </div>
               <div className="col-sm-offset-3 center-block ml-2 p-3">
-                <font className="Bids"> {props.auction.bids.length} Bids </font>
+                <font className="Bids">
+                  {props.auction.bids.length}{" "}
+                  {bidUnit(props.auction.bids.length)}
+                </font>
               </div>
               <div className="col-lg-auto center-block ml-2 p-3">
-                <font className="Expiry">Expire in 5 days</font>
+                <font className="Expiry">
+                  Expire in {convertExpiryBlocks(props.auction.expiry)}
+                </font>
               </div>
               <div className="col-sm center-block ml-4 p-3">
                 <button type="button" class="btn btn-light btn-sm">
