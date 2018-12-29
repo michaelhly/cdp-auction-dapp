@@ -3,23 +3,51 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import MyAuctions from "./components/MyAuctions";
 import MyBids from "./components/MyBids";
-import NotFoundPage from "./components/NotFoundPage";
-import Home from "./components/Home/HomePage";
+import NotFound from "./components/Notfound";
+import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
 import Auction from "./components/Auction";
 
+import { loadAuctions } from "./services/AuctionService";
+
 class App extends Component {
+  state = {
+    loading: true,
+    auctions: []
+  };
+
+  async componentDidMount() {
+    var auctions = [];
+    try {
+      auctions = await loadAuctions();
+      this.setState({ auctions });
+    } catch (err) {
+      console.log("Error:", err.message);
+    }
+    console.log(this.state.auctions);
+    this.setState({ loading: false });
+  }
+
   render() {
     return (
       <React.Fragment>
         <Navbar />
         <main class="container">
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/:id" component={Auction} />
+            {this.state.auctions.map(auction => (
+              <Route
+                path={`/${auction.id}`}
+                render={() => <Auction data={auction} />}
+              />
+            ))}
             <Route path="/myauctions" component={MyAuctions} />
             <Route path="/mybids" component={MyBids} />
-            <Route path="/page-not-found" component={NotFoundPage} />
+            <Route path="/page-not-found" component={NotFound} />
+            <Route
+              path="/"
+              exact
+              render={() => <Home auctions={this.state.auctions} />}
+            />
             <Redirect to="page-not-found" />
           </Switch>
         </main>
