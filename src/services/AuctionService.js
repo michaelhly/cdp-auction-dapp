@@ -11,8 +11,10 @@ export const loadAuctions = async () => {
   );
 
   var totalListings = 0;
+  var currentBlock = 0;
   try {
     totalListings = await auctionInstance.methods.totalListings().call();
+    currentBlock = await web3.eth.getBlockNumber();
   } catch (err) {
     console.log("Error:", err.message);
   }
@@ -29,14 +31,21 @@ export const loadAuctions = async () => {
       console.log("Error:", err.message);
     }
 
+    try {
+      var bids = await auctionInstance.methods.getBids(auction.id).call();
+    } catch (err) {
+      console.log("Error:", err.message);
+    }
+
     var auctionEntry = {
       id: auction.id,
       cdp: web3.utils.hexToNumber(auction.cdp),
       seller: auction.seller,
       token: auction.token,
       ask: auction.ask,
-      expiry: auction.expiry,
-      state: auction.state
+      expiry: parseInt(auction.expiry) - parseInt(currentBlock),
+      state: auction.state,
+      bids: bids.length
     };
 
     auctions.push(auctionEntry);
