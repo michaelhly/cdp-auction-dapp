@@ -6,6 +6,7 @@ import MyBids from "./components/MyBids";
 import NotFoundPage from "./components/NotFoundPage";
 import Home from "./components/Home/HomePage";
 import Navbar from "./components/Navbar";
+import Auction from "./components/Auction";
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
         <main class="container">
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/:id" component={Auction} />
             <Route path="/myauctions" component={MyAuctions} />
             <Route path="/mybids" component={MyBids} />
             <Route path="/page-not-found" component={NotFoundPage} />

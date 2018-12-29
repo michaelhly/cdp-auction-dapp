@@ -1,19 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-class Cdp extends Component {
-  render() {
-    return (
-      <div class="shadow float-right w-100 mb-5 bg-white rounded">
+const Cdp = props => {
+  return (
+    <div class="shadow float-right w-100 mb-5 bg-white rounded">
+      <Link
+        className="auction-link"
+        to={`/${props.auction.id}`}
+        style={{ color: "black", textDecoration: "none" }}
+      >
         <div className="card-body">
-          <h5 className="card-title">CDP {this.props.auction.cdp}</h5>
+          <h5 className="card-title">CDP {props.auction.cdp}</h5>
           <p className="card-text">
             With supporting text below as a natural lead-in to additional
             content.
           </p>
         </div>
-      </div>
-    );
-  }
-}
+      </Link>
+    </div>
+  );
+};
 
 export default Cdp;
