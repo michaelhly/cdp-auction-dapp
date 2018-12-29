@@ -2,9 +2,9 @@ const Maker = require("@makerdao/dai");
 
 export const fetchCdpData = async id => {
   const maker = Maker.create("browser");
-  await maker.authenticate();
 
   try {
+    await maker.authenticate();
     var cdp = await maker.getCdp(id);
   } catch (err) {
     console.log("Error:", err.message);
@@ -25,5 +25,23 @@ export const fetchCdpData = async id => {
     fee,
     liquidation,
     collateral
+  };
+};
+
+export const fetchPrice = async () => {
+  const maker = Maker.create("browser");
+
+  try {
+    await maker.authenticate();
+    var price = maker.service("price");
+    var ethPrice = await price.getEthPrice();
+    var ratio = await price.getWethToPethRatio();
+  } catch (err) {
+    console.log("Error:", err.message);
+  }
+
+  return {
+    ethPrice,
+    ratio
   };
 };
