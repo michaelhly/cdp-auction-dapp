@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class Auction extends Component {
   state = {};
   render() {
-    return <h1>Auction:</h1>;
+    return <h1>Auction: {this.props.data.id}</h1>;
   }
 }
 

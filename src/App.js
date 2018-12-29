@@ -46,7 +46,12 @@ class App extends Component {
             <Route
               path="/"
               exact
-              render={() => <Home auctions={this.state.auctions} />}
+              render={() => (
+                <Home
+                  auctions={this.state.auctions}
+                  loading={this.state.loading}
+                />
+              )}
             />
             <Redirect to="page-not-found" />
           </Switch>

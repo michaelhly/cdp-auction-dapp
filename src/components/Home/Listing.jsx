@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Cdp = props => {
+const Listing = props => {
   return (
     <div class="shadow float-right w-100 mb-5 bg-white rounded">
       <Link
@@ -21,4 +21,4 @@ const Cdp = props => {
   );
 };
 
-export default Cdp;
+export default Listing;

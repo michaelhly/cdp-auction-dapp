@@ -1,6 +1,6 @@
 import React from "react";
 import StickyBox from "react-sticky-box";
-import CdpContainer from "./CdpContainer";
+import ListingContainer from "./ListingContainer";
 import CdpMenu from "./Menu";
 
 const Homepage = props => {
@@ -18,9 +18,12 @@ const Homepage = props => {
           </div>
           <div
             class="col-md-8"
-            style={{ display: "flex", alignItems: "flex-start" }}
+            style={{ display: "flex", alignItems: "center" }}
           >
-            <CdpContainer auctions={props.auctions} />
+            <ListingContainer
+              auctions={props.auctions}
+              loading={props.loading}
+            />
           </div>
         </div>
       </div>
