@@ -4,7 +4,7 @@ import { Spin, Icon } from "antd";
 import makeBlockie from "ethereum-blockies-base64";
 import { useAccountEffect } from "web3-react/hooks";
 
-import { loadCdps } from "../../services/CdpService";
+import { loadUserCdps } from "../../services/TubService";
 import ListingForm from "./ListingForm";
 
 const Maker = require("@makerdao/dai");
@@ -41,7 +41,7 @@ function Menu(props) {
     if (maker.service("proxy").currentProxy()) {
       var user = maker.currentAccount().address;
       try {
-        var result = await loadCdps(
+        var result = await loadUserCdps(
           user,
           maker.service("proxy").currentProxy(),
           0

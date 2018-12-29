@@ -4,7 +4,7 @@ const web3 = new Web3(new Web3("wss://kovan.infura.io/ws"));
 const SaiTub = require("../artifacts/SaiTub.json");
 const AddressBook = require("../utils/addressBook.json");
 
-export const loadCdps = async (user, proxy, block) => {
+export const loadUserCdps = async (user, proxy, block) => {
   const tub = new web3.eth.Contract(SaiTub.abi, AddressBook.kovan.saiTub);
   try {
     const events = await tub.getPastEvents("LogNewCup", {

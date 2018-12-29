@@ -53,7 +53,7 @@ class App extends Component {
                 />
               )}
             />
-            <Redirect to="page-not-found" />
+            <Redirect to="/" />
           </Switch>
         </main>
       </React.Fragment>

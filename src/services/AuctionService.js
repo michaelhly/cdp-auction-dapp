@@ -1,13 +1,12 @@
+import { fetchCdpData } from "./MkrService";
+
 const Web3 = require("web3");
 const web3 = new Web3(new Web3("wss://kovan.infura.io/ws"));
 
 const Auction = require("../artifacts/Auction.json");
 const AddressBook = require("../utils/addressBook.json");
-const Maker = require("@makerdao/dai");
 
 export const loadAuctions = async () => {
-  const maker = Maker.create("browser");
-  await maker.authenticate();
   const auctionInstance = new web3.eth.Contract(
     Auction.abi,
     AddressBook.kovan.auction
@@ -35,19 +34,10 @@ export const loadAuctions = async () => {
     }
 
     try {
-      var cdp = await maker.getCdp(web3.utils.hexToNumber(auction.cdp));
+      var cdp = await fetchCdpData(web3.utils.hexToNumber(auction.cdp));
+      console.log(cdp);
     } catch (err) {
       console.log("Error:", err.message);
-    }
-    if (cdp) {
-      try {
-        var debt = await cdp.getDebtValue(Maker.USD);
-        var fee = await cdp.getGovernanceFee(Maker.USD);
-        var liquidation = await cdp.getLiquidationPrice();
-        var collateral = await cdp.getCollateralValue(Maker.PETH);
-      } catch (err) {
-        console.log("Error:", err.message);
-      }
     }
 
     try {
@@ -55,6 +45,7 @@ export const loadAuctions = async () => {
     } catch (err) {
       console.log("Error:", err.message);
     }
+
     var auctionEntry = {
       id: auction.id,
       cdpId: web3.utils.hexToNumber(auction.cdp),
@@ -64,10 +55,10 @@ export const loadAuctions = async () => {
       expiry: parseInt(auction.expiry) - parseInt(currentBlock),
       state: auction.state,
       bids: bids,
-      cdpDebt: debt,
-      cdpFee: fee,
-      cdpLiquidation: liquidation,
-      cdpCollateral: collateral
+      cdpDebt: cdp.debt,
+      cdpFee: cdp.fee,
+      cdpLiquidation: cdp.liquidation,
+      cdpCollateral: cdp.collateral
     };
 
     auctions.push(auctionEntry);
