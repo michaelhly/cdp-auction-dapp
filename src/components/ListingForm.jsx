@@ -68,58 +68,71 @@ function ListingForm(props) {
   };
 
   return (
-    <div class="text-align-left">
+    <div className="text-align-left">
       <button
         type="button"
-        class="btn btn-light btn-sm"
+        className="btn btn-light btn-sm"
         onClick={() => props.onBack()}
+        style={{ marginBottom: "1.25em" }}
       >
         Back
       </button>
-      <h6>Listing CDP {props.cdp.id}</h6>
+      <div>
+        <h6>Listing </h6>
+      </div>
+      <div style={{ marginBottom: "1em" }}>
+        <h6>CDP {props.cdp.id}</h6>
+      </div>
+
       <form>
-        <div style={{ textAlign: "left", fontSize: "11px" }}>
-          <label for="token-input">Token to recieve</label>
+        <div
+          style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}
+        >
+          <label for="token-input">Recieve Token: </label>
           <select
-            class="form-control form-control"
+            className="form-control form-control p-1"
             id="token-input"
             value={symbol}
             onChange={e => handleTokenChange(e)}
+            style={{ marginTop: "-9px", marginBottom: "1em" }}
           >
             {Tokens.kovan.map(token => (
               <option>{token.symbol}</option>
             ))}
           </select>
-          <label>Ask amount</label>
+          <label>Asking amount: </label>
           <input
-            class="form-control"
+            className="form-control"
             type="text"
             id="ask"
             placeholder="token(s)"
             value={ask}
             onChange={e => handleAskChange(e)}
+            style={{ marginTop: "-9px", marginBottom: "1em" }}
           />
-          <label>Days to expiration</label>
+          <label>Expiration: </label>
           <input
-            class="form-control"
+            className="form-control"
             type="text"
             id="expiry"
             placeholder="day(s)"
             value={expiry}
             onChange={e => handleExpiryChange(e)}
+            style={{ marginTop: "-9px" }}
           />
         </div>
         <div
-          class="day-in-blocks"
-          style={{ textAlign: "right", fontSize: "11px" }}
+          className="day-in-blocks"
+          style={{ textAlign: "right", fontSize: "11px", marginTop: "-9px" }}
         >
           {Math.round(BLOCKS_PER_DAY * expiry)} blocks
         </div>
       </form>
       <button
         type="button"
-        class="btn btn-primary btn-sm"
+        className="btn btn-success btn-sm"
         onClick={() => listCDP()}
+        style={{ marginTop: "1.5em" }}
       >
         Submit Listing
       </button>
