@@ -3,7 +3,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import MyAuctions from "./components/MyAuctions";
 import MyBids from "./components/MyBids";
-import NotFound from "./components/Notfound";
 import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
 import Auction from "./components/Auction";
@@ -19,27 +18,39 @@ class App extends Component {
     auctions: []
   };
 
-  fetchData = async () => {
-    var auctions = [];
-    var price = {};
+  fetchAuctionData = async () => {
     try {
-      auctions = await loadAuctions();
+      const auctions = await loadAuctions();
       this.setState({ auctions });
-      price = await fetchPrice();
+    } catch (err) {
+      console.log("Error:", err.message);
+    }
+  };
+
+  fetchPricingData = async () => {
+    try {
+      const price = await fetchPrice();
       this.setState({ pwRatio: price.ratio });
       this.setState({ ethPrice: price.ethPrice });
     } catch (err) {
       console.log("Error:", err.message);
     }
-    this.setState({ loading: false });
+  };
+
+  refreshData = async () => {
+    await this.fetchAuctionData();
+    await this.fetchPricingData();
+  };
+
+  fetchDummyData = () => {
+    const auctions = loadDummyAuctions(10);
+    this.setState({ auctions });
   };
 
   async componentDidMount() {
-    const auctions = loadDummyAuctions(10);
-    this.setState({ auctions });
+    // this.fetchDummyData();
+    await this.refreshData();
     this.setState({ loading: false });
-    console.log(auctions);
-    // this.fetchData();
   }
 
   render() {
@@ -62,7 +73,6 @@ class App extends Component {
             ))}
             <Route path="/myauctions" component={MyAuctions} />
             <Route path="/mybids" component={MyBids} />
-            <Route path="/page-not-found" component={NotFound} />
             <Route
               path="/"
               exact

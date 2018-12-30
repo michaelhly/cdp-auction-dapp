@@ -81,7 +81,7 @@ const genFakeAuctions = () => {
     seller: web3.utils.padLeft(web3.utils.numberToHex(random(10000000)), 40),
     token: tokens[random(2)],
     ask: random(100),
-    expiry: random(5760 * 30),
+    expiry: random(5760 * 7),
     state: random(1),
     bids: [...Array(random(10))].map(element => {
       return web3.utils.padLeft(web3.utils.numberToHex(random(10000000), 40));

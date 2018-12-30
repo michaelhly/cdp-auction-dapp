@@ -4,7 +4,7 @@ import { Spin, Icon } from "antd";
 import makeBlockie from "ethereum-blockies-base64";
 import { useAccountEffect } from "web3-react/hooks";
 
-import { loadUserCdps } from "../../services/TubService";
+import { loadUserCdps } from "../services/TubService";
 import ListingForm from "./ListingForm";
 
 const Maker = require("@makerdao/dai");

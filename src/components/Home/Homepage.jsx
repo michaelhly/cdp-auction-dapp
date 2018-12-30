@@ -1,7 +1,7 @@
 import React from "react";
 import StickyBox from "react-sticky-box";
 import ListingContainer from "./ListingContainer";
-import CdpMenu from "./Menu";
+import CdpMenu from "../Menu";
 
 const Homepage = props => {
   return (

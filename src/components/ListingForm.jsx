@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { BLOCKS_PER_DAY, random, extractFunction } from "../../utils/helpers";
+import { BLOCKS_PER_DAY, random, extractFunction } from "../utils/helpers";
 import { useWeb3Context } from "web3-react/hooks";
 
 const BN = require("bn.js");
-const AddressBook = require("../../utils/addressBook.json");
-const Tokens = require("../../utils/tokens.json");
-const DSProxy = require("../../artifacts/DSProxy.json");
-const AuctionProxy = require("../../artifacts/AuctionProxy.json");
+const AddressBook = require("../utils/addressBook.json");
+const Tokens = require("../utils/tokens.json");
+const DSProxy = require("../artifacts/DSProxy.json");
+const AuctionProxy = require("../artifacts/AuctionProxy.json");
 
 function ListingForm(props) {
   const web3 = useWeb3Context();
@@ -65,11 +65,6 @@ function ListingForm(props) {
 
   const handleExpiryChange = e => {
     setExpiry(e.target.value);
-  };
-
-  const dayToggler = days => {
-    if (days <= 1) return "day";
-    return "days";
   };
 
   return (
