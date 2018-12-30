@@ -14,7 +14,7 @@ export const fetchCdpData = async id => {
       var debt = await cdp.getDebtValue(Maker.USD);
       var fee = await cdp.getGovernanceFee(Maker.USD);
       var liquidation = await cdp.getLiquidationPrice();
-      var collateral = await cdp.getCollateralValue(Maker.PETH);
+      var collateral = await cdp.getCollateralValue();
     } catch (err) {
       console.log("Error:", err.message);
     }
@@ -35,13 +35,9 @@ export const fetchPrice = async () => {
     await maker.authenticate();
     var price = maker.service("price");
     var ethPrice = await price.getEthPrice();
-    var ratio = await price.getWethToPethRatio();
   } catch (err) {
     console.log("Error:", err.message);
   }
 
-  return {
-    ethPrice,
-    ratio
-  };
+  return ethPrice;
 };

@@ -13,8 +13,7 @@ import { fetchPrice } from "./services/MkrService";
 class App extends Component {
   state = {
     loading: true,
-    pwRatio: 1,
-    ethPrice: 0,
+    ethPrice: 100,
     auctions: []
   };
 
@@ -30,8 +29,7 @@ class App extends Component {
   fetchPricingData = async () => {
     try {
       const price = await fetchPrice();
-      this.setState({ pwRatio: price.ratio });
-      this.setState({ ethPrice: price.ethPrice });
+      this.setState({ ethPrice: price });
     } catch (err) {
       console.log("Error:", err.message);
     }
@@ -48,8 +46,8 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    // this.fetchDummyData();
-    await this.refreshData();
+    this.fetchDummyData();
+    // await this.refreshData();
     this.setState({ loading: false });
   }
 
@@ -63,11 +61,7 @@ class App extends Component {
               <Route
                 path={`/${auction.id}`}
                 render={() => (
-                  <Auction
-                    data={auction}
-                    ethPrice={this.state.ethPrice}
-                    ratio={this.state.pwRatio}
-                  />
+                  <Auction data={auction} ethPrice={this.state.ethPrice} />
                 )}
               />
             ))}
@@ -80,6 +74,7 @@ class App extends Component {
                 <Home
                   auctions={this.state.auctions}
                   loading={this.state.loading}
+                  ethPrice={this.state.ethPrice}
                 />
               )}
             />

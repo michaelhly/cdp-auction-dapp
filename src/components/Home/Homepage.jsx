@@ -20,6 +20,7 @@ const Homepage = props => {
             <ListingContainer
               auctions={props.auctions}
               loading={props.loading}
+              ethPrice={props.ethPrice}
             />
           </div>
         </div>

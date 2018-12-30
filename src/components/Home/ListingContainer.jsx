@@ -39,7 +39,11 @@ const ListingContainer = props => {
               return auction.state <= 1;
             })
             .map(auction => (
-              <Listing key={auction.id} auction={auction} />
+              <Listing
+                key={auction.id}
+                auction={auction}
+                ethPrice={props.ethPrice}
+              />
             ))}
         </div>
       );
