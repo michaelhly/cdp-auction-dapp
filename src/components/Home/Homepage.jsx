@@ -8,10 +8,7 @@ const Homepage = props => {
     <React.Fragment>
       <div class="container">
         <div class="row">
-          <div
-            class="col-auto"
-            style={{ display: "flex", alignItems: "flex-start" }}
-          >
+          <div class="col-auto">
             <StickyBox offsetTop={50}>
               <CdpMenu />
             </StickyBox>
