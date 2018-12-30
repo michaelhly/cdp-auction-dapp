@@ -8,8 +8,23 @@ const CircleImage = styled.img`
 `;
 
 const Blockie = props => {
+  const trimAddress = addr => {
+    return [addr.substring(0, 7), "..."];
+  };
+
   return (
-    <CircleImage src={makeBlockie(props.address)} width="42px" align="middle" />
+    <div>
+      <CircleImage
+        src={makeBlockie(props.address)}
+        width="42px"
+        align="middle"
+      />
+      <div>
+        <font size="1">
+          {props.label}: {trimAddress(props.address)}
+        </font>
+      </div>
+    </div>
   );
 };
 

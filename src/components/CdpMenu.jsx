@@ -51,10 +51,6 @@ function CdpMenu(props) {
     }
   };
 
-  const trimAddress = addr => {
-    return [addr.substring(0, 7), "..."];
-  };
-
   const handleClick = (e, cdp) => {
     setSelected(cdp);
     setForm(true);
@@ -134,10 +130,8 @@ function CdpMenu(props) {
       } else {
         return (
           <React.Fragment>
-            <Blockie address={proxy} />
-            <div>
-              <font size="1">Proxy: {trimAddress(proxy)}</font>
-            </div>
+            <Blockie address={proxy} label="Proxy" />
+
             {displayCdps()}
           </React.Fragment>
         );
