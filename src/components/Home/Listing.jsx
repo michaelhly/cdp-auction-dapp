@@ -3,11 +3,8 @@ import { Link } from "react-router-dom";
 import { BLOCKS_PER_DAY } from "../../common/helpers";
 
 const Listing = props => {
-  const bidUnit = bids => {
-    return bids === 1 ? "Bid" : "Bids";
-  };
-
   const convertExpiryBlocks = expiry => {
+    console.log(props.auction);
     var days = expiry / BLOCKS_PER_DAY;
     if (days < 1) {
       var hours = days * 24;
@@ -39,26 +36,26 @@ const Listing = props => {
       >
         <div className="card-body">
           <div className="container">
-            <div className="row justify-content-center align-self-center">
-              <div className="col-sm-offeset-3 center-block ml-4 p-3">
-                <h5 className="CDP-ID">CDP {props.auction.cdpId}</h5>
+            <div className="row flex-nowrap">
+              <div className="col-3 p-3">
+                <p className="h4">CDP {props.auction.cdpId}</p>
               </div>
-              <div className="col-sm-offset-3 center-block ml-4  p-3">
-                <font className="Value"> Value Ξ 0 </font>
+              <div className="col-2 ml-4">
+                <h6 style={{ color: "rgb(85, 85, 85)" }}>Value</h6>
+                <font size="4">Ξ 0</font>
               </div>
-              <div className="col-sm-offset-3 center-block ml-2 p-3">
-                <font className="Bids">
-                  {props.auction.bids.length}{" "}
-                  {bidUnit(props.auction.bids.length)}
+              <div className="col-2">
+                <h6 style={{ color: "rgb(85, 85, 85)" }}>Bids</h6>
+                <font size="4">{props.auction.bids.length}</font>
+              </div>
+              <div className="col-2">
+                <h6 style={{ color: "rgb(85, 85, 85)" }}>Expire in</h6>
+                <font size="4">
+                  {convertExpiryBlocks(props.auction.expiry)}
                 </font>
               </div>
-              <div className="col-lg-auto center-block ml-2 p-3">
-                <font className="Expiry">
-                  Expire in {convertExpiryBlocks(props.auction.expiry)}
-                </font>
-              </div>
-              <div className="col-sm center-block ml-4 p-3">
-                <button type="button" class="btn btn-light btn-sm">
+              <div className="col-3 p-2 ml-4">
+                <button type="button" class="btn btn-light btn">
                   View
                 </button>
               </div>

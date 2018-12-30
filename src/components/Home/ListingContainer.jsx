@@ -26,14 +26,14 @@ const ListingContainer = props => {
       );
     } else if (props.auctions.length === 0) {
       return (
-        <h1>
+        <h2>
           There are currently no running auctions. Please check back later.{" "}
-        </h1>
+        </h2>
       );
     } else {
       return (
         <div>
-          <h4 class="title mb-4">Live Auctions</h4>
+          <h2 class="title mb-4">Live Auctions</h2>
           {props.auctions
             .filter(auction => {
               return auction.state <= 1;
