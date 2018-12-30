@@ -61,7 +61,7 @@ class App extends Component {
               <Route
                 path={`/${auction.id}`}
                 render={() => (
-                  <Auction data={auction} ethPrice={this.state.ethPrice} />
+                  <Auction auction={auction} ethPrice={this.state.ethPrice} />
                 )}
               />
             ))}

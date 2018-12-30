@@ -1,52 +1,69 @@
 import React, { useState } from "react";
-import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
-import { fetchPrice } from "../services/MkrService";
+import TokenManager from "./TokenManager";
 
 const Auction = props => {
-  const web3 = useWeb3Context();
-  const [account, setAccount] = useState(web3.account);
+  const auction = props.auction;
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState(props.ethPrice);
-  const [ratio, setRatio] = useState(props.ratio);
 
-  useAccountEffect(() => {
-    setLoading(true);
-    setAccount(web3.account);
-    setLoading(false);
-  });
+  const display = () => {};
 
   return (
     <React.Fragment>
       <div className="container">
         <div className="row">
-          <div className="col-sm-3">
-            <div class="card">
-              <div class="card-body">This is some text within a card body.</div>
-            </div>
+          <div className="col-auto">
+            <TokenManager />
           </div>
-          <div className="col-lg-9">
-            <h3>CDP {props.data.cdpId}</h3>
+          <div className="col-8">
+            <h2 class="title mb-4">CDP {auction.cdpId}</h2>
             <div className="row">
-              <div className="col-sm-3">
+              <div className="col-8">
                 <div class="card">
                   <div class="card-body">
+                    <h6>Seller</h6>
                     This is some text within a card body.
                   </div>
                 </div>
               </div>
-              <div className="col-sm-3">
+              <div className="col-4">
                 <div class="card">
                   <div class="card-body">
-                    This is some text within a card body.
+                    <h6>Liquidation</h6>
+                    49
                   </div>
                 </div>
               </div>
-              <div className="col-sm-3" />
-              <div class="card">
-                <div class="card-body">
-                  This is some text within a card body.
+            </div>
+            <div className="row">
+              <div className="col-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>Collateral</h6>
+                    49
+                  </div>
                 </div>
               </div>
+              <div className="col-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>Debt</h6>
+                    49
+                  </div>
+                </div>
+              </div>
+              <div className="col-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>Value</h6>
+                    49
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-4">Ask</div>
+              <div className="col-8">Bid Box</div>
             </div>
           </div>
         </div>

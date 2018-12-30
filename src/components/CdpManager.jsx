@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { Spin, Icon } from "antd";
 import { useAccountEffect } from "web3-react/hooks";
-
 import { loadUserCdps } from "../services/TubService";
-
 import SidePanel from "./SidePanel";
 import ListingForm from "./ListingForm";
 import Blockie from "./Blockie";
 
 const Maker = require("@makerdao/dai");
 
-function CdpMenu(props) {
+function CdpManager(props) {
   const maker = Maker.create("browser");
   const [proxy, setProxy] = useState(null);
   const [cdps, setCdps] = useState(null);
@@ -147,4 +145,4 @@ function CdpMenu(props) {
   return <SidePanel display={displayMenu} />;
 }
 
-export default CdpMenu;
+export default CdpManager;

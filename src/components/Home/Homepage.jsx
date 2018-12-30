@@ -1,7 +1,7 @@
 import React from "react";
 import StickyBox from "react-sticky-box";
 import ListingContainer from "./ListingContainer";
-import CdpMenu from "../CdpMenu";
+import CdpManager from "../CdpManager";
 
 const Homepage = props => {
   return (
@@ -10,7 +10,7 @@ const Homepage = props => {
         <div class="row">
           <div class="col-auto">
             <StickyBox offsetTop={50}>
-              <CdpMenu />
+              <CdpManager />
             </StickyBox>
           </div>
           <div
