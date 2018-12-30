@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BLOCKS_PER_DAY } from "../../utils/helpers";
+import { BLOCKS_PER_DAY } from "../../common/helpers";
 
 const Listing = props => {
   const bidUnit = bids => {
