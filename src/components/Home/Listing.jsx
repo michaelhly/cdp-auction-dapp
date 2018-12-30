@@ -14,7 +14,7 @@ const Listing = props => {
       if (hours < 1) {
         var minutes = hours * 60;
         if (minutes < 1) {
-          return "less than 1 minute";
+          return "< 1 minute";
         } else {
           return Math.round(minutes) === 1
             ? "1 minute"
@@ -22,7 +22,7 @@ const Listing = props => {
         }
       } else {
         return Math.round(hours) === 1
-          ? "1 hours"
+          ? "1 hour"
           : `${Math.round(hours)} hours`;
       }
     } else {
