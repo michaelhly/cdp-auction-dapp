@@ -9,7 +9,7 @@ const Homepage = props => {
       <div class="container">
         <div class="row">
           <div
-            class="col-md-auto"
+            class="col-auto"
             style={{ display: "flex", alignItems: "flex-start" }}
           >
             <StickyBox offsetTop={50}>
@@ -17,7 +17,7 @@ const Homepage = props => {
             </StickyBox>
           </div>
           <div
-            class="col-md-8"
+            class="col-8"
             style={{ display: "flex", alignItems: "flex-start" }}
           >
             <ListingContainer
