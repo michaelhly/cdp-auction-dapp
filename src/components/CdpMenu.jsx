@@ -1,33 +1,16 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { Spin, Icon } from "antd";
-import makeBlockie from "ethereum-blockies-base64";
 import { useAccountEffect } from "web3-react/hooks";
 
 import { loadUserCdps } from "../services/TubService";
+
+import SidePanel from "./SidePanel";
 import ListingForm from "./ListingForm";
+import Blockie from "./Blockie";
 
 const Maker = require("@makerdao/dai");
 
-const Panel = styled.div`
-  position: relative;
-  text-align: center;
-  height: 60vh;
-  width: 15vw;
-  padding: 2em;
-  margin-right: 3em;
-  margin-bottom: 3em;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  background: white;
-  min-width: 200px;
-`;
-
-const CircleImage = styled.img`
-  border-radius: 50%;
-  overflow: "hidden";
-`;
-
-function Menu(props) {
+function CdpMenu(props) {
   const maker = Maker.create("browser");
   const [proxy, setProxy] = useState(null);
   const [cdps, setCdps] = useState(null);
@@ -110,7 +93,7 @@ function Menu(props) {
     }
   };
 
-  const displayPanel = () => {
+  const displayMenu = () => {
     const spinner = (
       <Icon type="loading" style={{ color: "green" }} theme="outlined" />
     );
@@ -151,7 +134,7 @@ function Menu(props) {
       } else {
         return (
           <React.Fragment>
-            <CircleImage src={makeBlockie(proxy)} width="42px" align="middle" />
+            <Blockie address={proxy} />
             <div>
               <font size="1">Proxy: {trimAddress(proxy)}</font>
             </div>
@@ -167,11 +150,7 @@ function Menu(props) {
     fetchProxy();
   }, []);
 
-  return (
-    <Panel>
-      <div>{displayPanel()}</div>
-    </Panel>
-  );
+  return <SidePanel display={displayMenu} />;
 }
 
-export default Menu;
+export default CdpMenu;
