@@ -11,9 +11,9 @@ const AuctionProxy = require("../artifacts/AuctionProxy.json");
 
 function ListingForm(props) {
   const web3 = useWeb3Context();
-  const [symbol, setSymbol] = useState([]);
-  const [ask, setAsk] = useState(0);
-  const [expiry, setExpiry] = useState(0);
+  const [orderToken, setOrderToken] = useState(" ");
+  const [orderAmount, setOrderAmount] = useState(0);
+  const [orderExpiry, setOrderExpiry] = useState(0);
 
   const callProxy = async calldata => {
     const proxyInstance = new web3.web3js.eth.Contract(
@@ -55,15 +55,15 @@ function ListingForm(props) {
   };
 
   const handleTokenInput = e => {
-    setSymbol(e.target.value);
+    setOrderToken(e.target.value);
   };
 
-  const handleAskInput = e => {
-    setAsk(e.target.value);
+  const handleAmountInput = e => {
+    setOrderAmount(e.target.value);
   };
 
   const handleExpiryInput = e => {
-    setExpiry(e.target.value);
+    setOrderExpiry(e.target.value);
   };
 
   return (
@@ -83,12 +83,13 @@ function ListingForm(props) {
         <h6>CDP {props.cdp.id}</h6>
       </div>
       <OrderForm
-        symbol={symbol}
-        ask={ask}
-        expiry={expiry}
-        onTokenInput={handleTokenInput}
-        onAskInput={handleAskInput}
-        onExpiryInput={handleExpiryInput}
+        formStates={{ orderToken, orderAmount, orderExpiry }}
+        onFormInputs={{
+          handleTokenInput,
+          handleAmountInput,
+          handleExpiryInput
+        }}
+        formType="L"
       />
       <button
         type="button"

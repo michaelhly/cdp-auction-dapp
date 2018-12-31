@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import { calcValue } from "../utils/helpers";
-import { loadBids } from "../services/AuctionService";
+import { loadBook, loadBids } from "../services/AuctionService";
 import TokenManager from "./TokenManager";
 import AuctionOrderbox from "./AuctionOrderbox";
 
@@ -15,8 +15,11 @@ const Auction = props => {
   const web3 = useWeb3Context();
   const [account, setAccount] = useState(web3.account);
   const [tokens, setTokens] = useState([]);
-  const [bids, setBids] = useState([]);
+  const [Book, setBook] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [orderToken, setOrderToken] = useState(" ");
+  const [orderAmount, setOrderAmount] = useState(0);
+  const [orderExpiry, setOrderExpiry] = useState(0);
 
   const fetchTokens = async () => {
     var tokenArray = [];
@@ -95,20 +98,37 @@ const Auction = props => {
     }
   };
 
-  const fetchBids = async () => {
-    const bidsForThisAuction = await loadBids(auction.id);
-    setBids(bidsForThisAuction);
+  const handleTokenInput = e => {
+    setOrderToken(e.target.value);
+  };
+
+  const handleAmountInput = e => {
+    setOrderAmount(e.target.value);
+  };
+
+  const handleExpiryInput = e => {
+    setOrderExpiry(e.target.value);
+  };
+
+  const fetchBook = async () => {
+    const BookForThisAuction = await loadBids(auction.id);
+    setBook(BookForThisAuction);
   };
 
   const displayBidRelated = (account, auction) => {
     if (auction.seller !== account) {
       return (
         <AuctionOrderbox
-          loading={loading}
           id={auction.id}
           expiry={auction.expiry}
           ask={auction.ask}
           symbol={findTokenSymbolByAddress(tokens, auction.address)}
+          formStates={{ orderToken, orderAmount, orderExpiry }}
+          onFormInputs={{
+            handleTokenInput,
+            handleAmountInput,
+            handleExpiryInput
+          }}
         />
       );
     }
@@ -119,7 +139,7 @@ const Auction = props => {
   };
 
   useEffect(() => {
-    fetchBids();
+    fetchBook();
   }, []);
 
   useAccountEffect(() => {

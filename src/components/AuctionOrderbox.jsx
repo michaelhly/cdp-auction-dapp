@@ -1,5 +1,6 @@
 import React from "react";
 import { convertExpiryBlocks } from "../utils/helpers";
+import OrderForm from "./OrderForm";
 
 const AuctionOrderbox = props => {
   return (
@@ -26,10 +27,11 @@ const AuctionOrderbox = props => {
             <div class="border">
               <div class="card-body">
                 <h5 class="card-title">Submit a bid</h5>
-                <p class="card-text">
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
+                <OrderForm
+                  formStates={props.formStates}
+                  onFormInputs={props.onFormInputs}
+                  formType="B"
+                />
                 <a href="#" class="btn btn-outline-primary">
                   Make Offer
                 </a>
