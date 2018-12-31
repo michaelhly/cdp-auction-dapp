@@ -52,14 +52,21 @@ const TokenManager = () => {
     setLoading(false);
   };
 
-  const approveToken = async (token, fromButton) => {
+  const handleClick = async token => {
+    const copy = [...tokens];
+    const index = tokens.indexOf(token);
+    copy[index] = { ...token };
+    copy[index].approving = true;
+    setTokens(copy);
+
     const tokenInstance = new web3.web3js.eth.Contract(
       ERC20.abi,
       token.address
     );
 
+    var tx = null;
     try {
-      return await tokenInstance.methods
+      tx = await tokenInstance.methods
         .approve(
           AddressBook.kovan.auction,
           new BigNumber(2 ** 256 - 1).toFixed()
@@ -69,29 +76,12 @@ const TokenManager = () => {
           console.log(txHash);
         });
     } catch (err) {
-      if (fromButton) {
-        const copy = [...tokens];
-        const index = tokens.indexOf(token);
-        copy[index] = { ...token };
-        copy[index].approving = false;
-        setTokens(copy);
-      }
-      return new Error("failed to submit transaction");
-    }
-  };
-
-  const handleClick = async token => {
-    const copy = [...tokens];
-    const index = tokens.indexOf(token);
-    copy[index] = { ...token };
-    copy[index].approving = true;
-    setTokens(copy);
-
-    var tx = null;
-    try {
-      tx = await approveToken(token, true);
-    } catch (err) {
       console.log(err.message);
+      const copy = [...tokens];
+      const index = tokens.indexOf(token);
+      copy[index] = { ...token };
+      copy[index].approving = false;
+      setTokens(copy);
     }
   };
 
@@ -116,7 +106,7 @@ const TokenManager = () => {
               <button
                 type="button"
                 class="btn btn-link btn-sm ml-2"
-                onClick={e => handleClick(token)}
+                onClick={() => handleClick(token)}
                 style={{
                   textDecoration: "none",
                   color: "grey",
