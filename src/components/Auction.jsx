@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
-import { convertExpiryBlocks, calcValue } from "../utils/helpers";
+import { calcValue } from "../utils/helpers";
 import { loadBids } from "../services/AuctionService";
 import TokenManager from "./TokenManager";
-import OrderBox from "./OrderBox";
+import AuctionOrderbox from "./AuctionOrderbox";
 
 const ERC20 = require("../artifacts/IERC20.json");
 const AddressBook = require("../utils/addressBook.json");
@@ -17,6 +17,7 @@ const Auction = props => {
   const [tokens, setTokens] = useState([]);
   const [bids, setBids] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log(auction);
 
   const fetchTokens = async () => {
     var tokenArray = [];
@@ -49,9 +50,17 @@ const Auction = props => {
         });
       } catch (err) {
         console.log(err.message);
+        setLoading(false);
       }
     }
     setTokens(tokenArray);
+  };
+
+  const findTokenSymbolByAddress = (tokens, address) => {
+    const token = tokens.map(t => {
+      if (t.address === address) return t;
+    });
+    return token.symbol;
   };
 
   const approveToken = async token => {
@@ -92,9 +101,17 @@ const Auction = props => {
     setBids(bidsForThisAuction);
   };
 
-  const displayBidRelated = (web3, auction) => {
-    if (auction.seller !== web3.account) {
-      return <OrderBox />;
+  const displayBidRelated = (account, auction) => {
+    if (auction.seller !== account) {
+      return (
+        <AuctionOrderbox
+          loading={loading}
+          id={auction.id}
+          expiry={auction.expiry}
+          ask={auction.ask}
+          symbol={findTokenSymbolByAddress(tokens, auction.address)}
+        />
+      );
     }
   };
 
@@ -186,7 +203,9 @@ const Auction = props => {
               </div>
             </div>
             <div className="row">
-              <div className="col">{displayBidRelated(web3, auction)}</div>
+              <div className="col">
+                {displayBidRelated(web3.account, auction)}
+              </div>
             </div>
           </div>
         </div>

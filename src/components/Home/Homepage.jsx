@@ -3,7 +3,7 @@ import StickyBox from "react-sticky-box";
 import ListingContainer from "./ListingContainer";
 import CdpManager from "../CdpManager";
 import { paginate } from "../../utils/helpers";
-import Pagination from "../Pagination";
+import Pagination from "./Pagination";
 
 const Homepage = props => {
   const [pageSize] = useState(4);
