@@ -5,7 +5,7 @@ import DisplayLoading from "../DisplayLoading";
 const ListingContainer = props => {
   const displayListings = () => {
     if (props.loading) {
-      return <DisplayLoading />;
+      return <DisplayLoading size="large" />;
     } else if (props.auctions.length === 0) {
       return (
         <h2>
