@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const BLOCKS_PER_DAY = 4 * 60 * 24;
 
 export const extractFunction = (abi, method, params) => {
@@ -34,4 +36,12 @@ export const convertExpiryBlocks = expiry => {
 
 export const calcValue = (collateral, debt, fee, ethPrice) => {
   return Math.round((collateral - (debt + fee) / ethPrice) * 100) / 100;
+};
+
+export const paginate = (items, pageNumber, pageSize) => {
+  const startIndex = (pageNumber - 1) * pageSize;
+  return _(items)
+    .slice(startIndex)
+    .take(pageSize)
+    .value();
 };

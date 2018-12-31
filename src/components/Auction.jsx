@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
-import { convertExpiryBlocks, calcValue } from "../common/helpers";
+import { convertExpiryBlocks, calcValue } from "../utils/helpers";
 import { loadBids } from "../services/AuctionService";
 import TokenManager from "./TokenManager";
 import OrderBox from "./OrderBox";
 
 const ERC20 = require("../artifacts/IERC20.json");
-const AddressBook = require("../common/addressBook.json");
-const Tokens = require("../common/tokens.json");
+const AddressBook = require("../utils/addressBook.json");
+const Tokens = require("../utils/tokens.json");
 
 const Auction = props => {
   const auction = props.auction;

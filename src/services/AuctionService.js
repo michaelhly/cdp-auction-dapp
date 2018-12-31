@@ -4,7 +4,7 @@ const Web3 = require("web3");
 const web3 = new Web3(new Web3("wss://kovan.infura.io/ws"));
 
 const Auction = require("../artifacts/Auction.json");
-const AddressBook = require("../common/addressBook.json");
+const AddressBook = require("../utils/addressBook.json");
 
 export const loadAuctions = async () => {
   const auctionInstance = new web3.eth.Contract(

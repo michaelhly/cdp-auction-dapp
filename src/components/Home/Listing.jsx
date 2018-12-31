@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { convertExpiryBlocks, calcValue } from "../../common/helpers";
+import { convertExpiryBlocks, calcValue } from "../../utils/helpers";
 
 const Listing = props => {
   const auction = props.auction;
