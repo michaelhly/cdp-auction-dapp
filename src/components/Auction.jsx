@@ -158,8 +158,16 @@ const Auction = props => {
               handleClick={approveToken}
             />
           </div>
-          <div className="col-8">
+          <div
+            className="col-8"
+            style={{ display: "flex", alignItems: "flex-start" }}
+          >
             <div className="container-fluid">
+              <div className="row">
+                <div className="col p-0">
+                  <h2 class="title mb-4">CDP {auction.cdpId}</h2>
+                </div>
+              </div>
               <InfoCard auction={auction} ethPrice={props.ethPrice} />
               {displayBidRelated(web3.account, auction)}
             </div>
