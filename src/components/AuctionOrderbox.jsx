@@ -1,6 +1,5 @@
 import React from "react";
 import { convertExpiryBlocks } from "../utils/helpers";
-import DisplayLoading from "./DisplayLoading";
 
 const AuctionOrderbox = props => {
   return (
@@ -31,7 +30,7 @@ const AuctionOrderbox = props => {
                   With supporting text below as a natural lead-in to additional
                   content.
                 </p>
-                <a href="#" class="btn btn-primary">
+                <a href="#" class="btn btn-outline-primary">
                   Make Offer
                 </a>
               </div>

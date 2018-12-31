@@ -17,7 +17,6 @@ const Auction = props => {
   const [tokens, setTokens] = useState([]);
   const [bids, setBids] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(auction);
 
   const fetchTokens = async () => {
     var tokenArray = [];
@@ -50,7 +49,6 @@ const Auction = props => {
         });
       } catch (err) {
         console.log(err.message);
-        setLoading(false);
       }
     }
     setTokens(tokenArray);
@@ -128,7 +126,6 @@ const Auction = props => {
     setAccount(web3.account);
     fetchTokens();
     setLoading(false);
-    console.log(tokens);
   });
 
   return (
