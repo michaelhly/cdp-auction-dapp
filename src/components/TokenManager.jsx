@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  useWeb3Context,
-  useAccountEffect,
-  useERC20Balance
-} from "web3-react/hooks";
+import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import SidePanel from "./SidePanel";
 import Blockie from "./Blockie";
 import DisplayLoading from "./DisplayLoading";
