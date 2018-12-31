@@ -30,48 +30,52 @@ const OrderForm = props => {
   };
 
   return (
-    <form>
-      <div style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}>
-        {labelToggler(formType, "TOKEN")}
-        <select
-          className="form-control form-control p-1"
-          id="token-input"
-          value={orderToken}
-          onChange={e => handleTokenInput(e)}
-          style={{ marginTop: "-9px", marginBottom: "1em" }}
+    <div>
+      <form>
+        <div
+          style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}
         >
-          {Tokens.kovan.map(token => (
-            <option>{token.symbol}</option>
-          ))}
-        </select>
-        {labelToggler(formType, "ASK")}
-        <input
-          className="form-control"
-          type="text"
-          id="amount-input"
-          placeholder="token(s)"
-          value={orderAmount}
-          onChange={e => handleAmountInput(e)}
-          style={{ marginTop: "-9px", marginBottom: "1em" }}
-        />
-        <label>Expiration: </label>
-        <input
-          className="form-control"
-          type="text"
-          id="expiry-input"
-          placeholder="day(s)"
-          value={orderExpiry}
-          onChange={e => handleExpiryInput(e)}
-          style={{ marginTop: "-9px" }}
-        />
-      </div>
-      <div
-        className="day-in-blocks"
-        style={{ textAlign: "right", fontSize: "11px", marginTop: "-9px" }}
-      >
-        {Math.round(BLOCKS_PER_DAY * orderExpiry)} blocks
-      </div>
-    </form>
+          {labelToggler(formType, "TOKEN")}
+          <select
+            className="form-control form-control p-1"
+            id="token-input"
+            value={orderToken}
+            onChange={e => handleTokenInput(e)}
+            style={{ marginTop: "-9px", marginBottom: "1em" }}
+          >
+            {Tokens.kovan.map(token => (
+              <option>{token.symbol}</option>
+            ))}
+          </select>
+          {labelToggler(formType, "ASK")}
+          <input
+            className="form-control"
+            type="text"
+            id="amount-input"
+            placeholder="token(s)"
+            value={orderAmount}
+            onChange={e => handleAmountInput(e)}
+            style={{ marginTop: "-9px", marginBottom: "1em" }}
+          />
+          <label>Expiration: </label>
+          <input
+            className="form-control"
+            type="text"
+            id="expiry-input"
+            placeholder="day(s)"
+            value={orderExpiry}
+            onChange={e => handleExpiryInput(e)}
+            style={{ marginTop: "-9px" }}
+          />
+        </div>
+        <div
+          className="day-in-blocks"
+          style={{ textAlign: "right", fontSize: "11px", marginTop: "-9px" }}
+        >
+          {Math.round(BLOCKS_PER_DAY * orderExpiry)} blocks
+        </div>
+      </form>
+    </div>
   );
 };
 

@@ -5,6 +5,7 @@ import { calcValue } from "../utils/helpers";
 import { loadBook, loadBids } from "../services/AuctionService";
 import TokenManager from "./TokenManager";
 import AuctionOrderbox from "./AuctionOrderbox";
+import InfoCard from "./InfoCard";
 
 const ERC20 = require("../artifacts/IERC20.json");
 const AddressBook = require("../utils/addressBook.json");
@@ -134,10 +135,6 @@ const Auction = props => {
     }
   };
 
-  const trimAddress = addr => {
-    return [addr.substring(0, 30), "..."];
-  };
-
   useEffect(() => {
     fetchBook();
   }, []);
@@ -162,68 +159,9 @@ const Auction = props => {
             />
           </div>
           <div className="col-8">
-            <h2 class="title mb-4">CDP {auction.cdpId}</h2>
-            <div className="row">
-              <div className="col">
-                <div class="card shadow-sm mb-5 bg-white rounded">
-                  <div class="card-body">
-                    <div className="row">
-                      <div className="col-8">
-                        <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                          Seller:{" "}
-                          <span style={{ color: "black" }}>
-                            {trimAddress(auction.seller)}
-                          </span>
-                        </h6>
-                      </div>
-                      <div className="col-4">
-                        <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                          Liquidation Price:{" "}
-                          <span style={{ color: "black" }}>
-                            ${auction.cdpLiquidation}
-                          </span>
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-4">
-                        <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                          Collateral:{" "}
-                          <span style={{ color: "black" }}>
-                            {auction.cdpCollateral}
-                          </span>
-                        </h6>
-                      </div>
-                      <div className="col-4">
-                        <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                          Debt:{" "}
-                          <span style={{ color: "black" }}>
-                            {auction.cdpDebt + auction.cdpFee}
-                          </span>
-                        </h6>
-                      </div>
-                      <div className="col-4">
-                        <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                          Value: Ξ{" "}
-                          <span style={{ color: "black" }}>
-                            {calcValue(
-                              auction.cdpCollateral,
-                              auction.cdpDebt,
-                              auction.cdpFee,
-                              props.ethPrice
-                            )}
-                          </span>
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                {displayBidRelated(web3.account, auction)}
-              </div>
+            <div className="container-fluid">
+              <InfoCard auction={auction} ethPrice={props.ethPrice} />
+              {displayBidRelated(web3.account, auction)}
             </div>
           </div>
         </div>
