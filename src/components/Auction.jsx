@@ -57,6 +57,7 @@ const Auction = props => {
   const findTokenSymbolByAddress = (tokens, address) => {
     const token = tokens.map(t => {
       if (t.address === address) return t;
+      return -1;
     });
     return token.symbol;
   };

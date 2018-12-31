@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BLOCKS_PER_DAY, random, extractFunction } from "../utils/helpers";
 import { useWeb3Context } from "web3-react/hooks";
+import OrderForm from "./OrderForm";
 
 const BN = require("bn.js");
 const AddressBook = require("../utils/addressBook.json");
@@ -34,8 +35,6 @@ function ListingForm(props) {
     var token = Tokens.kovan.filter(token => token.symbol === input_symbol)[0];
 
     var amount = web3.web3js.utils.toWei(input_ask.toString(), "ether");
-    console.log(amount);
-    console.log(amount.toString());
     var expiryBlocks = new BN(Math.floor(BLOCKS_PER_DAY * input_expiry));
     var salt = new BN(random(10000000000000));
 
@@ -55,15 +54,15 @@ function ListingForm(props) {
     callProxy(calldata);
   };
 
-  const handleTokenChange = e => {
+  const handleTokenInput = e => {
     setSymbol(e.target.value);
   };
 
-  const handleAskChange = e => {
+  const handleAskInput = e => {
     setAsk(e.target.value);
   };
 
-  const handleExpiryChange = e => {
+  const handleExpiryInput = e => {
     setExpiry(e.target.value);
   };
 
@@ -83,51 +82,14 @@ function ListingForm(props) {
       <div style={{ marginBottom: "1em" }}>
         <h6>CDP {props.cdp.id}</h6>
       </div>
-
-      <form>
-        <div
-          style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}
-        >
-          <label for="token-input">Recieve Token: </label>
-          <select
-            className="form-control form-control p-1"
-            id="token-input"
-            value={symbol}
-            onChange={e => handleTokenChange(e)}
-            style={{ marginTop: "-9px", marginBottom: "1em" }}
-          >
-            {Tokens.kovan.map(token => (
-              <option>{token.symbol}</option>
-            ))}
-          </select>
-          <label>Asking amount: </label>
-          <input
-            className="form-control"
-            type="text"
-            id="ask"
-            placeholder="token(s)"
-            value={ask}
-            onChange={e => handleAskChange(e)}
-            style={{ marginTop: "-9px", marginBottom: "1em" }}
-          />
-          <label>Expiration: </label>
-          <input
-            className="form-control"
-            type="text"
-            id="expiry"
-            placeholder="day(s)"
-            value={expiry}
-            onChange={e => handleExpiryChange(e)}
-            style={{ marginTop: "-9px" }}
-          />
-        </div>
-        <div
-          className="day-in-blocks"
-          style={{ textAlign: "right", fontSize: "11px", marginTop: "-9px" }}
-        >
-          {Math.round(BLOCKS_PER_DAY * expiry)} blocks
-        </div>
-      </form>
+      <OrderForm
+        symbol={symbol}
+        ask={ask}
+        expiry={expiry}
+        onTokenInput={handleTokenInput}
+        onAskInput={handleAskInput}
+        onExpiryInput={handleExpiryInput}
+      />
       <button
         type="button"
         className="btn btn-success btn-sm"
