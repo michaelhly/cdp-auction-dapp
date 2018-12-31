@@ -96,7 +96,6 @@ const TokenManager = () => {
   };
 
   const displayToken = token => {
-    console.log("hello", token, token.approving);
     if (token.approving) {
       return (
         <div>
