@@ -161,10 +161,6 @@ const TokenManager = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTokens();
-  }, []);
-
   useAccountEffect(() => {
     setLoading(true);
     setAccount(web3.account);
