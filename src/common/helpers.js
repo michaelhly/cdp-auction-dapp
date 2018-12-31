@@ -10,3 +10,28 @@ export const extractFunction = (abi, method, params) => {
 };
 
 export const random = max => Math.floor(Math.random() * (max + 1));
+
+export const convertExpiryBlocks = expiry => {
+  var days = expiry / BLOCKS_PER_DAY;
+  if (days < 1) {
+    var hours = days * 24;
+    if (hours < 1) {
+      var minutes = hours * 60;
+      if (minutes < 1) {
+        return "< 1 minute";
+      } else {
+        return Math.round(minutes) === 1
+          ? "1 minute"
+          : `${Math.round(minutes)} minutes`;
+      }
+    } else {
+      return Math.round(hours) === 1 ? "1 hour" : `${Math.round(hours)} hours`;
+    }
+  } else {
+    return Math.round(days) === 1 ? "1 day" : `${Math.round(days)} days`;
+  }
+};
+
+export const calcValue = (collateral, debt, fee, ethPrice) => {
+  return Math.round((collateral - (debt + fee) / ethPrice) * 100) / 100;
+};
