@@ -46,7 +46,7 @@ const Auction = props => {
                       </div>
                       <div className="col-4">
                         <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                          Liquidation:{" "}
+                          Liquidation Price:{" "}
                           <span style={{ color: "black" }}>
                             ${auction.cdpLiquidation}
                           </span>

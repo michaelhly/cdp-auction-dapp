@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import BigNumber from "bignumber.js";
 import SidePanel from "./SidePanel";
