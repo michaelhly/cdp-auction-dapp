@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Spin, Icon } from "antd";
+import { Icon } from "antd";
 import { useAccountEffect } from "web3-react/hooks";
 import { loadUserCdps } from "../services/TubService";
 import SidePanel from "./SidePanel";
 import ListingForm from "./ListingForm";
 import Blockie from "./Blockie";
+import DisplayLoading from "./DisplayLoading";
 
 const Maker = require("@makerdao/dai");
 
@@ -88,16 +89,8 @@ function CdpManager(props) {
   };
 
   const displayMenu = () => {
-    const spinner = (
-      <Icon type="loading" style={{ color: "green" }} theme="outlined" />
-    );
-    Spin.setDefaultIndicator(spinner);
     if (loading) {
-      return (
-        <React.Fragment>
-          <Spin size="large" />
-        </React.Fragment>
-      );
+      return <DisplayLoading size="large" />;
     } else if (form) {
       return (
         <React.Fragment>

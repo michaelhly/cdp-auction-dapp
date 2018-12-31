@@ -1,29 +1,11 @@
 import React from "react";
-import { Spin, Icon } from "antd";
 import Listing from "./Listing";
-import styled from "styled-components";
-
-const Sdiv = styled.div`
-  position: absolute;
-`;
+import DisplayLoading from "../DisplayLoading";
 
 const ListingContainer = props => {
   const displayListings = () => {
     if (props.loading) {
-      return (
-        <Sdiv>
-          <Spin
-            size="large"
-            indicator={
-              <Icon
-                type="loading"
-                style={{ color: "green" }}
-                theme="outlined"
-              />
-            }
-          />
-        </Sdiv>
-      );
+      return <DisplayLoading />;
     } else if (props.auctions.length === 0) {
       return (
         <h2>
