@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { convertExpiryBlocks, calcValue } from "../common/helpers";
+import { loadBids } from "../services/AuctionService";
 import TokenManager from "./TokenManager";
 
 const Auction = props => {
   const auction = props.auction;
-  console.log(auction);
-  const [loading, setLoading] = useState(false);
-  const [price, setPrice] = useState(props.ethPrice);
+  const [bids, setBids] = useState(undefined);
+  const [loading, setLoading] = useState(true);
 
   const trimAddress = addr => {
     return [addr.substring(0, 30), "..."];
   };
-  const display = () => {};
+
+  const fetchBids = async () => {
+    const bidsForThisAuction = await loadBids(auction.id);
+    setBids(bidsForThisAuction);
+  };
+
+  useEffect(() => {
+    fetchBids();
+    setLoading(false);
+  });
 
   return (
     <React.Fragment>
@@ -87,14 +96,3 @@ const Auction = props => {
 };
 
 export default Auction;
-
-/*
-class Auction extends Component {
-  state = {};
-  render() {
-    return <h1>Auction: {this.props.data.id}</h1>;
-  }
-}
-
-export default Auction;
-*/

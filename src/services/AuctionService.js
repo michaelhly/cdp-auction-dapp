@@ -66,6 +66,20 @@ export const loadAuctions = async () => {
   return auctions;
 };
 
+export const loadBids = async auctionId => {
+  const auctionInstance = new web3.eth.Contract(
+    Auction.abi,
+    AddressBook.kovan.auction
+  );
+
+  try {
+    return await auctionInstance.methods.getBids(auctionId).call();
+  } catch (err) {
+    console.log(err.message);
+    return err.message;
+  }
+};
+
 const random = max => Math.floor(Math.random() * (max + 1));
 
 const tokens = [
