@@ -88,7 +88,7 @@ function CdpManager(props) {
     }
   };
 
-  const displayMenu = () => {
+  const displayPanel = () => {
     if (loading) {
       return <DisplayLoading size="large" />;
     } else if (form) {
@@ -122,7 +122,6 @@ function CdpManager(props) {
         return (
           <React.Fragment>
             <Blockie address={proxy} label="Proxy" />
-
             {displayCdps()}
           </React.Fragment>
         );
@@ -135,7 +134,7 @@ function CdpManager(props) {
     fetchProxy();
   }, []);
 
-  return <SidePanel display={displayMenu} />;
+  return <SidePanel display={displayPanel} />;
 }
 
 export default CdpManager;

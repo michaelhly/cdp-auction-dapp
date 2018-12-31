@@ -1,7 +1,7 @@
 import React from "react";
 import { Spin, Icon } from "antd";
 
-const DisplayLoading = () => {
+const DisplayLoading = props => {
   const spinner = (
     <Icon type="loading" style={{ color: "green" }} theme="outlined" />
   );
@@ -9,7 +9,7 @@ const DisplayLoading = () => {
 
   return (
     <React.Fragment>
-      <Spin size="large" />
+      <Spin size={props.size} />
     </React.Fragment>
   );
 };

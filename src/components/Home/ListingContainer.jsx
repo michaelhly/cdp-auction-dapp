@@ -9,7 +9,7 @@ const ListingContainer = props => {
     } else if (props.auctions.length === 0) {
       return (
         <h2>
-          There are currently no running auctions. Please check back later.{" "}
+          There are currently no running auctions. Please check back later.
         </h2>
       );
     } else {
