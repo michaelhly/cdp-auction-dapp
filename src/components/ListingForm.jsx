@@ -20,7 +20,6 @@ function ListingForm(props) {
       DSProxy.abi,
       props.proxy
     );
-    console.log(proxyInstance);
     await proxyInstance.methods["0x1cff79cd"](
       AddressBook.kovan.auctionProxy,
       calldata

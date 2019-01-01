@@ -14,7 +14,7 @@ const AuctionOrderbox = props => {
     if (token.approving) {
       return <DisplayLoading />;
     } else if (
-      (token.allowance === 0 && button == "BID") ||
+      (token.allowance === 0 && button === "BID") ||
       (token.allowance < ask && button === "BUY")
     ) {
       return (
