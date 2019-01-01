@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ListingContainer from "./ListingContainer";
-import CdpManager from "../CdpManager";
+import CdpManager from "./CdpManager";
 import { paginate } from "../../utils/helpers";
 import Pagination from "./Pagination";
 

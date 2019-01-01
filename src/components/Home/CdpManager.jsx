@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Icon } from "antd";
 import { useAccountEffect } from "web3-react/hooks";
-import { loadUserCdps } from "../services/TubService";
-import SidePanel from "./common/SidePanel";
+import { loadUserCdps } from "../../services/TubService";
+import SidePanel from "../common/SidePanel";
 import ListingForm from "./ListingForm";
-import Blockie from "./common/Blockie";
-import DisplayLoading from "./common/DisplayLoading";
+import Blockie from "../common/Blockie";
+import DisplayLoading from "../common/DisplayLoading";
 
 const Maker = require("@makerdao/dai");
 
