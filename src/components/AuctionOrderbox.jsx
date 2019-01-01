@@ -12,16 +12,25 @@ const AuctionOrderbox = props => {
       </div>
       <div className="col-6 border border-right-0">
         <div class="card-body">
-          <h5 class="card-title">Listed for</h5>
-          <p class="card-text">{props.ask}</p>
-          <a href="#" class="btn btn-primary">
+          <h6 class="card-title" style={{ color: "grey" }}>
+            Listed for
+          </h6>
+          <div class="p-0">
+            <p class="ask price" style={{ fontSize: "82px" }}>
+              {props.ask}
+            </p>
+          </div>
+
+          <a href="#" class="btn btn-primary" style={{ marginTop: "4px" }}>
             Buy Now
           </a>
         </div>
       </div>
       <div className="col-6 border">
         <div class="card-body">
-          <h5 class="card-title">Submit a bid</h5>
+          <h6 class="card-title" style={{ color: "grey" }}>
+            Submit a bid
+          </h6>
           <OrderForm
             formStates={props.formStates}
             onFormInputs={props.onFormInputs}
