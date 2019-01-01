@@ -123,6 +123,7 @@ const Auction = props => {
           }}
           handleApproval={approveToken}
           tokenList={tokens}
+          selectedToken={orderToken}
         />
       );
     }

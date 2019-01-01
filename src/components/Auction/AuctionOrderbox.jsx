@@ -9,13 +9,15 @@ const AuctionOrderbox = props => {
     return -1;
   });
 
-  const toggleButtons = (token, ask, button, eventHandlers) => {
+  const toggleButtons = (selected, ask, button, eventHandlers) => {
     const { handleApproval } = eventHandlers;
-    console.log(token);
-    if (token.approving) {
+    if (
+      (token.approving && button === "BUY") ||
+      (selected.approving && button === "BID")
+    ) {
       return <DisplayLoading />;
     } else if (
-      (token.allowance === 0 && button === "BID") ||
+      (selected.allowance === 0 && button === "BID") ||
       (token.allowance < ask && button === "BUY")
     ) {
       return (
@@ -52,7 +54,12 @@ const AuctionOrderbox = props => {
             <p class="ask price" style={{ fontSize: "82px" }}>
               {props.ask}
             </p>
-            {toggleButtons(token, props.ask, "BUY", props.handleApproval)}
+            {toggleButtons(
+              props.selectedToken,
+              props.ask,
+              "BUY",
+              props.handleApproval
+            )}
           </div>
         </div>
       </div>
@@ -66,7 +73,12 @@ const AuctionOrderbox = props => {
             onFormInputs={props.onFormInputs}
             formType="B"
           />
-          {toggleButtons(token, props.ask, "BID", props.handleApproval)}
+          {toggleButtons(
+            props.selectedToken,
+            props.ask,
+            "BID",
+            props.handleApproval
+          )}
         </div>
       </div>
     </div>
