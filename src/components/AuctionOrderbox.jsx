@@ -1,8 +1,40 @@
 import React from "react";
 import { convertExpiryBlocks } from "../utils/helpers";
 import OrderForm from "./OrderForm";
+import DisplayLoading from "./DisplayLoading";
 
 const AuctionOrderbox = props => {
+  const token = props.tokenList.map(t => {
+    if (t.address === props.askTokenAddr) return t;
+  });
+
+  const toggleButtons = (token, ask, button, eventHandlers) => {
+    const { handleApproval } = eventHandlers;
+    console.log(token);
+    if (token.approving) {
+      return <DisplayLoading />;
+    } else if (
+      (token.allowance === 0 && button == "BID") ||
+      (token.allowance < ask && button === "BUY")
+    ) {
+      return (
+        <a class="btn btn-success" onClick={() => handleApproval(token, false)}>
+          Approve Token
+        </a>
+      );
+    } else {
+      return button === "BUY" ? (
+        <a href="#" class="btn btn-primary" style={{ marginTop: "4px" }}>
+          Take CDP
+        </a>
+      ) : (
+        <a href="#" class="btn btn-outline-primary">
+          Make Offer
+        </a>
+      );
+    }
+  };
+
   return (
     <div className="row shadow-sm">
       <div className="col-12 p-0">
@@ -19,11 +51,8 @@ const AuctionOrderbox = props => {
             <p class="ask price" style={{ fontSize: "82px" }}>
               {props.ask}
             </p>
+            {toggleButtons(token, props.ask, "BUY", props.handleApproval)}
           </div>
-
-          <a href="#" class="btn btn-primary" style={{ marginTop: "4px" }}>
-            Buy Now
-          </a>
         </div>
       </div>
       <div className="col-6 border">
@@ -36,9 +65,7 @@ const AuctionOrderbox = props => {
             onFormInputs={props.onFormInputs}
             formType="B"
           />
-          <a href="#" class="btn btn-outline-primary">
-            Make Offer
-          </a>
+          {toggleButtons(token, props.ask, "BID", props.handleApproval)}
         </div>
       </div>
     </div>

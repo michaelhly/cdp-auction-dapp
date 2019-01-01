@@ -5,7 +5,7 @@ import Blockie from "./Blockie";
 import DisplayLoading from "./DisplayLoading";
 
 const TokenManager = props => {
-  const displayToken = (token, handleClick) => {
+  const displayToken = (token, handleApproval) => {
     if (token.approving) {
       return (
         <div>
@@ -26,7 +26,7 @@ const TokenManager = props => {
               <button
                 type="button"
                 class="btn btn-link btn-sm ml-2"
-                onClick={() => handleClick(token)}
+                onClick={() => handleApproval(token)}
                 style={{
                   textDecoration: "none",
                   color: "grey",
@@ -52,7 +52,6 @@ const TokenManager = props => {
   };
 
   const displayPanel = () => {
-    console.log(props);
     if (props.loading) {
       return <DisplayLoading size="large" />;
     } else {
@@ -63,7 +62,7 @@ const TokenManager = props => {
             <h6 style={{ marginTop: "2em" }}>Your Tokens</h6>
             <ul class="list-group list-group-flush">
               {props.tokens.map(token => {
-                return displayToken(token, props.handleClick);
+                return displayToken(token, props.handleApproval);
               })}
             </ul>
           </div>

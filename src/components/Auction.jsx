@@ -57,14 +57,6 @@ const Auction = props => {
     setTokens(tokenArray);
   };
 
-  const findTokenSymbolByAddress = (tokens, address) => {
-    const token = tokens.map(t => {
-      if (t.address === address) return t;
-      return -1;
-    });
-    return token.symbol;
-  };
-
   const approveToken = async token => {
     const copy = [...tokens];
     const index = tokens.indexOf(token);
@@ -115,20 +107,22 @@ const Auction = props => {
     setBook(bookForThisAuction);
   };
 
-  const displayBidRelated = (account, auction) => {
+  const displayBidRelated = () => {
     if (auction.seller !== account) {
       return (
         <AuctionOrderbox
           id={auction.id}
           expiry={auction.expiry}
+          askTokenAddr={auction.token}
           ask={auction.ask}
-          symbol={findTokenSymbolByAddress(tokens, auction.address)}
           formStates={{ orderToken, orderAmount, orderExpiry }}
           onFormInputs={{
             handleTokenInput,
             handleAmountInput,
             handleExpiryInput
           }}
+          handleApproval={approveToken}
+          tokenList={tokens}
         />
       );
     }
@@ -154,7 +148,7 @@ const Auction = props => {
               loading={loading}
               tokens={tokens}
               account={account}
-              handleClick={approveToken}
+              handleApproval={approveToken}
             />
           </div>
           <div
@@ -168,7 +162,7 @@ const Auction = props => {
                 </div>
               </div>
               <InfoCard auction={auction} ethPrice={props.ethPrice} />
-              {displayBidRelated(web3.account, auction)}
+              {displayBidRelated()}
             </div>
           </div>
         </div>
