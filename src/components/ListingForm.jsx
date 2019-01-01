@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BLOCKS_PER_DAY, random, extractFunction } from "../utils/helpers";
 import { useWeb3Context } from "web3-react/hooks";
-import OrderForm from "./OrderForm";
+import OrderForm from "./common/OrderForm";
 
 const BN = require("bn.js");
 const AddressBook = require("../utils/addressBook.json");

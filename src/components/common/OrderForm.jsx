@@ -1,6 +1,6 @@
 import React from "react";
-import { BLOCKS_PER_DAY } from "../utils/helpers";
-const Tokens = require("../utils/tokens.json");
+import { BLOCKS_PER_DAY } from "../../utils/helpers";
+const Tokens = require("../../utils/tokens.json");
 
 const OrderForm = props => {
   const tokens = Tokens.kovan;
@@ -65,7 +65,6 @@ const OrderForm = props => {
             <input
               type="text"
               className="form-control form-control-sm"
-              type="text"
               id="amount-input"
               placeholder="token(s)"
               value={orderAmount}

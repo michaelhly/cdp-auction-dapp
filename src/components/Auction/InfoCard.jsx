@@ -1,5 +1,5 @@
 import React from "react";
-import { calcValue } from "../utils/helpers";
+import { calcValue } from "../../utils/helpers";
 
 const InfoCard = props => {
   const auction = props.auction;

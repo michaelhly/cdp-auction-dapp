@@ -1,8 +1,8 @@
 import React from "react";
 
-import SidePanel from "./SidePanel";
-import Blockie from "./Blockie";
-import DisplayLoading from "./DisplayLoading";
+import SidePanel from "../common/SidePanel";
+import Blockie from "../common/Blockie";
+import DisplayLoading from "../common/DisplayLoading";
 
 const TokenManager = props => {
   const displayToken = (token, handleApproval) => {

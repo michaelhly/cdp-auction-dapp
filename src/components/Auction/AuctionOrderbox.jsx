@@ -1,11 +1,12 @@
 import React from "react";
-import { convertExpiryBlocks } from "../utils/helpers";
-import OrderForm from "./OrderForm";
-import DisplayLoading from "./DisplayLoading";
+import { convertExpiryBlocks } from "../../utils/helpers";
+import OrderForm from "../common/OrderForm";
+import DisplayLoading from "../common/DisplayLoading";
 
 const AuctionOrderbox = props => {
   const token = props.tokenList.map(t => {
     if (t.address === props.askTokenAddr) return t;
+    return -1;
   });
 
   const toggleButtons = (token, ask, button, eventHandlers) => {

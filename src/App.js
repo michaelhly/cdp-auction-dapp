@@ -5,7 +5,7 @@ import MyAuctions from "./components/MyAuctions";
 import MyBids from "./components/MyBids";
 import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
-import Auction from "./components/Auction";
+import Auction from "./components/Auction/Auction";
 
 import { loadAuctions, loadDummyAuctions } from "./services/AuctionService";
 import { fetchPrice } from "./services/MkrService";
