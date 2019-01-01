@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import StickyBox from "react-sticky-box";
 import ListingContainer from "./ListingContainer";
 import CdpManager from "../CdpManager";
 import { paginate } from "../../utils/helpers";
@@ -20,9 +19,7 @@ const Homepage = props => {
       <div class="container">
         <div class="row">
           <div class="col-auto">
-            <StickyBox offsetTop={50}>
-              <CdpManager />
-            </StickyBox>
+            <CdpManager />
           </div>
           <div
             class="col-8"
