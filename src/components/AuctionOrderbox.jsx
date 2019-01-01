@@ -4,7 +4,7 @@ import OrderForm from "./OrderForm";
 
 const AuctionOrderbox = props => {
   return (
-    <div className="row">
+    <div className="row shadow-sm">
       <div className="col-12 p-0">
         <div className="card-header" style={{ padding: "5px" }}>
           <font size="2">Expires in {convertExpiryBlocks(props.expiry)}</font>
