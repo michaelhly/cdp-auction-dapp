@@ -3,30 +3,17 @@ import { BLOCKS_PER_DAY } from "../utils/helpers";
 const Tokens = require("../utils/tokens.json");
 
 const OrderForm = props => {
+  const tokens = Tokens.kovan;
   const formType = props.formType;
-  var { orderToken, orderAmount, orderExpiry } = props.formStates;
+  const { orderToken, orderAmount, orderExpiry } = props.formStates;
   const {
     handleTokenInput,
     handleAmountInput,
     handleExpiryInput
   } = props.onFormInputs;
 
-  const labelToggler = formType => {
-    return formType === "L" ? (
-      <label>Asking amount: </label>
-    ) : (
-      <label>Bid amount: </label>
-    );
-  };
-
-  const upperForm = (
-    tokens,
-    orderToken,
-    orderAmount,
-    handleTokenInput,
-    handleAmountInput
-  ) => {
-    if (formType == "L") {
+  const formToggler = () => {
+    if (formType === "L") {
       return (
         <div
           style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}
@@ -94,13 +81,7 @@ const OrderForm = props => {
   return (
     <div>
       <form>
-        {upperForm(
-          Tokens.kovan,
-          orderToken,
-          orderAmount,
-          handleTokenInput,
-          handleAmountInput
-        )}
+        {formToggler()}
         <div
           style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}
         >

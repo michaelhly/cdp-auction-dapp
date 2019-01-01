@@ -50,7 +50,7 @@ function CdpManager(props) {
     }
   };
 
-  const handleClick = (e, cdp) => {
+  const handleClick = cdp => {
     setSelected(cdp);
     setForm(true);
   };
@@ -75,7 +75,7 @@ function CdpManager(props) {
                   <button
                     type="button"
                     class="btn btn-light btn-sm"
-                    onClick={e => handleClick(e, cdp)}
+                    onClick={() => handleClick(cdp)}
                   >
                     List
                   </button>
