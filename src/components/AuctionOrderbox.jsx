@@ -27,7 +27,7 @@ const AuctionOrderbox = props => {
             onFormInputs={props.onFormInputs}
             formType="B"
           />
-          <a href="#" class="btn btn-primary">
+          <a href="#" class="btn btn-outline-primary">
             Make Offer
           </a>
         </div>

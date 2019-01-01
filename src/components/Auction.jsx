@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
-import { calcValue } from "../utils/helpers";
-import { loadBook, loadBids } from "../services/AuctionService";
+import { loadBids } from "../services/AuctionService";
 import TokenManager from "./TokenManager";
 import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "./InfoCard";
@@ -16,7 +15,7 @@ const Auction = props => {
   const web3 = useWeb3Context();
   const [account, setAccount] = useState(web3.account);
   const [tokens, setTokens] = useState([]);
-  const [Book, setBook] = useState([]);
+  const [book, setBook] = useState([]);
   const [loading, setLoading] = useState(true);
   const [orderToken, setOrderToken] = useState(" ");
   const [orderAmount, setOrderAmount] = useState(0);
@@ -112,8 +111,8 @@ const Auction = props => {
   };
 
   const fetchBook = async () => {
-    const BookForThisAuction = await loadBids(auction.id);
-    setBook(BookForThisAuction);
+    const bookForThisAuction = await loadBids(auction.id);
+    setBook(bookForThisAuction);
   };
 
   const displayBidRelated = (account, auction) => {
