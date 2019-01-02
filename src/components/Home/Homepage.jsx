@@ -19,15 +19,15 @@ const Homepage = props => {
     if (props.loading) {
       return (
         <div
-          className="d-flex mx-auto align-items-center"
-          style={{ height: "450px" }}
+          className="mx-auto align-items-center"
+          style={{ display: "flex", alignItems: "flex-start", height: "450px" }}
         >
           <DisplayLoading size="large" />
         </div>
       );
     } else {
       return (
-        <div className="row">
+        <React.Fragment>
           <div
             className="col-12"
             style={{ display: "flex", alignItems: "flex-start" }}
@@ -45,7 +45,7 @@ const Homepage = props => {
               onPageChange={handlePageChange}
             />
           </div>
-        </div>
+        </React.Fragment>
       );
     }
   };
@@ -57,7 +57,9 @@ const Homepage = props => {
           <div className="col-auto">
             <CdpPanel />
           </div>
-          <div className="col-8">{toggleListings()}</div>
+          <div className="col-8">
+            <div className="row">{toggleListings()}</div>
+          </div>
         </div>
       </div>
     </React.Fragment>

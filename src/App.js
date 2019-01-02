@@ -7,8 +7,8 @@ import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
 import Auction from "./components/Auction/Auction";
 
-import { loadAuctions, loadDummyAuctions } from "./services/AuctionService";
-import { fetchPrice } from "./services/MkrService";
+import { loadAuctions, loadDummyAuctions } from "./services/requestInfura";
+import { fetchPrice } from "./services/requestMKR";
 
 class App extends Component {
   state = {
@@ -17,9 +17,9 @@ class App extends Component {
     auctions: []
   };
 
-  fetchAuctionData = async () => {
+  fetchAuctionData = async count => {
     try {
-      const auctions = await loadAuctions();
+      const auctions = await loadAuctions(count);
       this.setState({ auctions });
     } catch (err) {
       console.log("Error:", err.message);
@@ -35,8 +35,8 @@ class App extends Component {
     }
   };
 
-  refreshData = async () => {
-    await this.fetchAuctionData();
+  refreshData = async count => {
+    await this.fetchAuctionData(count);
     await this.fetchPricingData();
   };
 
@@ -47,7 +47,7 @@ class App extends Component {
 
   async componentDidMount() {
     this.fetchDummyData();
-    // await this.refreshData();
+    // await this.refreshData(2);
     this.setState({ loading: false });
   }
 

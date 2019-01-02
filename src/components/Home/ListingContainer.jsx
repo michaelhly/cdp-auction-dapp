@@ -1,6 +1,5 @@
 import React from "react";
 import Listing from "./Listing";
-import DisplayLoading from "../common/DisplayLoading";
 
 const ListingContainer = props => {
   const displayListings = () => {

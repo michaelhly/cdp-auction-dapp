@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAccountEffect } from "web3-react/hooks";
-import { loadUserCdps } from "../../services/TubService";
+import { loadCdps } from "../../services/requestInfura";
 import ListingForm from "./ListingForm";
 import NoProxy from "./NoProxy";
 import NoCdp from "./NoCdp";
@@ -24,7 +24,7 @@ const CdpPanel = () => {
     if (maker.service("proxy").currentProxy()) {
       var user = maker.currentAccount().address;
       try {
-        var result = await loadUserCdps(
+        var result = await loadCdps(
           user,
           maker.service("proxy").currentProxy(),
           0
