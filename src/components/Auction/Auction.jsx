@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import { loadBids } from "../../services/AuctionService";
-import TokenManager from "./TokenManager";
+import TokenManager from "../TokenPanel/TokenPanel";
 import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "./InfoCard";
+import TokenPanel from "../TokenPanel/TokenPanel";
 
 const ERC20 = require("../../artifacts/IERC20.json");
 const AddressBook = require("../../utils/addressBook.json");
@@ -141,7 +142,7 @@ const Auction = props => {
       <div className="container">
         <div className="row">
           <div className="col-auto">
-            <TokenManager
+            <TokenPanel
               loading={loading}
               tokens={tokens}
               account={account}
