@@ -11,7 +11,7 @@ const AuctionOrderbox = props => {
 
   const toggleButtons = (tokenIdentifier, lookUpTarget, button) => {
     const token = props.tokenStates.find(
-      t => t[tokenIdentifier] === lookUpTarget
+      t => t[tokenIdentifier].toLowerCase() === lookUpTarget.toLowerCase()
     );
 
     if (

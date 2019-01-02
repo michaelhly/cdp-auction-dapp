@@ -50,6 +50,8 @@ export const paginate = (items, pageNumber, pageSize) => {
 };
 
 export const getTokenSymbolByAddress = address => {
-  const token = tokens.kovan.find(t => t["address"] === address);
+  const token = tokens.kovan.find(
+    t => t["address"].toLowerCase() === address.toLowerCase()
+  );
   return token ? token["symbol"] : "?";
 };
