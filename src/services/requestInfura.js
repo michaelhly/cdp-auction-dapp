@@ -1,16 +1,47 @@
-import { fetchCdpData } from "./MkrService";
+import { fetchCdpData } from "./requestMKR";
 
 const Web3 = require("web3");
 const web3 = new Web3(new Web3("wss://kovan.infura.io/ws"));
 
+const SaiTub = require("../artifacts/SaiTub.json");
 const Auction = require("../artifacts/Auction.json");
 const AddressBook = require("../utils/addressBook.json");
 
-export const loadAuctions = async () => {
-  const auctionInstance = new web3.eth.Contract(
-    Auction.abi,
-    AddressBook.kovan.auction
-  );
+const getTubInstance = async () => {
+  return new web3.eth.Contract(SaiTub.abi, AddressBook.kovan.saiTub);
+};
+
+const getAuctionInstance = async () => {
+  return new web3.eth.Contract(Auction.abi, AddressBook.kovan.auction);
+};
+
+export const loadCdps = async (user, proxy, block) => {
+  const tubInstance = await getTubInstance();
+
+  try {
+    const events = await tubInstance.getPastEvents("LogNewCup", {
+      filter: { lad: [user, proxy] },
+      fromBlock: block,
+      toBlock: "latest"
+    });
+
+    var cdps = [];
+    for (let i = events.length - 1; i >= 0; i--) {
+      var cup = events[i].returnValues.cup;
+      var ink = await tubInstance.methods.ink(cup).call();
+      var lad = await tubInstance.methods.lad(cup).call();
+      if (ink > 0 && lad === proxy) {
+        cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
+      }
+    }
+  } catch (err) {
+    console.log("Error:", err.message);
+  }
+  return cdps;
+};
+
+export const loadAuctions = async limit => {
+  const auctionInstance = await getAuctionInstance();
 
   var totalListings = 0;
   var currentBlock = 0;
@@ -22,9 +53,10 @@ export const loadAuctions = async () => {
   }
 
   var auctions = [];
-  var stopIndex = totalListings - 100 > 0 ? totalListings - 100 : 0;
+  var count = totalListings - limit < 0 ? totalListings : limit;
 
-  for (let i = totalListings; i > stopIndex; i--) {
+  for (let i = totalListings; i > totalListings - count; i--) {
+    console.log(i);
     try {
       var auction = await auctionInstance.methods
         .getAuctionInfoByIndex(i)
@@ -67,10 +99,7 @@ export const loadAuctions = async () => {
 };
 
 export const loadBids = async auctionId => {
-  const auctionInstance = new web3.eth.Contract(
-    Auction.abi,
-    AddressBook.kovan.auction
-  );
+  const auctionInstance = await getAuctionInstance();
 
   try {
     return await auctionInstance.methods.getBids(auctionId).call();
