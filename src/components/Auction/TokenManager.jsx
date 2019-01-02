@@ -28,13 +28,9 @@ const TokenManager = props => {
           <span>
             <button
               type="button"
-              className="btn btn-link btn-sm ml-2"
+              className="btn btn-link btn-sm"
               onClick={() => handleApproval(token)}
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                outline: "none"
-              }}
+              style={{ textDecoration: "none", color: "grey", outline: "none" }}
             >
               {token.balance}
             </button>
@@ -48,7 +44,9 @@ const TokenManager = props => {
           className="list-group-item d-flex justify-content-between align-items-center"
         >
           {token.symbol}
-          <span>{token.balance}</span>
+          <span className={token.balance / 1000 >= 1 ? "ml-3" : "mr-2"}>
+            {token.balance}
+          </span>
         </li>
       );
     }

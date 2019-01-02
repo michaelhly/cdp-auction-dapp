@@ -79,15 +79,20 @@ const Auction = props => {
           new BigNumber(2 ** 256 - 1).toFixed()
         )
         .send({ from: web3.account })
-        .on("transaction", txHash => {
-          console.log(txHash);
+        .on("transactionHash", function(hash) {
+          alert(
+            `Submitted transaction to approve ${
+              token.symbol
+            } for Auction.\n TxHash: ${hash}`
+          );
         });
     } catch (err) {
-      console.log(err.message);
-      const copy = [...tokens];
-      const index = tokens.indexOf(token);
-      copy[index] = { ...token };
       copy[index].approving = false;
+      setTokens(copy);
+    }
+    if (tx) {
+      copy[index].approving = false;
+      copy[index].allowance = tx.events.Approval.returnValues.value;
       setTokens(copy);
     }
   };
