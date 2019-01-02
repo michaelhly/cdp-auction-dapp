@@ -15,7 +15,7 @@ const ListingContainer = props => {
     } else {
       return (
         <div>
-          <h2 class="title mb-4">Live Auctions</h2>
+          <h2 className="title mb-4">Live Auctions</h2>
           {props.auctions
             .filter(auction => {
               return auction.state <= 1;

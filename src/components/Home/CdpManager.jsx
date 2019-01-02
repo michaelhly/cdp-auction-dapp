@@ -67,14 +67,17 @@ function CdpManager(props) {
       return (
         <div>
           <h6 style={{ marginTop: "2em" }}>Your CDPs</h6>
-          <ul class="list-group list-group-flush">
+          <ul className="list-group list-group-flush">
             {cdps.map(cdp => (
-              <li class="list-group-item d-flex justify-content-between align-items-center">
+              <li
+                key={cdp.id}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
                 {cdp.id}
                 <span>
                   <button
                     type="button"
-                    class="btn btn-light btn-sm"
+                    className="btn btn-light btn-sm"
                     onClick={() => handleClick(cdp)}
                   >
                     List
@@ -110,7 +113,7 @@ function CdpManager(props) {
               No proxy found. Please create a profile proxy with Maker.
             </p>
             <button
-              class="btn btn-primary"
+              className="btn btn-primary"
               onClick={() => createProxy()}
               style={{ marginTop: "2em" }}
             >

@@ -2,7 +2,6 @@ import React from "react";
 import { convertExpiryBlocks } from "../../utils/helpers";
 import OrderForm from "../common/OrderForm";
 import DisplayLoading from "../common/DisplayLoading";
-import TokenManager from "./TokenManager";
 
 const AuctionOrderbox = props => {
   const ask = props.ask;
@@ -11,14 +10,11 @@ const AuctionOrderbox = props => {
     const token = props.tokenStates.find(
       t => t[tokenIdentifier] === lookUpTarget
     );
-    console.log(props.askTokenAddr);
-    console.log(props.tokenList);
-    console.log(token);
 
     if (
       !token ||
-      (token.approving && button === "BID" && tokenIdentifier == "symbol") ||
-      (token.approving && button === "BUY" && tokenIdentifier == "address")
+      (token.approving && button === "BID" && tokenIdentifier === "symbol") ||
+      (token.approving && button === "BUY" && tokenIdentifier === "address")
     ) {
       return <DisplayLoading />;
     } else if (
@@ -29,7 +25,7 @@ const AuctionOrderbox = props => {
       return button === "BUY" ? (
         <button
           type="button"
-          class="btn btn-success"
+          className="btn btn-success"
           style={{ marginTop: "4px" }}
           onClick={() => handleApproval(token)}
         >
@@ -38,7 +34,7 @@ const AuctionOrderbox = props => {
       ) : (
         <button
           type="button"
-          class="btn btn-success"
+          className="btn btn-success"
           onClick={() => handleApproval(token)}
         >
           Approve Token
@@ -46,11 +42,11 @@ const AuctionOrderbox = props => {
       );
     } else {
       return button === "BUY" ? (
-        <a href="#" class="btn btn-primary" style={{ marginTop: "4px" }}>
+        <a href="#" className="btn btn-primary" style={{ marginTop: "4px" }}>
           Take CDP
         </a>
       ) : (
-        <a href="#" class="btn btn-outline-primary">
+        <a href="#" className="btn btn-outline-primary">
           Make Offer
         </a>
       );
@@ -65,12 +61,12 @@ const AuctionOrderbox = props => {
         </div>
       </div>
       <div className="col-6 border border-right-0">
-        <div class="card-body">
-          <h6 class="card-title" style={{ color: "grey" }}>
+        <div className="card-body">
+          <h6 className="card-title" style={{ color: "grey" }}>
             Listed for
           </h6>
-          <div class="p-0">
-            <p class="ask price" style={{ fontSize: "82px" }}>
+          <div className="p-0">
+            <p className="ask price" style={{ fontSize: "82px" }}>
               {ask}
             </p>
             {toggleButtons("address", props.askTokenAddr, "BUY")}
@@ -78,8 +74,8 @@ const AuctionOrderbox = props => {
         </div>
       </div>
       <div className="col-6 border">
-        <div class="card-body">
-          <h6 class="card-title" style={{ color: "grey" }}>
+        <div className="card-body">
+          <h6 className="card-title" style={{ color: "grey" }}>
             Submit a bid
           </h6>
           <OrderForm

@@ -8,45 +8,48 @@ const TokenManager = props => {
   const displayToken = (token, handleApproval) => {
     if (token.approving) {
       return (
-        <div>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            {token.symbol}
-            <span>
-              <DisplayLoading />
-            </span>
-          </li>
-        </div>
+        <li
+          key={token.symbol}
+          className="list-group-item d-flex justify-content-between align-items-center"
+        >
+          {token.symbol}
+          <span>
+            <DisplayLoading />
+          </span>
+        </li>
       );
     } else if (token.allowance === 0 || token.allowance < token.balance) {
       return (
-        <div>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            {token.symbol}
-            <span>
-              <button
-                type="button"
-                class="btn btn-link btn-sm ml-2"
-                onClick={() => handleApproval(token)}
-                style={{
-                  textDecoration: "none",
-                  color: "grey",
-                  outline: "none"
-                }}
-              >
-                {token.balance}
-              </button>
-            </span>
-          </li>
-        </div>
+        <li
+          key={token.symbol}
+          className="list-group-item d-flex justify-content-between align-items-center"
+        >
+          {token.symbol}
+          <span>
+            <button
+              type="button"
+              className="btn btn-link btn-sm ml-2"
+              onClick={() => handleApproval(token)}
+              style={{
+                textDecoration: "none",
+                color: "grey",
+                outline: "none"
+              }}
+            >
+              {token.balance}
+            </button>
+          </span>
+        </li>
       );
     } else {
       return (
-        <div>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            {token.symbol}
-            <span>{token.balance}</span>
-          </li>
-        </div>
+        <li
+          key={token.symbol}
+          className="list-group-item d-flex justify-content-between align-items-center"
+        >
+          {token.symbol}
+          <span>{token.balance}</span>
+        </li>
       );
     }
   };
@@ -60,7 +63,7 @@ const TokenManager = props => {
           <Blockie address={props.account} label="Account" />
           <div>
             <h6 style={{ marginTop: "2em" }}>Your Tokens</h6>
-            <ul class="list-group list-group-flush">
+            <ul className="list-group list-group-flush">
               {props.tokens.map(token => {
                 return displayToken(token, props.handleApproval);
               })}

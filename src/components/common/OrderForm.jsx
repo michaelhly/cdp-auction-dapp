@@ -24,7 +24,7 @@ const OrderForm = props => {
             style={{ marginTop: "-5px", marginBottom: "1em" }}
           >
             {tokens.map(token => (
-              <option>{token.symbol}</option>
+              <option key={token.symbol}>{token.symbol}</option>
             ))}
           </select>
 
@@ -47,17 +47,17 @@ const OrderForm = props => {
           style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}
         >
           <label>Bid amount: </label>
-          <div class="input-group-prepend">
-            <span class="input-group-btn">
+          <div className="input-group-prepend">
+            <span className="input-group-btn">
               <select
-                class="btn btn-light mr-1"
+                className="btn btn-light mr-1"
                 id="token-input"
                 name="token"
                 value={token}
                 onChange={e => onFormInput(e)}
               >
                 {Tokens.kovan.map(token => (
-                  <option>{token.symbol}</option>
+                  <option key={token.symbol}>{token.symbol}</option>
                 ))}
               </select>
             </span>

@@ -6,7 +6,7 @@ const Listing = props => {
   const auction = props.auction;
 
   return (
-    <div class="shadow float-right w-100 mb-5 bg-white rounded">
+    <div className="shadow float-right w-100 mb-5 bg-white rounded">
       <Link
         className="auction-link"
         to={`/${auction.id}`}
@@ -39,7 +39,7 @@ const Listing = props => {
                 <font size="4">{convertExpiryBlocks(auction.expiry)}</font>
               </div>
               <div className="col-3 p-2 ml-4">
-                <button type="button" class="btn btn-light btn">
+                <button type="button" className="btn btn-light btn">
                   View
                 </button>
               </div>

@@ -55,10 +55,11 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar />
-        <main class="container">
+        <main className="container">
           <Switch>
             {this.state.auctions.map(auction => (
               <Route
+                key={auction.id}
                 path={`/${auction.id}`}
                 render={() => (
                   <Auction auction={auction} ethPrice={this.state.ethPrice} />

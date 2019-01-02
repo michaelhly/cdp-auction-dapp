@@ -9,8 +9,8 @@ const InfoCard = props => {
   return (
     <div className="row">
       <div className="col p-0">
-        <div class="card shadow-sm mb-3 bg-white rounded">
-          <div class="card-body">
+        <div className="card shadow-sm mb-3 bg-white rounded">
+          <div className="card-body">
             <div className="row">
               <div className="col-8">
                 <h6 style={{ color: "rgb(85, 85, 85)" }}>

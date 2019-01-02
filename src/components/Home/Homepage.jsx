@@ -16,13 +16,13 @@ const Homepage = props => {
 
   return (
     <React.Fragment>
-      <div class="container">
-        <div class="row">
-          <div class="col-auto">
+      <div className="container">
+        <div className="row">
+          <div className="col-auto">
             <CdpManager />
           </div>
           <div
-            class="col-8"
+            className="col-8"
             style={{ display: "flex", alignItems: "flex-start" }}
           >
             <div className="row">

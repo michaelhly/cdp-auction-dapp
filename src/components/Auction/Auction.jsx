@@ -150,7 +150,7 @@ const Auction = props => {
             <div className="container-fluid">
               <div className="row">
                 <div className="col p-0">
-                  <h2 class="title mb-4">CDP {auction.cdpId}</h2>
+                  <h2 className="title mb-4">CDP {auction.cdpId}</h2>
                 </div>
               </div>
               <InfoCard auction={auction} ethPrice={props.ethPrice} />
