@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ListingContainer from "./ListingContainer";
-import CdpManager from "./CdpManager";
+import CdpPanel from "../CdpPanel/CdpPanel";
 import { paginate } from "../../utils/helpers";
 import Pagination from "./Pagination";
 
@@ -19,7 +19,7 @@ const Homepage = props => {
       <div className="container">
         <div className="row">
           <div className="col-auto">
-            <CdpManager />
+            <CdpPanel />
           </div>
           <div
             className="col-8"
