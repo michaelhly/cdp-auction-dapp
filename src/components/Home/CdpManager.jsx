@@ -42,10 +42,16 @@ function CdpManager(props) {
 
   const createProxy = async () => {
     setLoading(true);
+
+    var tx = null;
     try {
-      const tx = await maker.service("proxy").build();
+      tx = await maker.service("proxy").build();
     } catch (err) {
       console.log(err.message);
+      setLoading(false);
+    }
+    if (tx) {
+      setProxy(maker.service("proxy").currentProxy());
       setLoading(false);
     }
   };
@@ -62,7 +68,22 @@ function CdpManager(props) {
 
   const displayCdps = () => {
     if (cdps.length === 0) {
-      return <p style={{ marginTop: "2em" }}>No CDPs found.</p>;
+      return (
+        <div>
+          <p style={{ marginTop: "2em" }}>No CDPs found.{"\n"}</p>
+          <p style={{ marginTop: "1em" }}>
+            Visit the CDP portal to create a CDP.{"\n"}
+          </p>
+          <a
+            href="https://cdp.makerdao.com/"
+            class="btn btn-dark btn active mt-1"
+            role="button"
+            aria-pressed="true"
+          >
+            CDP Protal
+          </a>
+        </div>
+      );
     } else {
       return (
         <div>
@@ -109,13 +130,15 @@ function CdpManager(props) {
               style={{ fontSize: "42px", color: "red" }}
               theme="outlined"
             />
-            <p style={{ marginTop: "2em" }}>
-              No proxy found. Please create a profile proxy with Maker.
+            <p style={{ marginTop: "2em" }}>No proxy found.</p>
+            <p style={{ maringTop: "1em" }}>
+              Please create a proxy profile with Maker before listing your CDP
+              to auction.
             </p>
             <button
               className="btn btn-primary"
               onClick={() => createProxy()}
-              style={{ marginTop: "2em" }}
+              style={{ marginTop: "1em" }}
             >
               Create Proxy
             </button>
