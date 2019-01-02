@@ -41,7 +41,7 @@ const InfoCard = props => {
   };
 
   const trimAddress = addr => {
-    return [addr.substring(0, 30), "..."];
+    return [addr.substring(0, 21), "..."];
   };
 
   useEffect(() => {
@@ -133,19 +133,5 @@ const InfoCard = props => {
     </div>
   );
 };
-
-/*
-  console.log(props);
-  console.log(props.type);
-  if (props.type === "HOME") {
-    return (
-   
-  }
-
-  return (
- 
-  );
-};
-*/
 
 export default InfoCard;

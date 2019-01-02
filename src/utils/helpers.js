@@ -37,7 +37,7 @@ export const convertExpiryBlocks = expiry => {
 };
 
 export const calcValue = (collateral, debt, fee, ethPrice) => {
-  var result = Math.round((collateral - (debt + fee) / ethPrice) * 100) / 100;
+  const result = Math.round((collateral - (debt + fee) / ethPrice) * 100) / 100;
   return result ? result : "?";
 };
 
