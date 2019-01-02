@@ -2,28 +2,47 @@ import React from "react";
 import { convertExpiryBlocks } from "../../utils/helpers";
 import OrderForm from "../common/OrderForm";
 import DisplayLoading from "../common/DisplayLoading";
+import TokenManager from "./TokenManager";
 
 const AuctionOrderbox = props => {
-  const token = props.tokenList.map(t => {
-    if (t.address === props.askTokenAddr) return t;
-    return -1;
-  });
+  const ask = props.ask;
 
-  const toggleButtons = (selected, ask, button, eventHandlers) => {
-    const { handleApproval } = eventHandlers;
+  const toggleButtons = (tokenIdentifier, lookUpTarget, button) => {
+    const token = props.tokenStates.find(
+      t => t[tokenIdentifier] === lookUpTarget
+    );
+    console.log(props.askTokenAddr);
+    console.log(props.tokenList);
+    console.log(token);
+
     if (
-      (token.approving && button === "BUY") ||
-      (selected.approving && button === "BID")
+      !token ||
+      (token.approving && button === "BID" && tokenIdentifier == "symbol") ||
+      (token.approving && button === "BUY" && tokenIdentifier == "address")
     ) {
       return <DisplayLoading />;
     } else if (
-      (selected.allowance === 0 && button === "BID") ||
+      (token.allowance === 0 && button === "BID") ||
       (token.allowance < ask && button === "BUY")
     ) {
-      return (
-        <a class="btn btn-success" onClick={() => handleApproval(token, false)}>
+      const handleApproval = props.handleApproval;
+      return button === "BUY" ? (
+        <button
+          type="button"
+          class="btn btn-success"
+          style={{ marginTop: "4px" }}
+          onClick={() => handleApproval(token)}
+        >
           Approve Token
-        </a>
+        </button>
+      ) : (
+        <button
+          type="button"
+          class="btn btn-success"
+          onClick={() => handleApproval(token)}
+        >
+          Approve Token
+        </button>
       );
     } else {
       return button === "BUY" ? (
@@ -52,14 +71,9 @@ const AuctionOrderbox = props => {
           </h6>
           <div class="p-0">
             <p class="ask price" style={{ fontSize: "82px" }}>
-              {props.ask}
+              {ask}
             </p>
-            {toggleButtons(
-              props.selectedToken,
-              props.ask,
-              "BUY",
-              props.handleApproval
-            )}
+            {toggleButtons("address", props.askTokenAddr, "BUY")}
           </div>
         </div>
       </div>
@@ -69,16 +83,11 @@ const AuctionOrderbox = props => {
             Submit a bid
           </h6>
           <OrderForm
-            formStates={props.formStates}
-            onFormInputs={props.onFormInputs}
+            formInputs={props.formInputs}
+            onFormInput={props.onFormInput}
             formType="B"
           />
-          {toggleButtons(
-            props.selectedToken,
-            props.ask,
-            "BID",
-            props.handleApproval
-          )}
+          {toggleButtons("symbol", props.formInputs.token, "BID")}
         </div>
       </div>
     </div>

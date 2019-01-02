@@ -83,8 +83,8 @@ export const loadBids = async auctionId => {
 const random = max => Math.floor(Math.random() * (max + 1));
 
 const tokens = [
-  "0xc778417e063141139fce010982780140aa0cd5ab",
-  "0x4e17c87c52d0e9a0cad3fbc53b77d9514f003807",
+  "0xd0a1e359811322d97991e03f863a0c30c2cf029c",
+  "0xC4375B7De8af5a38a93548eb8453a498222C4fF2",
   "0xb06d72a24df50d4e2cac133b320c5e7de3ef94cb"
 ];
 

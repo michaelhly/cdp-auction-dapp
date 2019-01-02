@@ -5,12 +5,8 @@ const Tokens = require("../../utils/tokens.json");
 const OrderForm = props => {
   const tokens = Tokens.kovan;
   const formType = props.formType;
-  const { orderToken, orderAmount, orderExpiry } = props.formStates;
-  const {
-    handleTokenInput,
-    handleAmountInput,
-    handleExpiryInput
-  } = props.onFormInputs;
+  const onFormInput = props.onFormInput;
+  const { token, amount, expiry } = props.formInputs;
 
   const formToggler = () => {
     if (formType === "L") {
@@ -22,8 +18,9 @@ const OrderForm = props => {
           <select
             className="form-control form-control-sm"
             id="token-input"
-            value={orderToken}
-            onChange={e => handleTokenInput(e)}
+            name="token"
+            value={token}
+            onChange={e => onFormInput(e)}
             style={{ marginTop: "-5px", marginBottom: "1em" }}
           >
             {tokens.map(token => (
@@ -36,9 +33,10 @@ const OrderForm = props => {
             className="form-control form-control-sm"
             type="text"
             id="amount-input"
+            name="amount"
             placeholder="token(s)"
-            value={orderAmount}
-            onChange={e => handleAmountInput(e)}
+            value={amount}
+            onChange={e => onFormInput(e)}
             style={{ marginTop: "-5px", marginBottom: "1em" }}
           />
         </div>
@@ -54,8 +52,9 @@ const OrderForm = props => {
               <select
                 class="btn btn-light mr-1"
                 id="token-input"
-                value={orderToken}
-                onChange={e => handleTokenInput(e)}
+                name="token"
+                value={token}
+                onChange={e => onFormInput(e)}
               >
                 {Tokens.kovan.map(token => (
                   <option>{token.symbol}</option>
@@ -66,9 +65,10 @@ const OrderForm = props => {
               type="text"
               className="form-control form-control-sm"
               id="amount-input"
+              name="amount"
               placeholder="token(s)"
-              value={orderAmount}
-              onChange={e => handleAmountInput(e)}
+              value={amount}
+              onChange={e => onFormInput(e)}
               style={{ marginTop: "-5px" }}
             />
           </div>
@@ -90,9 +90,10 @@ const OrderForm = props => {
           className="form-control form-control-sm"
           type="text"
           id="expiry-input"
+          name="expiry"
           placeholder="day(s)"
-          value={orderExpiry}
-          onChange={e => handleExpiryInput(e)}
+          value={expiry}
+          onChange={e => onFormInput(e)}
           style={{ marginTop: "-13px" }}
         />
         <div
@@ -104,7 +105,7 @@ const OrderForm = props => {
             marginBottom: "1em"
           }}
         >
-          {Math.round(BLOCKS_PER_DAY * orderExpiry)} blocks
+          {Math.round(BLOCKS_PER_DAY * expiry)} blocks
         </div>
       </form>
     </div>

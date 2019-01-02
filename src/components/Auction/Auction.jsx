@@ -17,9 +17,11 @@ const Auction = props => {
   const [tokens, setTokens] = useState([]);
   const [book, setBook] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [orderToken, setOrderToken] = useState(" ");
-  const [orderAmount, setOrderAmount] = useState(0);
-  const [orderExpiry, setOrderExpiry] = useState(0);
+  const [orderInputs, setOrderInputs] = useState({
+    token: "WETH",
+    amount: 0,
+    expiry: 0
+  });
 
   const fetchTokens = async () => {
     var tokenArray = [];
@@ -90,16 +92,10 @@ const Auction = props => {
     }
   };
 
-  const handleTokenInput = e => {
-    setOrderToken(e.target.value);
-  };
-
-  const handleAmountInput = e => {
-    setOrderAmount(e.target.value);
-  };
-
-  const handleExpiryInput = e => {
-    setOrderExpiry(e.target.value);
+  const handleOrderInputs = e => {
+    const newOrderInputs = { ...orderInputs };
+    newOrderInputs[e.currentTarget.name] = e.currentTarget.value;
+    setOrderInputs(newOrderInputs);
   };
 
   const fetchBook = async () => {
@@ -107,23 +103,18 @@ const Auction = props => {
     setBook(bookForThisAuction);
   };
 
-  const displayBidRelated = () => {
+  const displayBidRelated = handleApproval => {
     if (auction.seller !== account) {
       return (
         <AuctionOrderbox
+          tokenStates={tokens}
           id={auction.id}
           expiry={auction.expiry}
           askTokenAddr={auction.token}
           ask={auction.ask}
-          formStates={{ orderToken, orderAmount, orderExpiry }}
-          onFormInputs={{
-            handleTokenInput,
-            handleAmountInput,
-            handleExpiryInput
-          }}
+          formInputs={orderInputs}
+          onFormInput={handleOrderInputs}
           handleApproval={approveToken}
-          tokenList={tokens}
-          selectedToken={orderToken}
         />
       );
     }
@@ -163,7 +154,7 @@ const Auction = props => {
                 </div>
               </div>
               <InfoCard auction={auction} ethPrice={props.ethPrice} />
-              {displayBidRelated()}
+              {displayBidRelated({ approveToken })}
             </div>
           </div>
         </div>
