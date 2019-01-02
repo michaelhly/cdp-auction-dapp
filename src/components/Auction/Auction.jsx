@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import { loadBids } from "../../services/requestInfura";
 import AuctionOrderbox from "./AuctionOrderbox";
-import InfoCard from "./InfoCard";
+import InfoCard from "../common/InfoCard";
 import TokenPanel from "../TokenPanel/TokenPanel";
 
 const ERC20 = require("../../artifacts/IERC20.json");
@@ -158,7 +158,7 @@ const Auction = props => {
                   <h2 className="title mb-4">CDP {auction.cdpId}</h2>
                 </div>
               </div>
-              <InfoCard auction={auction} ethPrice={props.ethPrice} />
+              <InfoCard auction={auction} type="AUCTION" />
               {displayBidRelated({ approveToken })}
             </div>
           </div>

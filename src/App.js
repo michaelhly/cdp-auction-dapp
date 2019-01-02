@@ -13,7 +13,6 @@ import { fetchPrice } from "./services/requestMKR";
 class App extends Component {
   state = {
     loading: true,
-    ethPrice: 100,
     auctions: []
   };
 
@@ -26,28 +25,14 @@ class App extends Component {
     }
   };
 
-  fetchPricingData = async () => {
-    try {
-      const price = await fetchPrice();
-      this.setState({ ethPrice: price });
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
-  };
-
-  refreshData = async count => {
-    await this.fetchAuctionData(count);
-    await this.fetchPricingData();
-  };
-
   fetchDummyData = () => {
     const auctions = loadDummyAuctions(10);
     this.setState({ auctions });
   };
 
   async componentDidMount() {
-    this.fetchDummyData();
-    // await this.refreshData(2);
+    // this.fetchDummyData();
+    await this.fetchAuctionData(2);
     this.setState({ loading: false });
   }
 
@@ -61,9 +46,7 @@ class App extends Component {
               <Route
                 key={auction.id}
                 path={`/${auction.id}`}
-                render={() => (
-                  <Auction auction={auction} ethPrice={this.state.ethPrice} />
-                )}
+                render={() => <Auction auction={auction} />}
               />
             ))}
             <Route path="/myauctions" component={MyAuctions} />
@@ -75,7 +58,6 @@ class App extends Component {
                 <Home
                   auctions={this.state.auctions}
                   loading={this.state.loading}
-                  ethPrice={this.state.ethPrice}
                 />
               )}
             />

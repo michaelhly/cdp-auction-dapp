@@ -1,5 +1,3 @@
-import { fetchCdpData } from "./requestMKR";
-
 const Web3 = require("web3");
 const web3 = new Web3(new Web3("wss://kovan.infura.io/ws"));
 
@@ -66,13 +64,6 @@ export const loadAuctions = async limit => {
     }
 
     try {
-      var cdp = await fetchCdpData(web3.utils.hexToNumber(auction.cdp));
-      console.log(cdp);
-    } catch (err) {
-      console.log("Error:", err.message);
-    }
-
-    try {
       var bids = await auctionInstance.methods.getBids(auction.id).call();
     } catch (err) {
       console.log("Error:", err.message);
@@ -86,11 +77,7 @@ export const loadAuctions = async limit => {
       ask: auction.ask,
       expiry: parseInt(auction.expiry) - parseInt(currentBlock),
       state: auction.state,
-      bids: bids,
-      cdpDebt: cdp.debt,
-      cdpFee: cdp.fee,
-      cdpLiquidation: cdp.liquidation,
-      cdpCollateral: cdp.collateral
+      bids: bids
     };
 
     auctions.push(auctionEntry);
@@ -128,11 +115,7 @@ const genFakeAuctions = () => {
     state: random(1),
     bids: [...Array(random(10))].map(element => {
       return web3.utils.padLeft(web3.utils.numberToHex(random(10000000), 40));
-    }),
-    cdpDebt: random(300),
-    cdpFee: random(5),
-    cdpLiquidation: random(100),
-    cdpCollateral: random(10)
+    })
   };
 };
 

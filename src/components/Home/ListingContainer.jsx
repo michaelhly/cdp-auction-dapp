@@ -1,5 +1,5 @@
 import React from "react";
-import Listing from "./Listing";
+import InfoCard from "../common/InfoCard";
 
 const ListingContainer = props => {
   const displayListings = () => {
@@ -18,11 +18,7 @@ const ListingContainer = props => {
               return auction.state <= 1;
             })
             .map(auction => (
-              <Listing
-                key={auction.id}
-                auction={auction}
-                ethPrice={props.ethPrice}
-              />
+              <InfoCard key={auction.id} auction={auction} type="HOME" />
             ))}
         </div>
       );

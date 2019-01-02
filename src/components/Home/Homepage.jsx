@@ -35,7 +35,6 @@ const Homepage = props => {
           <ListingContainer
             auctions={paginatedAuctions}
             loading={props.loading}
-            ethPrice={props.ethPrice}
           />
           <div className="mx-auto">
             <Pagination
