@@ -31,7 +31,7 @@ const OrderForm = props => {
           <label>Asking amount: </label>
           <input
             className="form-control form-control-sm"
-            type="text"
+            type="number"
             id="amount-input"
             name="amount"
             placeholder="token(s)"
@@ -62,8 +62,9 @@ const OrderForm = props => {
               </select>
             </span>
             <input
-              type="text"
               className="form-control form-control-sm"
+              type="number"
+              min="0"
               id="amount-input"
               name="amount"
               placeholder="token(s)"
@@ -88,7 +89,8 @@ const OrderForm = props => {
         </div>
         <input
           className="form-control form-control-sm"
-          type="text"
+          type="number"
+          min="0"
           id="expiry-input"
           name="expiry"
           placeholder="day(s)"
