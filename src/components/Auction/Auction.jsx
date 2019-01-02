@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import { loadBids } from "../../services/AuctionService";
-import TokenManager from "../TokenPanel/TokenPanel";
 import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "./InfoCard";
 import TokenPanel from "../TokenPanel/TokenPanel";

@@ -4,9 +4,7 @@ import DisplayLoading from "../common/DisplayLoading";
 
 const ListingContainer = props => {
   const displayListings = () => {
-    if (props.loading) {
-      return <DisplayLoading size="large" />;
-    } else if (props.auctions.length === 0) {
+    if (props.auctions.length === 0) {
       return (
         <h2>
           There are currently no running auctions. Please check back later.

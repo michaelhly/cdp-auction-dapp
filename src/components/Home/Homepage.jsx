@@ -3,6 +3,7 @@ import ListingContainer from "./ListingContainer";
 import CdpPanel from "../CdpPanel/CdpPanel";
 import { paginate } from "../../utils/helpers";
 import Pagination from "./Pagination";
+import DisplayLoading from "../common/DisplayLoading";
 
 const Homepage = props => {
   const [pageSize] = useState(4);
@@ -14,6 +15,41 @@ const Homepage = props => {
 
   const paginatedAuctions = paginate(props.auctions, currentPage, pageSize);
 
+  const toggleListings = () => {
+    if (props.loading) {
+      return (
+        <div
+          className="d-flex mx-auto align-items-center"
+          style={{ height: "450px" }}
+        >
+          <DisplayLoading size="large" />
+        </div>
+      );
+    } else {
+      return (
+        <div className="row">
+          <div
+            className="col-12"
+            style={{ display: "flex", alignItems: "flex-start" }}
+          />
+          <ListingContainer
+            auctions={paginatedAuctions}
+            loading={props.loading}
+            ethPrice={props.ethPrice}
+          />
+          <div className="mx-auto">
+            <Pagination
+              itemCount={props.auctions.length}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        </div>
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="container">
@@ -21,26 +57,7 @@ const Homepage = props => {
           <div className="col-auto">
             <CdpPanel />
           </div>
-          <div
-            className="col-8"
-            style={{ display: "flex", alignItems: "flex-start" }}
-          >
-            <div className="row">
-              <ListingContainer
-                auctions={paginatedAuctions}
-                loading={props.loading}
-                ethPrice={props.ethPrice}
-              />
-              <div className="mx-auto">
-                <Pagination
-                  itemCount={props.auctions.length}
-                  pageSize={pageSize}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            </div>
-          </div>
+          <div className="col-8">{toggleListings()}</div>
         </div>
       </div>
     </React.Fragment>
