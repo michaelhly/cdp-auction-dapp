@@ -25,7 +25,7 @@ const AuctionOrderbox = props => {
       return button === "BUY" ? (
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-success btn-sm"
           style={{ marginTop: "4px" }}
           onClick={() => handleApproval(token)}
         >
@@ -34,7 +34,7 @@ const AuctionOrderbox = props => {
       ) : (
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-success btn-sm"
           onClick={() => handleApproval(token)}
         >
           Approve Token
@@ -42,11 +42,15 @@ const AuctionOrderbox = props => {
       );
     } else {
       return button === "BUY" ? (
-        <a href="#" className="btn btn-primary" style={{ marginTop: "4px" }}>
+        <a
+          href="#"
+          className="btn btn-primary btn-sm"
+          style={{ marginTop: "4px" }}
+        >
           Take CDP
         </a>
       ) : (
-        <a href="#" className="btn btn-outline-primary">
+        <a href="#" className="btn btn-outline-primary btn-sm">
           Make Offer
         </a>
       );
