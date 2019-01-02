@@ -1,5 +1,7 @@
 import _ from "lodash";
 
+const tokens = require("./tokens.json");
+
 export const BLOCKS_PER_DAY = 4 * 60 * 24;
 
 export const extractFunction = (abi, method, params) => {
@@ -44,4 +46,9 @@ export const paginate = (items, pageNumber, pageSize) => {
     .slice(startIndex)
     .take(pageSize)
     .value();
+};
+
+export const getTokenSymbolByAddress = address => {
+  const token = tokens.kovan.find(t => t["address"] === address);
+  return token ? token["symbol"] : "?";
 };

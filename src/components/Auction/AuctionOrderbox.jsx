@@ -1,5 +1,8 @@
 import React from "react";
-import { convertExpiryBlocks } from "../../utils/helpers";
+import {
+  convertExpiryBlocks,
+  getTokenSymbolByAddress
+} from "../../utils/helpers";
 import OrderForm from "../common/OrderForm";
 import DisplayLoading from "../common/DisplayLoading";
 
@@ -21,36 +24,22 @@ const AuctionOrderbox = props => {
       (token.allowance === 0 && button === "BID") ||
       (token.allowance < ask && button === "BUY")
     ) {
-      const handleApproval = props.handleApproval;
-      return button === "BUY" ? (
+      return (
         <button
           type="button"
-          className="btn btn-success btn-sm"
-          style={{ marginTop: "4px" }}
-          onClick={() => handleApproval(token)}
-        >
-          Approve Token
-        </button>
-      ) : (
-        <button
-          type="button"
-          className="btn btn-success btn-sm"
-          onClick={() => handleApproval(token)}
+          className="btn btn-success"
+          onClick={() => props.handleApproval(token)}
         >
           Approve Token
         </button>
       );
     } else {
       return button === "BUY" ? (
-        <a
-          href="#"
-          className="btn btn-primary btn-sm"
-          style={{ marginTop: "4px" }}
-        >
+        <a href="#" className="btn btn-primary">
           Take CDP
         </a>
       ) : (
-        <a href="#" className="btn btn-outline-primary btn-sm">
+        <a href="#" className="btn btn-outline-primary">
           Make Offer
         </a>
       );
@@ -70,10 +59,13 @@ const AuctionOrderbox = props => {
             Listed for
           </h6>
           <div className="p-0">
-            <p className="ask price" style={{ fontSize: "82px" }}>
-              {ask}
+            <p className="ask price" style={{ fontSize: "48px" }}>
+              {ask}{" "}
+              {getTokenSymbolByAddress(props.askTokenAddr, props.tokenStates)}
             </p>
-            {toggleButtons("address", props.askTokenAddr, "BUY")}
+            <div style={{ marginTop: "72px" }}>
+              {toggleButtons("address", props.askTokenAddr, "BUY")}
+            </div>
           </div>
         </div>
       </div>
