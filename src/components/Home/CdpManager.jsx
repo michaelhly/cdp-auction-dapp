@@ -160,7 +160,7 @@ function CdpManager(props) {
     fetchProxy();
   }, []);
 
-  return <SidePanel display={displayPanel} />;
+  return <SidePanel>{displayPanel()}</SidePanel>;
 }
 
 export default CdpManager;

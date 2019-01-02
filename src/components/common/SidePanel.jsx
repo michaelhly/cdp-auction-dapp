@@ -16,7 +16,7 @@ const Panel = styled.div`
 `;
 
 const SidePanel = props => {
-  return <Panel>{props.display()}</Panel>;
+  return <Panel>{props.children}</Panel>;
 };
 
 export default SidePanel;
