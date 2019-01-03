@@ -17,8 +17,8 @@ const App = () => {
   const [proxy, setProxy] = useState("pending");
   const [cdps, setCdps] = useState("pending");
   const [loading, setLoading] = useState({
-    initalLoad: true,
-    effectsLoad: true
+    mainLoad: true,
+    effectsLoad: false
   });
   const [auctions, setAuctions] = useState([]);
   const [modalProps, setModalProps] = useState({
@@ -34,8 +34,8 @@ const App = () => {
     } catch (err) {
       console.log("Error:", err.message);
     }
-    const copy = { ...loading };
-    copy.initalLoad = false;
+    let copy = { ...loading };
+    copy.mainLoad = false;
     copy.effectsLoad = false;
     setLoading(copy);
   };
@@ -46,7 +46,7 @@ const App = () => {
   };
 
   const fetchCdps = async () => {
-    var copy = { ...loading };
+    let copy = { ...loading };
     await maker.authenticate();
     setProxy(maker.service("proxy").currentProxy());
     if (maker.service("proxy").currentProxy()) {
@@ -58,21 +58,21 @@ const App = () => {
           0
         );
         setCdps(result);
-        if (!copy.initalLoad) {
+        if (!copy.mainLoad) {
           copy.effectsLoad = false;
           setLoading(copy);
         }
       } catch (err) {
         console.log(err.message);
         setCdps([]);
-        if (!copy.initalLoad) {
+        if (!copy.mainLoad) {
           copy.effectsLoad = false;
           setLoading(copy);
         }
       }
     } else {
       setCdps([]);
-      if (!copy.initalLoad) {
+      if (!copy.mainLoad) {
         copy.effectsLoad = false;
         setLoading(copy);
       }
@@ -81,7 +81,7 @@ const App = () => {
 
   const triggerModal = (method, params) => {
     console.log(method, params);
-    const copy = { ...modalProps };
+    let copy = { ...modalProps };
     copy.show = true;
     copy.method = method;
     copy.params = params;
@@ -89,7 +89,7 @@ const App = () => {
   };
 
   const closeModal = () => {
-    const copy = { ...modalProps };
+    let copy = { ...modalProps };
     copy.show = false;
     copy.method = "false";
     copy.params = [];
@@ -102,8 +102,8 @@ const App = () => {
   }, []);
 
   useAccountEffect(() => {
-    const copy = { ...loading };
-    if (!copy.initalLoad) {
+    let copy = { ...loading };
+    if (!copy.mainLoad) {
       copy.effectsLoad = true;
       setLoading(copy);
       fetchCdps();

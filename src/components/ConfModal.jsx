@@ -23,15 +23,16 @@ Modal.setAppElement(document.getElementById("root"));
 
 var STATE = Object.freeze({
   NOPROXY: 1,
-  READY: 2,
-  PENDING: 3,
-  CONFIRMED: 4
+  LOADING: 2,
+  READY: 3,
+  PENDING: 4,
+  CONFIRMED: 5
 });
 
 const ConfModal = props => {
   const web3 = useWeb3Context();
-  const [state, setState] = useState(STATE.READYS);
-  const modal = props.modal;
+  const [state, setState] = useState(STATE.READY);
+  const modalProps = props.modal;
 
   const getAuctionInstance = () => {
     return new web3.web3js.eth.Contract(Auction.abi, addressBook.kovan.auction);
@@ -42,13 +43,8 @@ const ConfModal = props => {
     return web3.web3js.eth.abi.encodeFunctionCall(functionAbi, parameters);
   };
 
-  const getRecipient = () => {
-    switch (modal.method) {
-      default:
-        return "0xf0b7651d202932d62048948d74e43f9815840183";
-      case "createAuction":
-        return props.proxy;
-    }
+  const createAuction = () => {
+    const inputParams = { ...modalProps.params };
   };
 
   const toggleModal = () => {
@@ -70,8 +66,13 @@ const ConfModal = props => {
             </button>
           </div>
           <div class="modal-body">
-            <p>To: {getRecipient(modal.method)}</p>
-            <p>Method: {modal.method}</p>
+            <p>
+              To:{" "}
+              {modalProps.method === "createAuction"
+                ? props.proxy
+                : addressBook.kovan.auction}
+            </p>
+            <p>Method: {modalProps.method}</p>
             <span>
               <p>Input: </p>
               <textarea
@@ -80,7 +81,7 @@ const ConfModal = props => {
                 cols="50"
                 style={{ resize: "none" }}
               >
-                {JSON.stringify(modal.params)}
+                {JSON.stringify(modalProps.params)}
               </textarea>
             </span>
           </div>
@@ -98,7 +99,7 @@ const ConfModal = props => {
 
   return (
     <Modal
-      isOpen={modal.show}
+      isOpen={modalProps.show}
       onRequestClose={props.onClose}
       style={customStyles}
     >

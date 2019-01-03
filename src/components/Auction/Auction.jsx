@@ -60,7 +60,7 @@ const Auction = props => {
   };
 
   const approveToken = async token => {
-    const copy = [...tokens];
+    let copy = [...tokens];
     const index = tokens.indexOf(token);
     copy[index] = { ...token };
     copy[index].approving = true;

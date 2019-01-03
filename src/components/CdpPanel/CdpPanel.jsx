@@ -9,7 +9,7 @@ import DisplayLoading from "../common/DisplayLoading";
 
 const CdpPanel = props => {
   const { maker, proxy, cdps, onSetProxy, onSetLoading } = props;
-  const { initialLoad, effectsLoad } = props.loading;
+  const { mainLoad, effectsLoad } = props.loading;
   const [form, setForm] = useState(false);
   const [selected, setSelected] = useState([]);
 
@@ -34,12 +34,7 @@ const CdpPanel = props => {
         />
       );
 
-    if (
-      initialLoad ||
-      effectsLoad ||
-      proxy === "pending" ||
-      cdps === "pending"
-    ) {
+    if (mainLoad || effectsLoad || proxy === "pending" || cdps === "pending") {
       return <DisplayLoading size="large" />;
     } else {
       if (!proxy) {
