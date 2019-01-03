@@ -24,19 +24,26 @@ const App = () => {
   const [modalProps, setModalProps] = useState({
     show: false,
     method: "",
-    params: {}
+    params: {},
+    callback: null
   });
 
   const fetchAuctionData = async count => {
+    let copy = { ...loading };
+    if (!copy.mainLoad) {
+      copy.mainLoad = true;
+      setLoading(copy);
+    }
     try {
       const auctions = await loadAuctions(count);
       setAuctions(auctions);
     } catch (err) {
       console.log("Error:", err.message);
     }
-    let copy = { ...loading };
     copy.mainLoad = false;
-    copy.effectsLoad = false;
+    if (copy.effectsLoad) {
+      copy.effectsLoad = false;
+    }
     setLoading(copy);
   };
 
@@ -79,12 +86,12 @@ const App = () => {
     }
   };
 
-  const triggerModal = (method, params) => {
-    console.log(method, params);
+  const triggerModal = (method, params, callback) => {
     let copy = { ...modalProps };
     copy.show = true;
     copy.method = method;
     copy.params = params;
+    copy.callback = !callback ? fetchAuctionData : callback;
     setModalProps(copy);
   };
 
@@ -93,6 +100,7 @@ const App = () => {
     copy.show = false;
     copy.method = "false";
     copy.params = [];
+    copy.callback = null;
     setModalProps(copy);
   };
 
@@ -117,7 +125,10 @@ const App = () => {
         maker={maker}
         proxy={proxy}
         modal={modalProps}
+        loading={loading.effectsLoad}
         onClose={closeModal}
+        onSetProxy={setProxy}
+        onSetLoading={setLoading}
       />
       <main className="container">
         <Switch>

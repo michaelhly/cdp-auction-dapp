@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
+import {
+  extractFunction,
+  BLOCKS_PER_DAY,
+  random,
+  getTokenAddressBySymbol
+} from "../utils/helpers";
 import NoProxy from "./common/NoProxy";
-import { extractFunction, BLOCKS_PER_DAY } from "../utils/helpers";
-import { width } from "window-size";
+import DisplayLoading from "./common/DisplayLoading";
 
 const addressBook = require("../utils/addressBook.json");
 const Tokens = require("../utils/tokens.json");
@@ -22,34 +27,77 @@ const customStyles = {
 Modal.setAppElement(document.getElementById("root"));
 
 var STATE = Object.freeze({
-  NOPROXY: 1,
-  LOADING: 2,
-  READY: 3,
-  PENDING: 4,
-  CONFIRMED: 5
+  READY: 2,
+  PENDING: 3,
+  CONFIRMED: 4
 });
 
 const ConfModal = props => {
   const web3 = useWeb3Context();
   const [state, setState] = useState(STATE.READY);
   const modalProps = props.modal;
-
-  const getAuctionInstance = () => {
-    return new web3.web3js.eth.Contract(Auction.abi, addressBook.kovan.auction);
-  };
+  const BN = web3.web3js.utils.BN;
 
   const getCallDataForProxy = parameters => {
     const functionAbi = extractFunction(AuctionProxy.abi, "createAuction");
     return web3.web3js.eth.abi.encodeFunctionCall(functionAbi, parameters);
   };
 
-  const createAuction = () => {
+  const createAuction = async () => {
     const inputParams = { ...modalProps.params };
+
+    const ask = web3.web3js.utils.toWei(inputParams.ask.toString(), "ether");
+    const token = getTokenAddressBySymbol(inputParams.token);
+    const expiryBlocks = new BN(
+      Math.floor(BLOCKS_PER_DAY * inputParams.expiry)
+    ).toString();
+    const salt = new BN(random(100000000)).toString();
+
+    const params = [
+      addressBook.kovan.auction,
+      addressBook.kovan.saiTub,
+      inputParams.cup,
+      token,
+      ask,
+      expiryBlocks,
+      salt
+    ];
+
+    const calldata = getCallDataForProxy(params);
+
+    const proxyInstance = new web3.web3js.eth.Contract(
+      DSProxy.abi,
+      props.proxy
+    );
+
+    console.log(proxyInstance);
+    const tx = proxyInstance.methods
+      .execute(addressBook.kovan.auctionProxy, calldata)
+      .send({ from: web3.account })
+      .on("transactionHash", function(hash) {
+        console.log(`TxHash: ${hash}`);
+      });
+  };
+
+  const sendTransaction = () => {
+    if (modalProps.method === "createAuction") {
+      createAuction();
+    }
   };
 
   const toggleModal = () => {
-    if (state === STATE.NOPROXY) {
-      return <NoProxy />;
+    if (props.loading) {
+      return <DisplayLoading />;
+    }
+    if (!props.proxy) {
+      return (
+        <NoProxy
+          requestMaker={props.maker}
+          loading={props.loading}
+          onSetLoading={props.onSetLoading}
+          onSetProxy={props.onSetProxy}
+        />
+      );
     } else {
       return (
         <div>
@@ -66,28 +114,33 @@ const ConfModal = props => {
             </button>
           </div>
           <div class="modal-body">
-            <p>
+            <p className="text-nowrap">From: {web3.account}</p>
+            <p className="text-nowrap">
               To:{" "}
               {modalProps.method === "createAuction"
                 ? props.proxy
                 : addressBook.kovan.auction}
             </p>
             <p>Method: {modalProps.method}</p>
-            <span>
-              <p>Input: </p>
-              <textarea
-                readonly="true"
-                rows="4"
-                cols="50"
-                style={{ resize: "none" }}
-              >
-                {JSON.stringify(modalProps.params)}
-              </textarea>
-            </span>
+            <p>Input: </p>
+            <textarea
+              readonly="true"
+              rows="4"
+              cols="50"
+              style={{ resize: "none" }}
+            >
+              {JSON.stringify(modalProps.params)}
+            </textarea>
           </div>
-          <button type="button" class="btn btn-primary">
-            Confirm
-          </button>
+          <div style={{ textAlign: "center" }}>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onClick={() => sendTransaction()}
+            >
+              Confirm
+            </button>
+          </div>
         </div>
       );
     }

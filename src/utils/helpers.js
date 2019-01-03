@@ -55,3 +55,8 @@ export const getTokenSymbolByAddress = address => {
   );
   return token ? token["symbol"] : "?";
 };
+
+export const getTokenAddressBySymbol = symbol => {
+  const token = tokens.kovan.find(t => t["symbol"] === symbol);
+  return token ? token["address"] : "?";
+};

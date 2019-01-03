@@ -15,7 +15,7 @@ function ListingForm(props) {
       ask: orderInputs.amount,
       expiry: orderInputs.expiry
     };
-    props.onModal("createAuction", params);
+    props.onModal("createAuction", params, null);
     props.onBack();
   };
 
