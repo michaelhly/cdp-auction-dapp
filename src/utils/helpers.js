@@ -4,12 +4,12 @@ const tokens = require("./tokens.json");
 
 export const BLOCKS_PER_DAY = 4 * 60 * 24;
 
-export const extractFunction = (abi, method, params) => {
-  const func = abi.filter(function(element) {
+export const extractFunction = (abi, method) => {
+  const funcAbi = abi.filter(function(element) {
     return element.name === method;
   });
 
-  const { name, type, inputs } = func[0];
+  const { name, type, inputs } = funcAbi[0];
   return { name, type, inputs };
 };
 

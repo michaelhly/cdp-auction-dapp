@@ -1,8 +1,7 @@
 const Maker = require("@makerdao/dai");
+const maker = Maker.create("browser");
 
 export const fetchCdpData = async id => {
-  const maker = Maker.create("browser");
-
   try {
     await maker.authenticate();
     var cdp = await maker.getCdp(id);
@@ -37,15 +36,12 @@ export const fetchCdpData = async id => {
 };
 
 export const fetchPrice = async () => {
-  const maker = Maker.create("browser");
-
   try {
     await maker.authenticate();
-    var price = maker.service("price");
+    const price = maker.service("price");
     var ethPrice = await price.getEthPrice();
   } catch (err) {
     console.log("Error:", err.message);
   }
-
   return ethPrice;
 };
