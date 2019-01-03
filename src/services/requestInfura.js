@@ -73,6 +73,7 @@ export const loadAuctions = async limit => {
       id: auction.id,
       cdpId: web3.utils.hexToNumber(auction.cdp),
       seller: auction.seller,
+      proxy: proxy.seller,
       token: auction.token,
       ask: web3.utils.fromWei(auction.ask, "ether"),
       expiry: parseInt(auction.expiry) - parseInt(currentBlock),
