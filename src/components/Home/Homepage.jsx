@@ -6,6 +6,7 @@ import Pagination from "./Pagination";
 import DisplayLoading from "../common/DisplayLoading";
 
 const Homepage = props => {
+  const { initalLoad } = props.loading;
   const [pageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -16,7 +17,7 @@ const Homepage = props => {
   const paginatedAuctions = paginate(props.auctions, currentPage, pageSize);
 
   const toggleListings = () => {
-    if (props.loading) {
+    if (initalLoad) {
       return (
         <div
           className="mx-auto align-items-center"
@@ -32,10 +33,7 @@ const Homepage = props => {
             className="col-12"
             style={{ display: "flex", alignItems: "flex-start" }}
           />
-          <ListingContainer
-            auctions={paginatedAuctions}
-            loading={props.loading}
-          />
+          <ListingContainer auctions={paginatedAuctions} loading={initalLoad} />
           <div className="mx-auto">
             <Pagination
               itemCount={props.auctions.length}
@@ -54,7 +52,15 @@ const Homepage = props => {
       <div className="container">
         <div className="row">
           <div className="col-auto">
-            <CdpPanel onOpenModal={props.onOpenModal} />
+            <CdpPanel
+              maker={props.maker}
+              proxy={props.proxy}
+              cdps={props.cdp}
+              onSetProxy={props.onSetProxy}
+              loading={props.loading}
+              onSetLoading={props.onSetLoading}
+              onModal={props.onModal}
+            />
           </div>
           <div className="col-8">
             <div className="row">{toggleListings()}</div>
