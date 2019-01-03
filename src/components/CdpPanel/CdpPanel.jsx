@@ -10,7 +10,7 @@ import DisplayLoading from "../common/DisplayLoading";
 
 const Maker = require("@makerdao/dai");
 
-const CdpPanel = () => {
+const CdpPanel = props => {
   const maker = Maker.create("browser");
   const [proxy, setProxy] = useState(null);
   const [cdps, setCdps] = useState(null);
@@ -70,7 +70,12 @@ const CdpPanel = () => {
   const displayPanel = () => {
     if (form)
       return (
-        <ListingForm onBack={hideListingForm} cdp={selected} proxy={proxy} />
+        <ListingForm
+          onBack={hideListingForm}
+          cdp={selected}
+          proxy={proxy}
+          onOpenModal={props.onOpenModal}
+        />
       );
 
     if (loading) {

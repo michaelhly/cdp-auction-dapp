@@ -85,7 +85,7 @@ function ListingForm(props) {
       <button
         type="button"
         className="btn btn-success btn-sm"
-        onClick={() => listCDP()}
+        onClick={() => props.onOpenModal()}
         style={{ marginTop: "1.5em" }}
       >
         Submit Listing

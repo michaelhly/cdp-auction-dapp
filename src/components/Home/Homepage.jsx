@@ -54,7 +54,7 @@ const Homepage = props => {
       <div className="container">
         <div className="row">
           <div className="col-auto">
-            <CdpPanel />
+            <CdpPanel onOpenModal={props.onOpenModal} />
           </div>
           <div className="col-8">
             <div className="row">{toggleListings()}</div>
