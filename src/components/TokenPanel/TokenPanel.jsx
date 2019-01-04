@@ -6,7 +6,8 @@ import TokenContainer from "./TokenContainer";
 import DisplayLoading from "../common/DisplayLoading";
 
 const TokenPanel = props => {
-  if (props.loading) {
+  const { effectsLoad, mainLoad } = props.loading;
+  if (effectsLoad || mainLoad) {
     return (
       <SidePanel>
         <DisplayLoading />

@@ -19,7 +19,13 @@ const ListingContainer = props => {
             })
             .map(auction => (
               <div className="shadow w-100 float-right mb-5 bg-white rounded">
-                <InfoCard key={auction.id} auction={auction} type="HOME" />
+                <InfoCard
+                  key={auction.id}
+                  auction={auction}
+                  type="HOME"
+                  loading={props.loading}
+                  onSetLoading={props.onSetLoading}
+                />
               </div>
             ))}
         </React.Fragment>

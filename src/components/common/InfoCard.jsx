@@ -4,39 +4,53 @@ import { calcValue, convertExpiryBlocks } from "../../utils/helpers";
 import { fetchCdpData } from "../../services/requestMKR";
 import DisplayLoading from "./DisplayLoading";
 
-/* This component is very bad */
+const round2 = number => {
+  return Math.round(number * 100) / 100;
+};
 
 const InfoCard = props => {
+  const { effectsLoad, mainLoad } = props.loading;
   const [info, setInfo] = useState({});
-  const [loading, setLoading] = useState(true);
   const auction = props.auction;
 
   const fetchInfo = async () => {
+    let copy = { ...props.loading };
+    if (!copy.mainLoad) {
+      copy.effectsLoad = true;
+      props.onSetLoading(copy);
+    }
+
     try {
       const cdpInfo = await fetchCdpData(auction.cdpId);
       setInfo(cdpInfo);
     } catch (err) {
-      setLoading(false);
       console.log(err.message);
+    }
+
+    if (!copy.mainLoad) {
+      copy.effectsLoad = false;
+      props.onSetLoading(copy);
     }
   };
 
   const displayInfo = topic => {
-    if (loading) return <DisplayLoading />;
+    if (effectsLoad || mainLoad) return <DisplayLoading />;
 
     switch (topic) {
       case "L":
-        return info.liquidation ? info.liquidation : "?";
+        return info.liquidation ? round2(info.liquidation) : "0";
       case "C":
-        return info.collateral ? info.collateral : "?";
+        return info.collateral ? round2(info.collateral) : "0";
       case "D":
-        return info.debt && info.fee ? info.debt + info.fee : "?";
+        return info.debt ? round2(info.debt) : "0";
       case "F":
-        return info.fee ? info.fee : "?";
+        return info.fee ? round2(info.fee) : "0";
       case "V":
         return info
           ? calcValue(info.collateral, info.debt, info.fee, info.ethPrice)
-          : "?";
+          : "0";
+      default:
+        return info.debt && info.fee ? round2(info.debt + info.fee) : "0";
     }
   };
 
@@ -46,7 +60,6 @@ const InfoCard = props => {
 
   useEffect(() => {
     fetchInfo();
-    setLoading(false);
   }, []);
 
   return props.type === "HOME" ? (
@@ -112,13 +125,12 @@ const InfoCard = props => {
               </div>
               <div className="col-4">
                 <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                  Debt:{" "}
-                  <span style={{ color: "black" }}>{displayInfo("D")}</span>
+                  Debt: <span style={{ color: "black" }}>{displayInfo()}</span>
                 </h6>
               </div>
               <div className="col-4">
                 <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                  Value: Ξ{" "}
+                  Face Value: Ξ{" "}
                   <span style={{ color: "black" }}>{displayInfo("V")}</span>
                 </h6>
               </div>
