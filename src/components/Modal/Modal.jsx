@@ -26,8 +26,7 @@ const customStyles = {
     margin: "auto",
     height: "430px",
     width: "550px"
-  },
-  zIndex: "3"
+  }
 };
 
 var STATE = Object.freeze({

@@ -158,9 +158,6 @@ const App = () => {
     }
   });
 
-  console.log(auctions);
-  console.log(cdps);
-
   return (
     <React.Fragment>
       <Navbar />

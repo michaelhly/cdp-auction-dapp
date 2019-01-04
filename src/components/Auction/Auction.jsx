@@ -78,7 +78,7 @@ const Auction = props => {
         )
         .send({ from: web3.account })
         .on("transactionHash", function(hash) {
-          console.log(
+          alert(
             `Submitted transaction to approve ${
               token.symbol
             } for Auction.\n TxHash: ${hash}`
