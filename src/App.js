@@ -182,14 +182,15 @@ const App = () => {
                   auction={auction}
                   onModal={triggerModal}
                   onUpdate={updateBidIDs}
-                  onSetLoading={setLoading}
                 />
               )}
             />
           ))}
           <Route
             path="/myauctions"
-            render={() => <MyAuctions onModal={triggerModal} />}
+            render={() => (
+              <MyAuctions onModal={triggerModal} onUpdate={updateBidIDs} />
+            )}
           />
           <Route
             path="/mybids"

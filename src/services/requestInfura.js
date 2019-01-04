@@ -15,6 +15,7 @@ const getAuctionInstance = async () => {
 
 export const loadCdps = async (user, proxy, block) => {
   const tubInstance = await getTubInstance();
+  const cdps = [];
 
   try {
     const events = await tubInstance.getPastEvents("LogNewCup", {
@@ -23,11 +24,10 @@ export const loadCdps = async (user, proxy, block) => {
       toBlock: "latest"
     });
 
-    var cdps = [];
     for (let i = events.length - 1; i >= 0; i--) {
-      var cup = events[i].returnValues.cup;
-      var ink = await tubInstance.methods.ink(cup).call();
-      var lad = await tubInstance.methods.lad(cup).call();
+      const cup = events[i].returnValues.cup;
+      const ink = await tubInstance.methods.ink(cup).call();
+      const lad = await tubInstance.methods.lad(cup).call();
       if (ink > 0 && lad === proxy) {
         cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
       }
@@ -35,23 +35,22 @@ export const loadCdps = async (user, proxy, block) => {
   } catch (err) {
     console.log("Error:", err.message);
   }
+
   return cdps;
 };
 
 export const loadAuctions = async limit => {
   const auctionInstance = await getAuctionInstance();
 
-  var totalListings = 0;
-  var currentBlock = 0;
   try {
-    totalListings = await auctionInstance.methods.totalListings().call();
-    currentBlock = await web3.eth.getBlockNumber();
+    var totalListings = await auctionInstance.methods.totalListings().call();
+    var currentBlock = await web3.eth.getBlockNumber();
   } catch (err) {
     console.log("Error:", err.message);
   }
 
-  var auctions = [];
-  var count = totalListings - limit < 0 ? totalListings : limit;
+  const auctions = [];
+  const count = totalListings - limit < 0 ? totalListings : limit;
 
   for (let i = totalListings; i > totalListings - count; i--) {
     console.log(i);
@@ -69,7 +68,7 @@ export const loadAuctions = async limit => {
       console.log("Error:", err.message);
     }
 
-    var auctionEntry = {
+    const auctionEntry = {
       id: auction.id,
       cdpId: web3.utils.hexToNumber(auction.cdp),
       seller: auction.seller,
@@ -126,6 +125,31 @@ export const getAuction = async auctionId => {
     state: auction.state,
     bids: bids
   };
+};
+
+export const loadUserAuctions = async account => {
+  const auctionInstance = await getAuctionInstance();
+
+  try {
+    var auctionIds = await auctionInstance.methods
+      .getAuctionsByUser(account)
+      .call();
+  } catch (err) {
+    console.log(err.message);
+    return err.message;
+  }
+
+  const auctions = [];
+  for (let i = 0; i < auctionIds.length; i++) {
+    try {
+      const auction = await getAuction(auctionIds[i]);
+      auctions.push(auction);
+    } catch (err) {
+      console.log("Error:", err.message);
+    }
+  }
+  console.log(auctions);
+  return auctions;
 };
 
 const random = max => Math.floor(Math.random() * (max + 1));
