@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "../common/InfoCard";
-import TokenPanel from "../TokenPanel/TokenPanel";
+import TokenPanel from "./TokenPanel";
 
 const ERC20 = require("../../artifacts/IERC20.json");
 const AddressBook = require("../../utils/addressBook.json");
