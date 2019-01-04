@@ -7,7 +7,11 @@ import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
 import Auction from "./components/Auction/Auction";
 import ConfirmationModal from "./components/Modal/Modal";
-import { loadAuctions, loadDummyAuctions } from "./services/requestInfura";
+import {
+  loadAuctions,
+  loadDummyAuctions,
+  getAuction
+} from "./services/requestInfura";
 import { loadCdps } from "./services/requestInfura";
 
 const Maker = require("@makerdao/dai");
@@ -47,12 +51,25 @@ const App = () => {
     setLoading(copy);
   };
 
-  const updateData = async txObject => {
+  const updateData = async events => {
     let loadCopy = { ...loading };
     loadCopy.mainLoad = true;
     setLoading(loadCopy);
-    let auctionsCopy = [...auctions];
-    console.log(txObject);
+    const id = events[1].raw.topics[3];
+
+    try {
+      var newAuction = await getAuction(id);
+      setAuctions([newAuction, ...auctions]);
+    } catch (err) {
+      console.log(err.message);
+      loadCopy.mainLoad = false;
+      setLoading(loadCopy);
+    }
+
+    const cdpId = newAuction.cdpId;
+    const updatedCdps = cdps.filter(cdp => cdp.id !== cdpId);
+    setCdps(updatedCdps);
+
     loadCopy.mainLoad = false;
     setLoading(loadCdps);
   };
@@ -122,6 +139,9 @@ const App = () => {
       fetchCdps();
     }
   });
+
+  console.log(auctions);
+  console.log(cdps);
 
   return (
     <React.Fragment>

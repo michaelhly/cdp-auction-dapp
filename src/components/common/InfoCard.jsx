@@ -49,8 +49,6 @@ const InfoCard = props => {
     setLoading(false);
   }, []);
 
-  console.log(info);
-
   return props.type === "HOME" ? (
     <Link
       className="auction-link"

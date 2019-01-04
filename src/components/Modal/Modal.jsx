@@ -39,7 +39,6 @@ const ConfModal = props => {
   const [state, setState] = useState(STATE.READY);
   const [txHash, setTxHash] = useState(null);
   const modalProps = props.modal;
-  console.log(modalProps);
   const BN = web3.web3js.utils.BN;
 
   const getCallDataForProxy = parameters => {
@@ -66,7 +65,6 @@ const ConfModal = props => {
       expiryBlocks,
       salt
     ];
-    console.log(params);
 
     const calldata = getCallDataForProxy(params);
 
@@ -143,7 +141,6 @@ const ConfModal = props => {
         />
       );
     } else {
-      console.log(modalProps);
       return state === STATE.READY ? (
         <Ready
           values={modalProps}

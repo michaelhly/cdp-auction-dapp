@@ -97,6 +97,37 @@ export const loadBids = async auctionId => {
   }
 };
 
+export const getAuction = async auctionId => {
+  const auctionInstance = await getAuctionInstance();
+
+  try {
+    var bids = await auctionInstance.methods.getBids(auctionId).call();
+    var currentBlock = await web3.eth.getBlockNumber();
+  } catch (err) {
+    console.log("Error:", err.message);
+  }
+
+  try {
+    var auction = await auctionInstance.methods
+      .getAuctionInfo(auctionId)
+      .call();
+  } catch (err) {
+    console.log("Error:", err.message);
+  }
+
+  return {
+    id: auctionId,
+    cdpId: web3.utils.hexToNumber(auction.cdp),
+    seller: auction.seller,
+    proxy: auction.proxy,
+    token: auction.token,
+    ask: web3.utils.fromWei(auction.ask, "ether"),
+    expiry: parseInt(auction.expiry) - parseInt(currentBlock),
+    state: auction.state,
+    bids: bids
+  };
+};
+
 const random = max => Math.floor(Math.random() * (max + 1));
 
 const tokens = [
