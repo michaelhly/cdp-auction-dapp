@@ -188,8 +188,14 @@ const App = () => {
               )}
             />
           ))}
-          <Route path="/myauctions" component={MyAuctions} />
-          <Route path="/mybids" component={MyBids} />
+          <Route
+            path="/myauctions"
+            render={() => <MyAuctions onModal={triggerModal} />}
+          />
+          <Route
+            path="/mybids"
+            render={() => <MyBids onModal={triggerModal} />}
+          />
           <Route
             path="/"
             exact
