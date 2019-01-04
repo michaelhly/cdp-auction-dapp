@@ -9,6 +9,22 @@ import DisplayLoading from "../common/DisplayLoading";
 const AuctionOrderbox = props => {
   const ask = props.ask;
 
+  const stageBidOrder = button => {
+    const formInputs = { ...props.formInputs };
+    const value = button === "BID" ? formInputs.amount : ask;
+    const token =
+      button === "BID"
+        ? formInputs.token
+        : getTokenSymbolByAddress(props.askTokenAddr, props.tokenStates);
+    const params = {
+      id: props.id,
+      token: token,
+      value: value,
+      expiry: formInputs.expiry
+    };
+    props.onModal("submitBid", params, props.onUpdate);
+  };
+
   const toggleButtons = (tokenIdentifier, lookUpTarget, button) => {
     const token = props.tokenStates.find(
       t => t[tokenIdentifier].toLowerCase() === lookUpTarget.toLowerCase()
@@ -35,13 +51,21 @@ const AuctionOrderbox = props => {
       );
     } else {
       return button === "BUY" ? (
-        <a href="#" className="btn btn-primary">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => stageBidOrder("BUY")}
+        >
           Take CDP
-        </a>
+        </button>
       ) : (
-        <a href="#" className="btn btn-outline-primary">
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={() => stageBidOrder("BID")}
+        >
           Make Offer
-        </a>
+        </button>
       );
     }
   };

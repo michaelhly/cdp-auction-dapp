@@ -3,9 +3,9 @@ import Modal from "react-modal";
 import { getEtherscanLink } from "web3-react/utilities";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import {
+  random,
   extractFunction,
   BLOCKS_PER_DAY,
-  random,
   getTokenAddressBySymbol
 } from "../../utils/helpers";
 import NoProxy from "../common/NoProxy";
@@ -22,16 +22,19 @@ const DSProxy = require("../../artifacts/DSProxy.json");
 
 const customStyles = {
   content: {
+    position: "relative",
     margin: "auto",
     height: "430px",
     width: "550px"
-  }
+  },
+  zIndex: "3"
 };
 
 var STATE = Object.freeze({
   READY: 1,
   PENDING: 2,
-  CONFIRMED: 3
+  CONFIRMED: 3,
+  FAILED: 4
 });
 
 const ConfModal = props => {
@@ -46,16 +49,21 @@ const ConfModal = props => {
     return web3.web3js.eth.abi.encodeFunctionCall(functionAbi, parameters);
   };
 
+  const calcExpiryBlocks = async expiry =>
+    new BN(Math.floor(BLOCKS_PER_DAY * expiry))
+      .add(new BN(await web3.web3js.eth.getBlockNumber()))
+      .toString();
+
+  const getSalt = () => new BN(random(100000000)).toString();
+
   const createAuction = async () => {
     const inputParams = { ...modalProps.params };
 
-    const expiryBlocks = new BN(Math.floor(BLOCKS_PER_DAY * inputParams.expiry))
-      .add(new BN(await web3.web3js.eth.getBlockNumber()))
-      .toString();
+    const expiryBlocks = await calcExpiryBlocks(inputParams.expiry);
     const ask = web3.web3js.utils.toWei(inputParams.ask.toString(), "ether");
     const token = getTokenAddressBySymbol(inputParams.token);
+    const salt = getSalt();
 
-    const salt = new BN(random(100000000)).toString();
     const params = [
       addressBook.kovan.auction,
       addressBook.kovan.saiTub,
@@ -85,14 +93,46 @@ const ConfModal = props => {
     return transaction;
   };
 
+  const submitBid = async (auctionInstance, params) => {
+    const expiryBlocks = await calcExpiryBlocks(params.expiry);
+    const token = getTokenAddressBySymbol(params.token);
+    const value = web3.web3js.utils.toWei(params.value.toString(), "ether");
+    const salt = getSalt();
+
+    const transaction = await auctionInstance.methods
+      .submitBid(params.id, props.proxy, token, value, expiryBlocks, salt)
+      .send({ from: web3.account })
+      .on("transactionHash", function(hash) {
+        setTxHash(hash);
+        setState(STATE.PENDING);
+      });
+    return transaction;
+  };
+
   const sendTransaction = async () => {
     let tx = null;
     if (modalProps.method === "createAuction") {
       tx = await createAuction();
+    } else {
+      const params = { ...modalProps.params };
+      const auctionInstance = new web3.web3js.eth.contracts(
+        Auction.abi,
+        addressBook.kovan.auction
+      );
+
+      switch (modalProps.method) {
+        case "submitBid":
+          tx = await submitBid(auctionInstance, params);
+        default:
+          tx = null;
+      }
     }
+
     if (tx) {
       setState(STATE.CONFIRMED);
       modalProps.callback(tx.events);
+    } else {
+      setState(STATE.FAILED);
     }
   };
 

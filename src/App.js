@@ -183,6 +183,7 @@ const App = () => {
                 <Auction
                   auction={auction}
                   loading={loading}
+                  onModal={triggerModal}
                   onUpdate={updateBidIDs}
                   onSetLoading={setLoading}
                 />

@@ -89,6 +89,7 @@ const Auction = props => {
       setTokens(copy);
     }
     if (tx) {
+      console.log(tx);
       copy[index].approving = false;
       copy[index].allowance = tx.events.Approval.returnValues.value;
       setTokens(copy);
@@ -101,7 +102,7 @@ const Auction = props => {
     setOrderInputs(newOrderInputs);
   };
 
-  const displayBidRelated = handleApproval => {
+  const displayBidRelated = () => {
     if (auction.seller !== account) {
       return (
         <AuctionOrderbox
@@ -112,6 +113,8 @@ const Auction = props => {
           ask={auction.ask}
           formInputs={orderInputs}
           onFormInput={handleOrderInputs}
+          onModal={props.onModal}
+          onUpdate={props.onUpdate}
           handleApproval={approveToken}
         />
       );
