@@ -47,7 +47,18 @@ const OrderForm = props => {
           style={{ textAlign: "left", fontSize: "11px", marginBottom: "1em" }}
         >
           <label>Bid amount: </label>
-          <div className="input-group-prepend">
+          <div className="input-group">
+            <input
+              className="form-control form-control-sm"
+              type="number"
+              min="0"
+              id="amount-input"
+              name="amount"
+              placeholder="token(s)"
+              value={amount}
+              onChange={e => onFormInput(e)}
+              style={{ marginTop: "-5px" }}
+            />
             <span className="input-group-btn">
               <select
                 className="btn btn-light mr-1"
@@ -61,17 +72,6 @@ const OrderForm = props => {
                 ))}
               </select>
             </span>
-            <input
-              className="form-control form-control-sm"
-              type="number"
-              min="0"
-              id="amount-input"
-              name="amount"
-              placeholder="token(s)"
-              value={amount}
-              onChange={e => onFormInput(e)}
-              style={{ marginTop: "-5px" }}
-            />
           </div>
         </div>
       );
