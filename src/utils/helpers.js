@@ -22,7 +22,7 @@ export const convertExpiryBlocks = expiry => {
     if (hours < 1) {
       var minutes = hours * 60;
       if (minutes < 1) {
-        return "< 1 minute";
+        return minutes <= 0 ? "Expired" : "< 1 minute";
       } else {
         return Math.round(minutes) === 1
           ? "1 minute"

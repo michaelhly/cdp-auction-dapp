@@ -77,7 +77,11 @@ const AuctionOrderbox = props => {
     <div className="row shadow-sm">
       <div className="col-12 p-0">
         <div className="card-header" style={{ padding: "5px" }}>
-          <font size="2">Expires in {convertExpiryBlocks(props.expiry)}</font>
+          <font size="2">
+            {convertExpiryBlocks(props.expiry) === "Expired"
+              ? "Expired"
+              : `Expires in ${convertExpiryBlocks(props.expiry)}`}
+          </font>
         </div>
       </div>
       <div className="col-6 border border-right-0">

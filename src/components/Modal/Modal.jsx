@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "react-modal";
+import ReactModal from "react-modal";
 import { getEtherscanLink } from "web3-react/utilities";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import {
@@ -13,7 +13,7 @@ import DisplayLoading from "../common/DisplayLoading";
 import Ready from "./Ready";
 import Confirmed from "./Confirmed";
 
-Modal.setAppElement(document.getElementById("root"));
+ReactModal.setAppElement(document.getElementById("root"));
 
 const addressBook = require("../../utils/addressBook.json");
 const AuctionProxy = require("../../artifacts/AuctionProxy.json");
@@ -36,7 +36,7 @@ var STATE = Object.freeze({
   FAILED: 4
 });
 
-const ConfModal = props => {
+const Modal = props => {
   const web3 = useWeb3Context();
   const [state, setState] = useState(STATE.READY);
   const [txHash, setTxHash] = useState(null);
@@ -199,15 +199,15 @@ const ConfModal = props => {
   });
 
   return (
-    <Modal
+    <ReactModal
       isOpen={modalProps.show}
       onRequestClose={props.onClose}
       style={customStyles}
     >
       {toggleModal()}
       <div style={{ textAlign: "center" }}>{toggleButtons()}</div>
-    </Modal>
+    </ReactModal>
   );
 };
 
-export default ConfModal;
+export default Modal;

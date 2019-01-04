@@ -71,7 +71,11 @@ const InfoCard = props => {
               <font size="4">{auction.bids.length}</font>
             </div>
             <div className="col-2">
-              <h6 style={{ color: "rgb(85, 85, 85)" }}>Expire in</h6>
+              <h6 style={{ color: "rgb(85, 85, 85)" }}>
+                {convertExpiryBlocks(auction.expiry) === "Expired"
+                  ? ""
+                  : "Expire in"}
+              </h6>
               <font size="4">{convertExpiryBlocks(auction.expiry)}</font>
             </div>
             <div className="col-3 p-2 ml-4">
