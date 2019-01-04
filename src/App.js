@@ -8,12 +8,13 @@ import Navbar from "./components/Navbar";
 import Auction from "./components/Auction/Auction";
 import ConfirmationModal from "./components/Modal/Modal";
 import {
+  loadCdps,
+  loadBids,
   loadAuctions,
-  loadDummyAuctions,
   getAuction,
-  loadBids
+  loadDummyAuctions
 } from "./services/requestInfura";
-import { loadCdps } from "./services/requestInfura";
+import {} from "./services/requestInfura";
 
 const Maker = require("@makerdao/dai");
 
