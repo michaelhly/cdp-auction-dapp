@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
-import { loadBids } from "../../services/requestInfura";
 import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "../common/InfoCard";
 import TokenPanel from "../TokenPanel/TokenPanel";
@@ -12,11 +11,10 @@ const Tokens = require("../../utils/tokens.json");
 
 const Auction = props => {
   const auction = props.auction;
+  const bidIds = auction.bids;
   const web3 = useWeb3Context();
   const [account, setAccount] = useState(web3.account);
   const [tokens, setTokens] = useState([]);
-  const [book, setBook] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [orderInputs, setOrderInputs] = useState({
     token: "WETH",
     amount: 0,
@@ -103,11 +101,6 @@ const Auction = props => {
     setOrderInputs(newOrderInputs);
   };
 
-  const fetchBook = async () => {
-    const bookForThisAuction = await loadBids(auction.id);
-    setBook(bookForThisAuction);
-  };
-
   const displayBidRelated = handleApproval => {
     if (auction.seller !== account) {
       return (
@@ -125,15 +118,18 @@ const Auction = props => {
     }
   };
 
-  useEffect(() => {
-    fetchBook();
-  }, []);
-
   useAccountEffect(() => {
-    setLoading(true);
+    let copy = { ...props.loading };
+    if (!copy.mainLoad) {
+      copy.effectsLoad = true;
+      props.onSetLoading(copy);
+    }
     setAccount(web3.account);
     fetchTokens();
-    setLoading(false);
+    if (!copy.mainLoad) {
+      copy.effectsLoad = false;
+      props.onSetLoading(copy);
+    }
   });
 
   return (
@@ -142,7 +138,7 @@ const Auction = props => {
         <div className="row">
           <div className="col-auto">
             <TokenPanel
-              loading={loading}
+              loading={props.loading}
               tokens={tokens}
               account={account}
               handleApproval={approveToken}
@@ -158,7 +154,12 @@ const Auction = props => {
                   <h2 className="title mb-4">CDP {auction.cdpId}</h2>
                 </div>
               </div>
-              <InfoCard auction={auction} type="AUCTION" />
+              <InfoCard
+                auction={auction}
+                type="AUCTION"
+                loading={props.loading}
+                onSetLoading={props.onSetLoading}
+              />
               {displayBidRelated({ approveToken })}
             </div>
           </div>
