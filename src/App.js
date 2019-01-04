@@ -10,7 +10,8 @@ import ConfirmationModal from "./components/Modal/Modal";
 import {
   loadAuctions,
   loadDummyAuctions,
-  getAuction
+  getAuction,
+  loadBids
 } from "./services/requestInfura";
 import { loadCdps } from "./services/requestInfura";
 
@@ -51,29 +52,6 @@ const App = () => {
     setLoading(copy);
   };
 
-  const updateData = async events => {
-    let loadCopy = { ...loading };
-    loadCopy.mainLoad = true;
-    setLoading(loadCopy);
-    const id = events[1].raw.topics[3];
-
-    try {
-      var newAuction = await getAuction(id);
-      setAuctions([newAuction, ...auctions]);
-    } catch (err) {
-      console.log(err.message);
-      loadCopy.mainLoad = false;
-      setLoading(loadCopy);
-    }
-
-    const cdpId = newAuction.cdpId;
-    const updatedCdps = cdps.filter(cdp => cdp.id !== cdpId);
-    setCdps(updatedCdps);
-
-    loadCopy.mainLoad = false;
-    setLoading(loadCdps);
-  };
-
   const fetchCdps = async () => {
     let copy = { ...loading };
     await maker.authenticate();
@@ -106,6 +84,46 @@ const App = () => {
         setLoading(copy);
       }
     }
+  };
+
+  const updateData = async events => {
+    let loadCopy = { ...loading };
+    loadCopy.mainLoad = true;
+    setLoading(loadCopy);
+    const id = events[1].raw.topics[3];
+
+    try {
+      var newAuction = await getAuction(id);
+      setAuctions([newAuction, ...auctions]);
+    } catch (err) {
+      console.log(err.message);
+      loadCopy.mainLoad = false;
+      setLoading(loadCopy);
+    }
+
+    const cdpId = newAuction.cdpId;
+    const updatedCdps = cdps.filter(cdp => cdp.id !== cdpId);
+    setCdps(updatedCdps);
+
+    loadCopy.mainLoad = false;
+    setLoading(loadCdps);
+  };
+
+  const updateBidIDs = async auction => {
+    let copy = [...auctions];
+    const index = copy.indexOf(auction);
+    copy[index] = { ...auction };
+    const oldBook = copy[index].bids;
+    copy[index].bids = null;
+    setAuctions(copy);
+    try {
+      const newBook = await loadBids(auction.id);
+      copy[index].bids = newBook;
+    } catch (err) {
+      console.log(err.message);
+      copy[index].bids = oldBook;
+    }
+    setAuctions(copy);
   };
 
   const triggerModal = (method, params, callback) => {
@@ -161,7 +179,14 @@ const App = () => {
             <Route
               key={auction.id}
               path={`/${auction.id}`}
-              render={() => <Auction auction={auction} />}
+              render={() => (
+                <Auction
+                  auction={auction}
+                  loading={loading}
+                  onUpdate={updateBidIDs}
+                  onSetLoading={setLoading}
+                />
+              )}
             />
           ))}
           <Route path="/myauctions" component={MyAuctions} />
