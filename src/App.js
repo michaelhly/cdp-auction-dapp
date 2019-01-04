@@ -6,7 +6,7 @@ import MyBids from "./components/MyBids";
 import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
 import Auction from "./components/Auction/Auction";
-import ConfModal from "./components/ConfModal";
+import ConfirmationModal from "./components/Modal/Modal";
 import { loadAuctions, loadDummyAuctions } from "./services/requestInfura";
 import { loadCdps } from "./services/requestInfura";
 
@@ -47,9 +47,14 @@ const App = () => {
     setLoading(copy);
   };
 
-  const fetchDummyData = () => {
-    const fakeAuctions = loadDummyAuctions(10);
-    setAuctions(fakeAuctions);
+  const updateData = async txObject => {
+    let loadCopy = { ...loading };
+    loadCopy.mainLoad = true;
+    setLoading(loadCopy);
+    let auctionsCopy = [...auctions];
+    console.log(txObject);
+    loadCopy.mainLoad = false;
+    setLoading(loadCdps);
   };
 
   const fetchCdps = async () => {
@@ -91,7 +96,7 @@ const App = () => {
     copy.show = true;
     copy.method = method;
     copy.params = params;
-    copy.callback = !callback ? fetchAuctionData : callback;
+    copy.callback = !callback ? updateData : callback;
     setModalProps(copy);
   };
 
@@ -121,7 +126,7 @@ const App = () => {
   return (
     <React.Fragment>
       <Navbar />
-      <ConfModal
+      <ConfirmationModal
         maker={maker}
         proxy={proxy}
         modal={modalProps}
