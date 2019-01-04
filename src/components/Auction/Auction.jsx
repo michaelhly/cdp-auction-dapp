@@ -15,6 +15,7 @@ const Auction = props => {
   const web3 = useWeb3Context();
   const [account, setAccount] = useState(web3.account);
   const [tokens, setTokens] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [orderInputs, setOrderInputs] = useState({
     token: "WETH",
     amount: 0,
@@ -111,7 +112,7 @@ const Auction = props => {
           askTokenAddr={auction.token}
           ask={auction.ask}
           formInputs={orderInputs}
-          loading={props.loading}
+          loading={loading}
           onFormInput={handleOrderInputs}
           onModal={props.onModal}
           onUpdate={props.onUpdate}
@@ -122,17 +123,12 @@ const Auction = props => {
   };
 
   useAccountEffect(() => {
-    let copy = { ...props.loading };
-    if (!copy.mainLoad) {
-      copy.effectsLoad = true;
-      props.onSetLoading(copy);
+    if (!loading) {
+      setLoading(true);
     }
     setAccount(web3.account);
     fetchTokens();
-    if (!copy.mainLoad) {
-      copy.effectsLoad = false;
-      props.onSetLoading(copy);
-    }
+    setLoading(false);
   });
 
   return (
@@ -141,7 +137,7 @@ const Auction = props => {
         <div className="row">
           <div className="col-auto">
             <TokenPanel
-              loading={props.loading}
+              loading={loading}
               tokens={tokens}
               account={account}
               handleApproval={approveToken}
