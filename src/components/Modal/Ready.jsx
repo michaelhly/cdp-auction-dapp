@@ -27,7 +27,7 @@ const Ready = props => {
         </p>
         <p>Method: {modalProps.method}</p>
         <p>Input: </p>
-        <textarea readOnly={true} rows="3" cols="55" style={{ resize: "none" }}>
+        <textarea readOnly={true} rows="3" cols="50" style={{ resize: "none" }}>
           {JSON.stringify(modalProps.params)}
         </textarea>
       </div>

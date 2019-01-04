@@ -25,7 +25,7 @@ const customStyles = {
     position: "relative",
     margin: "auto",
     height: "430px",
-    width: "550px"
+    width: "600px"
   }
 };
 
