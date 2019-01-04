@@ -6,7 +6,9 @@ const CdpList = props => {
     <div>
       <Blockie address={props.proxy} label="Proxy" />
       <div>
-        <h6 style={{ marginTop: "2em" }}>Your CDPs</h6>
+        <h6 style={{ marginTop: "2em" }}>
+          {props.cdps.length === 1 ? "Your CDP" : "Your CDPs"}
+        </h6>
         <ul className="list-group list-group-flush">
           {props.cdps.map(cdp => (
             <li
