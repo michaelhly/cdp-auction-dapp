@@ -111,6 +111,7 @@ const Auction = props => {
           askTokenAddr={auction.token}
           ask={auction.ask}
           formInputs={orderInputs}
+          loading={props.loading}
           onFormInput={handleOrderInputs}
           onModal={props.onModal}
           onUpdate={props.onUpdate}
@@ -156,12 +157,7 @@ const Auction = props => {
                   <h2 className="title mb-4">CDP {auction.cdpId}</h2>
                 </div>
               </div>
-              <InfoCard
-                auction={auction}
-                type="AUCTION"
-                loading={props.loading}
-                onSetLoading={props.onSetLoading}
-              />
+              <InfoCard auction={auction} type="AUCTION" />
               {displayBidRelated({ approveToken })}
             </div>
           </div>

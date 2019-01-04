@@ -9,32 +9,20 @@ const round2 = number => {
 };
 
 const InfoCard = props => {
-  const { effectsLoad, mainLoad } = props.loading;
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState(null);
   const auction = props.auction;
 
   const fetchInfo = async () => {
-    let copy = { ...props.loading };
-    if (!copy.mainLoad) {
-      copy.effectsLoad = true;
-      props.onSetLoading(copy);
-    }
-
     try {
       const cdpInfo = await fetchCdpData(auction.cdpId);
       setInfo(cdpInfo);
     } catch (err) {
       console.log(err.message);
     }
-
-    if (!copy.mainLoad) {
-      copy.effectsLoad = false;
-      props.onSetLoading(copy);
-    }
   };
 
   const displayInfo = topic => {
-    if (effectsLoad || mainLoad) return <DisplayLoading />;
+    if (!info) return <DisplayLoading />;
 
     switch (topic) {
       case "L":

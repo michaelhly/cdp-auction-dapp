@@ -33,11 +33,7 @@ const Homepage = props => {
             className="col-12"
             style={{ display: "flex", alignItems: "flex-start" }}
           />
-          <ListingContainer
-            auctions={paginatedAuctions}
-            loading={props.loading}
-            onSetLoading={props.onSetLoading}
-          />
+          <ListingContainer auctions={paginatedAuctions} />
           <div className="mx-auto">
             <Pagination
               itemCount={props.auctions.length}

@@ -7,7 +7,7 @@ import DisplayLoading from "../common/DisplayLoading";
 
 const TokenPanel = props => {
   const { effectsLoad, mainLoad } = props.loading;
-  if (effectsLoad || mainLoad) {
+  if (effectsLoad || mainLoad || !props.tokens.length) {
     return (
       <SidePanel>
         <DisplayLoading />

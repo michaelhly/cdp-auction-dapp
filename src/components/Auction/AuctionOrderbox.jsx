@@ -8,6 +8,7 @@ import DisplayLoading from "../common/DisplayLoading";
 
 const AuctionOrderbox = props => {
   const ask = parseInt(props.ask);
+  const { effectsLoad, mainLoad } = props.loading;
 
   const stageBidOrder = button => {
     const formInputs = { ...props.formInputs };
@@ -32,6 +33,8 @@ const AuctionOrderbox = props => {
 
     if (
       !token ||
+      effectsLoad ||
+      mainLoad ||
       (token.approving && button === "BID" && tokenIdentifier === "symbol") ||
       (token.approving && button === "BUY" && tokenIdentifier === "address")
     ) {
