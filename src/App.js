@@ -180,7 +180,6 @@ const App = () => {
               render={() => (
                 <Auction
                   auction={auction}
-                  loading={loading}
                   onModal={triggerModal}
                   onUpdate={updateBidIDs}
                   onSetLoading={setLoading}

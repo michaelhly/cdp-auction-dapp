@@ -112,7 +112,6 @@ const Auction = props => {
           askTokenAddr={auction.token}
           ask={auction.ask}
           formInputs={orderInputs}
-          loading={loading}
           onFormInput={handleOrderInputs}
           onModal={props.onModal}
           onUpdate={props.onUpdate}
@@ -123,6 +122,7 @@ const Auction = props => {
   };
 
   useAccountEffect(() => {
+    setTokens([]);
     if (!loading) {
       setLoading(true);
     }
@@ -137,7 +137,6 @@ const Auction = props => {
         <div className="row">
           <div className="col-auto">
             <TokenPanel
-              loading={loading}
               tokens={tokens}
               account={account}
               handleApproval={approveToken}

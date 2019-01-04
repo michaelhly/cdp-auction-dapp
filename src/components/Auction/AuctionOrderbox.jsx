@@ -7,7 +7,6 @@ import OrderForm from "../common/OrderForm";
 import DisplayLoading from "../common/DisplayLoading";
 
 const AuctionOrderbox = props => {
-  console.log(props.loading);
   const ask = parseInt(props.ask);
 
   const stageBidOrder = button => {
@@ -33,7 +32,6 @@ const AuctionOrderbox = props => {
 
     if (
       !token ||
-      props.loading ||
       (token.approving && button === "BID" && tokenIdentifier === "symbol") ||
       (token.approving && button === "BUY" && tokenIdentifier === "address")
     ) {
