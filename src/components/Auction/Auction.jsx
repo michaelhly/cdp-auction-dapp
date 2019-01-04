@@ -89,9 +89,8 @@ const Auction = props => {
       setTokens(copy);
     }
     if (tx) {
-      console.log(tx);
       copy[index].approving = false;
-      copy[index].allowance = tx.events.Approval.returnValues.value;
+      copy[index].allowance = Number.MAX_SAFE_INTEGER;
       setTokens(copy);
     }
   };

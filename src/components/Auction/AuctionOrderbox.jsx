@@ -7,7 +7,7 @@ import OrderForm from "../common/OrderForm";
 import DisplayLoading from "../common/DisplayLoading";
 
 const AuctionOrderbox = props => {
-  const ask = props.ask;
+  const ask = parseInt(props.ask);
 
   const stageBidOrder = button => {
     const formInputs = { ...props.formInputs };

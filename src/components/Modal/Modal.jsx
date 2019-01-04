@@ -114,7 +114,7 @@ const ConfModal = props => {
       tx = await createAuction();
     } else {
       const params = { ...modalProps.params };
-      const auctionInstance = new web3.web3js.eth.contracts(
+      const auctionInstance = new web3.web3js.eth.Contract(
         Auction.abi,
         addressBook.kovan.auction
       );
