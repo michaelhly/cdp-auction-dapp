@@ -63,13 +63,13 @@ export const getTokenAddressBySymbol = symbol => {
 
 export const auctionStatus = state => {
   switch (state) {
+    case "2":
+      return "Cancelled";
+    case "3":
+      return "Ended";
+    case "4":
+      return "Expired";
     default:
       return "Active";
-    case state === "2":
-      return "Cancelled";
-    case state === "3":
-      return "Ended";
-    case state === "4":
-      return "Expired";
   }
 };

@@ -53,7 +53,6 @@ export const loadAuctions = async limit => {
   const count = totalListings - limit < 0 ? totalListings : limit;
 
   for (let i = totalListings; i > totalListings - count; i--) {
-    console.log(i);
     try {
       var auction = await auctionInstance.methods
         .getAuctionInfoByIndex(i)
@@ -61,26 +60,28 @@ export const loadAuctions = async limit => {
     } catch (err) {
       console.log("Error:", err.message);
     }
+    console.log(parseInt(auction.state) < 2);
+    if (parseInt(auction.state) < 2) {
+      try {
+        var bids = await auctionInstance.methods.getBids(auction.id).call();
+      } catch (err) {
+        console.log("Error:", err.message);
+      }
 
-    try {
-      var bids = await auctionInstance.methods.getBids(auction.id).call();
-    } catch (err) {
-      console.log("Error:", err.message);
+      const auctionEntry = {
+        id: auction.id,
+        cdpId: web3.utils.hexToNumber(auction.cdp),
+        seller: auction.seller,
+        proxy: auction.proxy,
+        token: auction.token,
+        ask: web3.utils.fromWei(auction.ask, "ether"),
+        expiry: parseInt(auction.expiry) - parseInt(currentBlock),
+        state: auction.state,
+        bids: bids
+      };
+
+      auctions.push(auctionEntry);
     }
-
-    const auctionEntry = {
-      id: auction.id,
-      cdpId: web3.utils.hexToNumber(auction.cdp),
-      seller: auction.seller,
-      proxy: auction.proxy,
-      token: auction.token,
-      ask: web3.utils.fromWei(auction.ask, "ether"),
-      expiry: parseInt(auction.expiry) - parseInt(currentBlock),
-      state: auction.state,
-      bids: bids
-    };
-
-    auctions.push(auctionEntry);
   }
   return auctions;
 };
