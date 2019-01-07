@@ -20,6 +20,21 @@ const MyAuctions = props => {
     setLoading(false);
   };
 
+  const handleCancelEvent = event => {
+    const updates = event.LogEndedAuction.returnValues;
+    const copy = myAuctions.map(auction => {
+      if (auction.auctionId === updates.auctionId) {
+        auction.state = updates.state;
+      }
+      return auction;
+    });
+    setMyAuctions(copy);
+  };
+
+  const stageCancel = auctionId => {
+    props.onModal("cancelAuction", { id: auctionId }, handleCancelEvent);
+  };
+
   const toggleTable = () => {
     if (loading) return <DisplayLoading size="large" />;
 
@@ -47,9 +62,15 @@ const MyAuctions = props => {
               <td>{auction.bids.length}</td>
               <td>{auctionStatus(auction.state)}</td>
               <td>
-                <button type="button" class="btn btn-danger btn-sm">
-                  Cancel
-                </button>
+                {auctionStatus(auction.state) === "Active" ? (
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    onClick={() => stageCancel(auction.id)}
+                  >
+                    Cancel
+                  </button>
+                ) : null}
               </td>
             </tr>
           </React.Fragment>

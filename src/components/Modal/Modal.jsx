@@ -122,8 +122,13 @@ const Modal = props => {
       switch (modalProps.method) {
         case "submitBid":
           tx = await submitBid(auctionInstance, params);
-        default:
-          tx = null;
+        case "cancelAuction":
+          tx = await auctionInstance.methods[`${modalProps.method}`](params.id)
+            .send({ from: web3.account })
+            .on("transactionHash", function(hash) {
+              setTxHash(hash);
+              setState(STATE.PENDING);
+            });
       }
     }
 
