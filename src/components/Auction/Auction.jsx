@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "../common/InfoCard";
 import TokenPanel from "./TokenPanel";
-import { auctionStatus } from "../../utils/helpers";
+import { auctionStatus, convertExpiryBlocks } from "../../utils/helpers";
 
 const ERC20 = require("../../artifacts/IERC20.json");
 const AddressBook = require("../../utils/addressBook.json");
 const Tokens = require("../../utils/tokens.json");
 
 const Auction = props => {
-  const auction = props.location.state.auction;
-  const bidIds = auction.bids;
+  const auction = props.location.state ? props.location.state.auction : null;
   const web3 = useWeb3Context();
   const [account, setAccount] = useState(web3.account);
   const [tokens, setTokens] = useState([]);
@@ -103,21 +103,38 @@ const Auction = props => {
     setOrderInputs(newOrderInputs);
   };
 
-  const displayBidRelated = () => {
+  const expiryBanner = () => {
+    return (
+      <div className="col-12 p-0">
+        <div className="card-header" style={{ padding: "5px" }}>
+          <font size="2">
+            {convertExpiryBlocks(auction.expiry) === "Expired"
+              ? "Expired"
+              : `Expires in ${convertExpiryBlocks(auction.expiry)}`}
+          </font>
+        </div>
+      </div>
+    );
+  };
+
+  const actionBox = () => {
     if (auction.seller !== account) {
       return (
-        <AuctionOrderbox
-          tokenStates={tokens}
-          id={auction.id}
-          expiry={auction.expiry}
-          askTokenAddr={auction.token}
-          ask={auction.ask}
-          formInputs={orderInputs}
-          onFormInput={handleOrderInputs}
-          onModal={props.onModal}
-          onUpdate={props.onUpdate}
-          handleApproval={approveToken}
-        />
+        <React.Fragment>
+          {expiryBanner()}
+          <AuctionOrderbox
+            tokenStates={tokens}
+            id={auction.id}
+            expiry={auction.expiry}
+            askTokenAddr={auction.token}
+            ask={auction.ask}
+            formInputs={orderInputs}
+            onFormInput={handleOrderInputs}
+            onModal={props.onModal}
+            onUpdate={props.onUpdate}
+            handleApproval={approveToken}
+          />
+        </React.Fragment>
       );
     }
   };
@@ -134,45 +151,52 @@ const Auction = props => {
 
   return (
     <React.Fragment>
-      <div className="container">
-        <div className="row">
-          <div className="col-auto">
-            <TokenPanel
-              tokens={tokens}
-              account={account}
-              handleApproval={approveToken}
-            />
-          </div>
-          <div
-            className="col-8"
-            style={{ display: "flex", alignItems: "flex-start" }}
-          >
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col p-0">
-                  <div>
-                    <h2
-                      className="title mb-4 mr-2"
-                      style={{ display: "inline-block" }}
-                    >
-                      CDP {auction.cdpId}{" "}
-                    </h2>
-                    {auctionStatus(auction.state) === "Active" ? (
-                      <span class="badge badge-pill badge-success">Live</span>
-                    ) : (
-                      <span class="badge badge-pill badge-dark">
-                        {auctionStatus(auction.state)}
-                      </span>
-                    )}
+      {auction ? (
+        <div className="container">
+          <div className="row">
+            <div className="col-auto">
+              <TokenPanel
+                tokens={tokens}
+                account={account}
+                handleApproval={approveToken}
+              />
+            </div>
+            <div
+              className="col-8"
+              style={{ display: "flex", alignItems: "flex-start" }}
+            >
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col p-0">
+                    <div>
+                      <h2
+                        className="title mb-4 mr-2"
+                        style={{ display: "inline-block" }}
+                      >
+                        CDP {auction.cdpId}{" "}
+                      </h2>
+                      {auctionStatus(auction.state) === "Active" ? (
+                        <span class="badge badge-pill badge-success">Live</span>
+                      ) : (
+                        <span class="badge badge-pill badge-dark">
+                          {auctionStatus(auction.state)}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
+                <InfoCard auction={auction} type="AUCTION" />
+                <div className="row shadow-sm">{actionBox()}</div>
               </div>
-              <InfoCard auction={auction} type="AUCTION" />
-              {displayBidRelated({ approveToken })}
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          <div>Something went wrong!</div>
+          <Redirect to="/" />
+        </div>
+      )}
     </React.Fragment>
   );
 };

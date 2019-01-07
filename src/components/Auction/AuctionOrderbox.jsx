@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  convertExpiryBlocks,
-  getTokenSymbolByAddress
-} from "../../utils/helpers";
+import { getTokenSymbolByAddress } from "../../utils/helpers";
 import OrderForm from "../common/OrderForm";
 import DisplayLoading from "../common/DisplayLoading";
 
@@ -71,16 +68,7 @@ const AuctionOrderbox = props => {
   };
 
   return (
-    <div className="row shadow-sm">
-      <div className="col-12 p-0">
-        <div className="card-header" style={{ padding: "5px" }}>
-          <font size="2">
-            {convertExpiryBlocks(props.expiry) === "Expired"
-              ? "Expired"
-              : `Expires in ${convertExpiryBlocks(props.expiry)}`}
-          </font>
-        </div>
-      </div>
+    <React.Fragment>
       <div className="col-6 border border-right-0">
         <div className="card-body">
           <h6 className="card-title" style={{ color: "grey" }}>
@@ -110,7 +98,7 @@ const AuctionOrderbox = props => {
           {toggleButtons("symbol", props.formInputs.token, "BID")}
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
