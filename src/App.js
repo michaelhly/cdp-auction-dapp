@@ -173,28 +173,19 @@ const App = () => {
       />
       <main className="container">
         <Switch>
-          {auctions.map(auction => (
-            <Route
-              key={auction.id}
-              path={`/${auction.id}`}
-              render={() => (
-                <Auction
-                  auction={auction}
-                  onModal={triggerModal}
-                  onUpdate={updateBidIDs}
-                />
-              )}
-            />
-          ))}
           <Route
+            exact
             path="/myauctions"
-            render={() => (
-              <MyAuctions onModal={triggerModal} onUpdate={updateBidIDs} />
-            )}
+            render={props => <MyAuctions onModal={triggerModal} {...props} />}
           />
           <Route
+            exact
             path="/mybids"
-            render={() => <MyBids onModal={triggerModal} />}
+            render={props => <MyBids onModal={triggerModal} {...props} />}
+          />
+          <Route
+            path={"/:id"}
+            render={props => <Auction onModal={triggerModal} {...props} />}
           />
           <Route
             path="/"

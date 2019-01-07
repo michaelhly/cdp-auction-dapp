@@ -10,7 +10,7 @@ const AddressBook = require("../../utils/addressBook.json");
 const Tokens = require("../../utils/tokens.json");
 
 const Auction = props => {
-  const auction = props.auction;
+  const auction = props.location.state.auction;
   const bidIds = auction.bids;
   const web3 = useWeb3Context();
   const [account, setAccount] = useState(web3.account);

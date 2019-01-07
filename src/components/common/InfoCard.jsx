@@ -53,7 +53,7 @@ const InfoCard = props => {
   return props.type === "HOME" ? (
     <Link
       className="auction-link"
-      to={`/${auction.id}`}
+      to={{ pathname: `/${auction.id}`, state: { auction: auction } }}
       style={{ color: "black", textDecoration: "none" }}
     >
       <div className="card-body">
