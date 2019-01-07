@@ -4,6 +4,7 @@ import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "../common/InfoCard";
 import TokenPanel from "./TokenPanel";
+import { auctionStatus } from "../../utils/helpers";
 
 const ERC20 = require("../../artifacts/IERC20.json");
 const AddressBook = require("../../utils/addressBook.json");
@@ -149,7 +150,21 @@ const Auction = props => {
             <div className="container-fluid">
               <div className="row">
                 <div className="col p-0">
-                  <h2 className="title mb-4">CDP {auction.cdpId}</h2>
+                  <div>
+                    <h2
+                      className="title mb-4 mr-2"
+                      style={{ display: "inline-block" }}
+                    >
+                      CDP {auction.cdpId}{" "}
+                    </h2>
+                    {auctionStatus(auction.state) === "Active" ? (
+                      <span class="badge badge-pill badge-success">Live</span>
+                    ) : (
+                      <span class="badge badge-pill badge-dark">
+                        {auctionStatus(auction.state)}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
               <InfoCard auction={auction} type="AUCTION" />
