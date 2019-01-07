@@ -184,7 +184,7 @@ const App = () => {
             render={props => <MyBids onModal={triggerModal} {...props} />}
           />
           <Route
-            path={"/:id"}
+            path="/:id"
             render={props => <Auction onModal={triggerModal} {...props} />}
           />
           <Route

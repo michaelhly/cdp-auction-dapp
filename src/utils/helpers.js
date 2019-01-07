@@ -60,3 +60,16 @@ export const getTokenAddressBySymbol = symbol => {
   const token = tokens.kovan.find(t => t["symbol"] === symbol);
   return token ? token["address"] : "?";
 };
+
+export const auctionStatus = state => {
+  switch (state) {
+    default:
+      return "Active";
+    case state === "2":
+      return "Cancelled";
+    case state === "3":
+      return "Ended";
+    case state === "4":
+      return "Expired";
+  }
+};

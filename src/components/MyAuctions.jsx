@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import { loadUserAuctions } from "../services/requestInfura";
+import { auctionStatus } from "../utils/helpers";
 import Table from "./common/Table";
 import DisplayLoading from "./common/DisplayLoading";
 
@@ -23,7 +24,7 @@ const MyAuctions = props => {
     if (loading) return <DisplayLoading size="large" />;
 
     return myAuctions.length === 0 ? (
-      <div>You have no Auctions</div>
+      <div>You have no auctions.</div>
     ) : (
       <Table headers={["AuctionId", "Bids", "Status", "Action"]}>
         {myAuctions.map(auction => (
@@ -44,7 +45,7 @@ const MyAuctions = props => {
                 </button>
               </td>
               <td>{auction.bids.length}</td>
-              <td>{auction.state}</td>
+              <td>{auctionStatus(auction.state)}</td>
               <td>
                 <button type="button" class="btn btn-danger btn-sm">
                   Cancel
@@ -69,7 +70,7 @@ const MyAuctions = props => {
       <h2 className="mb-4">My Auctions</h2>
       <div className="container">
         <div className="row">
-          <div className="col" />
+          <div className="col-12" />
           {toggleTable()}
         </div>
       </div>
