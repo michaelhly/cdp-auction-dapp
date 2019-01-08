@@ -186,7 +186,7 @@ const Auction = props => {
                   </div>
                 </div>
                 <InfoCard auction={auction} type="AUCTION" />
-                <div className="row shadow-sm">{actionBox()}</div>
+                <div className="row shadow-sm mb-3">{actionBox()}</div>
                 <AuctionOrderbook
                   bidIds={auction.bids}
                   onModal={props.onModal}

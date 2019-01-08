@@ -99,7 +99,7 @@ export const loadBidInfo = async bidIds => {
         expiry: parseInt(bid.expiry) - parseInt(currentBlock),
         proxy: bid.proxy,
         token: bid.token,
-        value: bid.value
+        value: web3.utils.fromWei(bid.value, "ether")
       });
     } catch (err) {
       console.log(err.message);
