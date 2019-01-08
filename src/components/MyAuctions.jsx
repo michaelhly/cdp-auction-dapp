@@ -7,8 +7,7 @@ import DisplayLoading from "./common/DisplayLoading";
 
 const MyAuctions = props => {
   const web3 = useWeb3Context();
-  const [myAuctions, setMyAuctions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [myAuctions, setMyAuctions] = useState(null);
 
   const fetchMyAuction = async () => {
     try {
@@ -17,7 +16,6 @@ const MyAuctions = props => {
       console.log(err.message);
     }
     setMyAuctions(auctions);
-    setLoading(false);
   };
 
   const handleCancelEvent = event => {
@@ -36,7 +34,7 @@ const MyAuctions = props => {
   };
 
   const toggleTable = () => {
-    if (loading) return <DisplayLoading size="large" />;
+    if (!myAuctions) return <DisplayLoading size="large" />;
 
     return myAuctions.length === 0 ? (
       <div>You have no auctions.</div>
@@ -80,8 +78,8 @@ const MyAuctions = props => {
   };
 
   useAccountEffect(() => {
-    if (!loading) {
-      setLoading(true);
+    if (myAuctions) {
+      setMyAuctions(null);
     }
     fetchMyAuction();
   });
