@@ -37,7 +37,7 @@ const App = () => {
       const auctions = await loadAuctions(count);
       setAuctions(auctions);
     } catch (err) {
-      console.log("Error:", err.message);
+      console.log("Error:", err.reason);
     }
     copy.mainLoad = false;
     if (copy.effectsLoad) {
@@ -64,7 +64,7 @@ const App = () => {
           setLoading(copy);
         }
       } catch (err) {
-        console.log(err.message);
+        console.log(err.reason);
         setCdps([]);
         if (!copy.mainLoad) {
           copy.effectsLoad = false;
@@ -90,7 +90,7 @@ const App = () => {
       var newAuction = await getAuction(id);
       setAuctions([newAuction, ...auctions]);
     } catch (err) {
-      console.log(err.message);
+      console.log(err.reason);
       loadCopy.mainLoad = false;
       setLoading(loadCopy);
     }

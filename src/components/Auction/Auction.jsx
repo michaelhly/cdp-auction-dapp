@@ -52,7 +52,7 @@ const Auction = props => {
           approving: false
         });
       } catch (err) {
-        console.log(err.message);
+        console.log(err.reason);
       }
     }
     setTokens(tokenArray);

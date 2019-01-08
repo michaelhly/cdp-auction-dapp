@@ -13,7 +13,7 @@ const MyAuctions = props => {
     try {
       var auctions = await loadUserAuctions(web3.account);
     } catch (err) {
-      console.log(err.message);
+      console.log(err.reason);
     }
     setMyAuctions(auctions);
   };

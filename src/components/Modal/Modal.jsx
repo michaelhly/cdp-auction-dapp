@@ -80,15 +80,19 @@ const Modal = props => {
       props.proxy
     );
 
-    const transaction = await proxyInstance.methods["0x1cff79cd"](
-      addressBook.kovan.auctionProxy,
-      calldata
-    )
-      .send({ from: web3.account })
-      .on("transactionHash", function(hash) {
-        setTxHash(hash);
-        setState(STATE.PENDING);
-      });
+    try {
+      var transaction = await proxyInstance.methods["0x1cff79cd"](
+        addressBook.kovan.auctionProxy,
+        calldata
+      )
+        .send({ from: web3.account })
+        .on("transactionHash", function(hash) {
+          setTxHash(hash);
+          setState(STATE.PENDING);
+        });
+    } catch (err) {
+      console.log("Error", err.reason);
+    }
     return transaction;
   };
 
@@ -98,13 +102,20 @@ const Modal = props => {
     const value = web3.web3js.utils.toWei(params.value.toString(), "ether");
     const salt = getSalt();
 
-    const transaction = await auctionInstance.methods
-      .submitBid(params.id, props.proxy, token, value, expiryBlocks, salt)
-      .send({ from: web3.account })
-      .on("transactionHash", function(hash) {
-        setTxHash(hash);
-        setState(STATE.PENDING);
-      });
+    console.log(props.proxy);
+
+    try {
+      var transaction = await auctionInstance.methods
+        .submitBid(params.id, props.proxy, token, value, expiryBlocks, salt)
+        .send({ from: web3.account })
+        .on("transactionHash", function(hash) {
+          setTxHash(hash);
+          setState(STATE.PENDING);
+        });
+    } catch (err) {
+      console.log("Error", err.reason);
+    }
+
     return transaction;
   };
 
@@ -169,7 +180,7 @@ const Modal = props => {
   };
 
   const toggleModal = () => {
-    if (props.loading || state === STATE.PENDING) {
+    if (props.loading || state === STATE.PENDING || props.proxy === "pending") {
       return (
         <div style={{ textAlign: "center" }}>
           <DisplayLoading size="large" />

@@ -6,7 +6,7 @@ export const fetchCdpData = async id => {
     await maker.authenticate();
     var cdp = await maker.getCdp(id);
   } catch (err) {
-    console.log("Error:", err.message);
+    console.log("Error:", err.reason);
   }
   if (cdp) {
     try {
@@ -16,7 +16,7 @@ export const fetchCdpData = async id => {
       var c = await cdp.getCollateralValue();
       var p = await maker.service("price").getEthPrice();
     } catch (err) {
-      console.log("Error:", err.message);
+      console.log("Error:", err.reason);
     }
   }
 
@@ -41,7 +41,7 @@ export const fetchPrice = async () => {
     const price = maker.service("price");
     var ethPrice = await price.getEthPrice();
   } catch (err) {
-    console.log("Error:", err.message);
+    console.log("Error:", err.reason);
   }
   return ethPrice;
 };

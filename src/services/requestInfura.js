@@ -33,7 +33,7 @@ export const loadCdps = async (user, proxy, block) => {
       }
     }
   } catch (err) {
-    console.log("Error:", err.message);
+    console.log("Error:", err.reason);
   }
 
   return cdps;
@@ -46,7 +46,7 @@ export const loadAuctions = async limit => {
     var totalListings = await auctionInstance.methods.totalListings().call();
     var currentBlock = await web3.eth.getBlockNumber();
   } catch (err) {
-    console.log("Error:", err.message);
+    console.log("Error:", err.reason);
   }
 
   const auctions = [];
@@ -58,13 +58,13 @@ export const loadAuctions = async limit => {
         .getAuctionInfoByIndex(i)
         .call();
     } catch (err) {
-      console.log("Error:", err.message);
+      console.log("Error:", err.reason);
     }
     if (parseInt(auction.state) < 2) {
       try {
         var bids = await auctionInstance.methods.getBids(auction.id).call();
       } catch (err) {
-        console.log("Error:", err.message);
+        console.log("Error:", err.reason);
       }
 
       const auctionEntry = {
@@ -102,8 +102,8 @@ export const loadBidInfo = async bidIds => {
         value: web3.utils.fromWei(bid.value, "ether")
       });
     } catch (err) {
-      console.log("Error:", err.message);
-      return err.message;
+      console.log("Error:", err.reason);
+      return err.reason;
     }
   }
   return bids;
@@ -116,7 +116,7 @@ export const getAuction = async auctionId => {
     var bids = await auctionInstance.methods.getBids(auctionId).call();
     var currentBlock = await web3.eth.getBlockNumber();
   } catch (err) {
-    console.log("Error:", err.message);
+    console.log("Error:", err.reason);
   }
 
   try {
@@ -124,7 +124,7 @@ export const getAuction = async auctionId => {
       .getAuctionInfo(auctionId)
       .call();
   } catch (err) {
-    console.log("Error:", err.message);
+    console.log("Error:", err.reason);
   }
 
   return {
@@ -148,8 +148,8 @@ export const loadUserAuctions = async account => {
       .getAuctionsByUser(account)
       .call();
   } catch (err) {
-    console.log(err.message);
-    return err.message;
+    console.log(err.reason);
+    return err.reason;
   }
 
   const auctions = [];
@@ -158,7 +158,7 @@ export const loadUserAuctions = async account => {
       const auction = await getAuction(auctionIds[i]);
       auctions.push(auction);
     } catch (err) {
-      console.log("Error:", err.message);
+      console.log("Error:", err.reason);
     }
   }
   return auctions;
