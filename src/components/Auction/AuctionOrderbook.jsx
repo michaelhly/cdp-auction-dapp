@@ -16,15 +16,18 @@ const AuctionOrderbook = props => {
     setBook(bids);
   };
 
-  const toggleButtons = bidder => {
+  const toggleButtons = bid => {
     const account = props.account;
-    if (account.toLowerCase() === bidder.toLowerCase()) {
+    if (account.toLowerCase() === bid.buyer.toLowerCase()) {
       return (
         <button type="button" class="btn btn-danger btn-sm">
           Cancel
         </button>
       );
-    } else if (account.toLowerCase() === props.auctioneer.toLowerCase()) {
+    } else if (
+      account.toLowerCase() === props.auctioneer.toLowerCase() &&
+      convertExpiryBlocks(bid.expiry) !== "Expired"
+    ) {
       return (
         <button type="button" class="btn btn-primary btn-sm">
           Take Offer
@@ -46,7 +49,7 @@ const AuctionOrderbook = props => {
                 {bid.value} {getTokenSymbolByAddress(bid.token)}
               </td>
               <td>{convertExpiryBlocks(bid.expiry)}</td>
-              <td>{toggleButtons(bid.buyer)}</td>
+              <td>{toggleButtons(bid)}</td>
             </tr>
           ))}
         </Table>
