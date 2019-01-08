@@ -122,6 +122,7 @@ const Modal = props => {
       switch (modalProps.method) {
         case "submitBid":
           tx = await submitBid(auctionInstance, params);
+          break;
         case "cancelAuction":
           tx = await auctionInstance.methods[`${modalProps.method}`](params.id)
             .send({ from: web3.account })
@@ -129,9 +130,10 @@ const Modal = props => {
               setTxHash(hash);
               setState(STATE.PENDING);
             });
+          break;
       }
     }
-
+    console.log(tx);
     if (tx) {
       setState(STATE.CONFIRMED);
       modalProps.callback(tx.events);
