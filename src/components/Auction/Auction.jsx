@@ -13,8 +13,10 @@ const AddressBook = require("../../utils/addressBook.json");
 const Tokens = require("../../utils/tokens.json");
 
 const Auction = props => {
-  const auction = props.location.state ? props.location.state.auction : null;
   const web3 = useWeb3Context();
+  const [auction, setAuction] = useState(
+    props.location.state ? props.location.state.auction : null
+  );
   const [tokens, setTokens] = useState([]);
   const [orderInputs, setOrderInputs] = useState({
     token: "WETH",
@@ -59,7 +61,11 @@ const Auction = props => {
   };
 
   const addBidId = event => {
-    console.log(event);
+    let copy = auction;
+    const update = event.LogSubmittedBid;
+    const newBidId = update.returnValues.bidId;
+    copy.bids = [newBidId, ...copy.bids];
+    setAuction(copy);
   };
 
   const approveToken = async token => {
