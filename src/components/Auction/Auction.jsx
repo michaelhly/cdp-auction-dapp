@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
-import AuctionOrderbox from "./AuctionOrderbox";
 import InfoCard from "../common/InfoCard";
 import TokenPanel from "./TokenPanel";
+import AuctionOrderbox from "./AuctionOrderbox";
+import AuctionOrderbook from "./AuctionOrderbook";
 import { auctionStatus, convertExpiryBlocks } from "../../utils/helpers";
 
 const ERC20 = require("../../artifacts/IERC20.json");
@@ -65,7 +66,6 @@ const Auction = props => {
     copy[index] = { ...token };
     copy[index].approving = true;
     setTokens(copy);
-
     const tokenInstance = new web3.web3js.eth.Contract(
       ERC20.abi,
       token.address
@@ -187,6 +187,10 @@ const Auction = props => {
                 </div>
                 <InfoCard auction={auction} type="AUCTION" />
                 <div className="row shadow-sm">{actionBox()}</div>
+                <AuctionOrderbook
+                  bidIds={auction.bids}
+                  onModal={props.onModal}
+                />
               </div>
             </div>
           </div>

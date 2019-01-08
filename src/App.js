@@ -7,14 +7,7 @@ import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
 import Auction from "./components/Auction/Auction";
 import ConfirmationModal from "./components/Modal/Modal";
-import {
-  loadCdps,
-  loadBids,
-  loadAuctions,
-  getAuction,
-  loadDummyAuctions
-} from "./services/requestInfura";
-import {} from "./services/requestInfura";
+import { loadCdps, loadAuctions, getAuction } from "./services/requestInfura";
 
 const Maker = require("@makerdao/dai");
 
@@ -108,23 +101,6 @@ const App = () => {
 
     loadCopy.mainLoad = false;
     setLoading(loadCdps);
-  };
-
-  const updateBidIDs = async auction => {
-    let copy = [...auctions];
-    const index = copy.indexOf(auction);
-    copy[index] = { ...auction };
-    const oldBook = copy[index].bids;
-    copy[index].bids = null;
-    setAuctions(copy);
-    try {
-      const newBook = await loadBids(auction.id);
-      copy[index].bids = newBook;
-    } catch (err) {
-      console.log(err.message);
-      copy[index].bids = oldBook;
-    }
-    setAuctions(copy);
   };
 
   const triggerModal = (method, params, callback) => {

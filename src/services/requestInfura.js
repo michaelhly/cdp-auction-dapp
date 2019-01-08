@@ -86,15 +86,27 @@ export const loadAuctions = async limit => {
   return auctions;
 };
 
-export const loadBids = async auctionId => {
+export const loadBidInfo = async bidIds => {
   const auctionInstance = await getAuctionInstance();
-
-  try {
-    return await auctionInstance.methods.getBids(auctionId).call();
-  } catch (err) {
-    console.log(err.message);
-    return err.message;
+  const currentBlock = await web3.eth.getBlockNumber();
+  const bids = [];
+  for (let i = bidIds.length - 1; i >= 0; i--) {
+    try {
+      const bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
+      bids.push({
+        buyer: bid.buyer,
+        cdpId: web3.utils.hexToNumber(bid.cdp),
+        expiry: parseInt(bid.expiry) - parseInt(currentBlock),
+        proxy: bid.proxy,
+        token: bid.token,
+        value: bid.value
+      });
+    } catch (err) {
+      console.log(err.message);
+      return err.message;
+    }
   }
+  return bids;
 };
 
 export const getAuction = async auctionId => {
