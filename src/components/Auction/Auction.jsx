@@ -17,7 +17,6 @@ const Auction = props => {
   const web3 = useWeb3Context();
   const [account, setAccount] = useState(web3.account);
   const [tokens, setTokens] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [orderInputs, setOrderInputs] = useState({
     token: "WETH",
     amount: 0,
@@ -141,12 +140,8 @@ const Auction = props => {
 
   useAccountEffect(() => {
     setTokens([]);
-    if (!loading) {
-      setLoading(true);
-    }
     setAccount(web3.account);
     fetchTokens();
-    setLoading(false);
   });
 
   return (
