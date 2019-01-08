@@ -68,6 +68,19 @@ const Auction = props => {
     setAuction(copy);
   };
 
+  /*
+  TODO
+  const removeBidId = event => {
+    let copy = auction;
+    console.log(event);
+  };
+
+  const concludeAuction = event => {
+    let copy = auction;
+    console.log(event);
+  };
+  */
+
   const approveToken = async token => {
     let copy = [...tokens];
     const index = tokens.indexOf(token);
@@ -126,7 +139,7 @@ const Auction = props => {
   };
 
   const actionBox = () => {
-    if (auction.seller !== web3.account) {
+    if (auction.seller !== web3.account && auction.state < 2) {
       return (
         <React.Fragment>
           {expiryBanner()}
