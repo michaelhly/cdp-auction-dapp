@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { calcValue, convertExpiryBlocks } from "../../utils/helpers";
+import {
+  calcValue,
+  convertExpiryBlocks,
+  trimHexString
+} from "../../utils/helpers";
 import { fetchCdpData } from "../../services/requestMKR";
 import DisplayLoading from "./DisplayLoading";
 
@@ -40,10 +44,6 @@ const InfoCard = props => {
       default:
         return info.debt && info.fee ? round2(info.debt + info.fee) : "0";
     }
-  };
-
-  const trimAddress = addr => {
-    return [addr.substring(0, 21), "..."];
   };
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const InfoCard = props => {
                 <h6 style={{ color: "rgb(85, 85, 85)" }}>
                   Seller:{" "}
                   <span style={{ color: "black" }}>
-                    {trimAddress(auction.seller)}
+                    {trimHexString(auction.seller, 21)}
                   </span>
                 </h6>
               </div>

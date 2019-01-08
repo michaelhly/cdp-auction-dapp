@@ -61,6 +61,10 @@ export const getTokenAddressBySymbol = symbol => {
   return token ? token["address"] : "?";
 };
 
+export const trimHexString = (str, end) => {
+  return [str.substring(0, end), "..."];
+};
+
 export const auctionStatus = state => {
   switch (state) {
     case "2":
