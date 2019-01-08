@@ -20,7 +20,7 @@ const AuctionOrderbook = props => {
     const account = props.account;
     if (account.toLowerCase() === bid.buyer.toLowerCase()) {
       return (
-        <button type="button" class="btn btn-danger btn-sm">
+        <button type="button" className="btn btn-danger btn-sm">
           Cancel
         </button>
       );
@@ -29,7 +29,7 @@ const AuctionOrderbook = props => {
       convertExpiryBlocks(bid.expiry) !== "Expired"
     ) {
       return (
-        <button type="button" class="btn btn-primary btn-sm">
+        <button type="button" className="btn btn-primary btn-sm">
           Take Offer
         </button>
       );
@@ -43,7 +43,7 @@ const AuctionOrderbook = props => {
       <React.Fragment>
         <Table headers={["Bidder", "Offer", "Expires in", "Action"]}>
           {book.map(bid => (
-            <tr>
+            <tr key={bid.id}>
               <td>{trimHexString(bid.buyer, 36)}</td>
               <td>
                 {bid.value} {getTokenSymbolByAddress(bid.token)}
@@ -57,9 +57,12 @@ const AuctionOrderbook = props => {
     );
   };
 
-  useEffect(() => {
-    fetchBook();
-  }, []);
+  useEffect(
+    () => {
+      fetchBook();
+    },
+    [props.bidIds]
+  );
 
   return (
     <div className="row">

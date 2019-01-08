@@ -60,7 +60,6 @@ export const loadAuctions = async limit => {
     } catch (err) {
       console.log("Error:", err.message);
     }
-    console.log(parseInt(auction.state) < 2);
     if (parseInt(auction.state) < 2) {
       try {
         var bids = await auctionInstance.methods.getBids(auction.id).call();
@@ -94,6 +93,7 @@ export const loadBidInfo = async bidIds => {
     try {
       const bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
       bids.push({
+        id: bidIds[i],
         buyer: bid.buyer,
         cdpId: web3.utils.hexToNumber(bid.cdp),
         expiry: parseInt(bid.expiry) - parseInt(currentBlock),
@@ -102,7 +102,7 @@ export const loadBidInfo = async bidIds => {
         value: web3.utils.fromWei(bid.value, "ether")
       });
     } catch (err) {
-      console.log(err.message);
+      console.log("Error:", err.message);
       return err.message;
     }
   }
@@ -161,7 +161,6 @@ export const loadUserAuctions = async account => {
       console.log("Error:", err.message);
     }
   }
-  console.log(auctions);
   return auctions;
 };
 

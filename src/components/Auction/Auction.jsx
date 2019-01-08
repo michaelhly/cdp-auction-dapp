@@ -58,6 +58,10 @@ const Auction = props => {
     setTokens(tokenArray);
   };
 
+  const addBidId = event => {
+    console.log(event);
+  };
+
   const approveToken = async token => {
     let copy = [...tokens];
     const index = tokens.indexOf(token);
@@ -129,7 +133,7 @@ const Auction = props => {
             formInputs={orderInputs}
             onFormInput={handleOrderInputs}
             onModal={props.onModal}
-            onUpdate={props.onUpdate}
+            onUpdate={addBidId}
             handleApproval={approveToken}
           />
         </React.Fragment>
@@ -169,9 +173,11 @@ const Auction = props => {
                         CDP {auction.cdpId}{" "}
                       </h2>
                       {auctionStatus(auction.state) === "Active" ? (
-                        <span class="badge badge-pill badge-success">Live</span>
+                        <span className="badge badge-pill badge-success">
+                          Live
+                        </span>
                       ) : (
-                        <span class="badge badge-pill badge-dark">
+                        <span className="badge badge-pill badge-dark">
                           {auctionStatus(auction.state)}
                         </span>
                       )}
