@@ -15,7 +15,6 @@ const Tokens = require("../../utils/tokens.json");
 const Auction = props => {
   const auction = props.location.state ? props.location.state.auction : null;
   const web3 = useWeb3Context();
-  const [account, setAccount] = useState(web3.account);
   const [tokens, setTokens] = useState([]);
   const [orderInputs, setOrderInputs] = useState({
     token: "WETH",
@@ -117,7 +116,7 @@ const Auction = props => {
   };
 
   const actionBox = () => {
-    if (auction.seller !== account) {
+    if (auction.seller !== web3.account) {
       return (
         <React.Fragment>
           {expiryBanner()}
@@ -140,7 +139,6 @@ const Auction = props => {
 
   useAccountEffect(() => {
     setTokens([]);
-    setAccount(web3.account);
     fetchTokens();
   });
 
@@ -152,7 +150,7 @@ const Auction = props => {
             <div className="col-auto">
               <TokenPanel
                 tokens={tokens}
-                account={account}
+                account={web3.account}
                 handleApproval={approveToken}
               />
             </div>
@@ -184,6 +182,8 @@ const Auction = props => {
                 <div className="row shadow-sm mb-3">{actionBox()}</div>
                 <AuctionOrderbook
                   bidIds={auction.bids}
+                  auctioneer={auction.seller}
+                  account={web3.account}
                   onModal={props.onModal}
                 />
               </div>

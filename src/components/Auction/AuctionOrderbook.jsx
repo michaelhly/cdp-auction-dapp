@@ -16,12 +16,29 @@ const AuctionOrderbook = props => {
     setBook(bids);
   };
 
+  const toggleButtons = bidder => {
+    const account = props.account;
+    if (account.toLowerCase() === bidder.toLowerCase()) {
+      return (
+        <button type="button" class="btn btn-danger btn-sm">
+          Cancel
+        </button>
+      );
+    } else if (account.toLowerCase() === props.auctioneer.toLowerCase()) {
+      return (
+        <button type="button" class="btn btn-primary btn-sm">
+          Take Offer
+        </button>
+      );
+    }
+  };
+
   const toggleTableContent = () => {
     return book.length === 0 ? (
       <div>Currently there are no offers for this auction.</div>
     ) : (
       <React.Fragment>
-        <Table headers={["Bidder", "Offer", "Expires in"]}>
+        <Table headers={["Bidder", "Offer", "Expires in", "Action"]}>
           {book.map(bid => (
             <tr>
               <td>{trimHexString(bid.buyer, 36)}</td>
@@ -29,6 +46,7 @@ const AuctionOrderbook = props => {
                 {bid.value} {getTokenSymbolByAddress(bid.token)}
               </td>
               <td>{convertExpiryBlocks(bid.expiry)}</td>
+              <td>{toggleButtons(bid.buyer)}</td>
             </tr>
           ))}
         </Table>
