@@ -1,7 +1,7 @@
 {
   "kovan": {
     "saiTub": "0xa71937147b55deb8a530c7229c442fd3f31b7db2",
-    "auction": "0xb418a6d807c0656693c2e5bd477740fae0377f8a",
-    "auctionProxy": "0x075741a619728044447f55a709fb446bd82eea38"
+    "auction": "0x7fb2f2368cf05f510df3254e379ea9f86354caed",
+    "auctionProxy": "0xe73b17998294217afcf65448616c67934187b903"
   }
 }
