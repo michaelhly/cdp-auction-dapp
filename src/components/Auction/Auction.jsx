@@ -139,7 +139,7 @@ const Auction = props => {
             formInputs={orderInputs}
             onFormInput={handleOrderInputs}
             onModal={props.onModal}
-            onUpdate={addBidId}
+            onNewBid={addBidId}
             handleApproval={approveToken}
           />
         </React.Fragment>

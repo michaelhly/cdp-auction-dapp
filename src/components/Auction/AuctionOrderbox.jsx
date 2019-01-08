@@ -19,7 +19,9 @@ const AuctionOrderbox = props => {
       value: value,
       expiry: formInputs.expiry
     };
-    props.onModal("submitBid", params, props.onUpdate);
+    if (button === "BID") {
+      props.onModal("submitBid", params, props.onNewBid);
+    }
   };
 
   const toggleButtons = (tokenIdentifier, lookUpTarget, button) => {

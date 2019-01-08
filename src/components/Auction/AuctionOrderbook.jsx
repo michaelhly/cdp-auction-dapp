@@ -4,7 +4,8 @@ import { loadBidInfo } from "../../services/requestInfura";
 import {
   getTokenSymbolByAddress,
   convertExpiryBlocks,
-  trimHexString
+  trimHexString,
+  round2Decimals
 } from "../../utils/helpers";
 import DisplayLoading from "../common/DisplayLoading";
 
@@ -46,7 +47,7 @@ const AuctionOrderbook = props => {
             <tr key={bid.id}>
               <td>{trimHexString(bid.buyer, 36)}</td>
               <td>
-                {bid.value} {getTokenSymbolByAddress(bid.token)}
+                {round2Decimals(bid.value)} {getTokenSymbolByAddress(bid.token)}
               </td>
               <td>{convertExpiryBlocks(bid.expiry)}</td>
               <td>{toggleButtons(bid)}</td>
