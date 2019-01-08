@@ -1,5 +1,6 @@
 import React from "react";
 import DisplayLoading from "../common/DisplayLoading";
+import { round2Decimals } from "../../utils/helpers";
 
 const TokenContainer = props => {
   const displayTokenStatus = token => {
@@ -25,7 +26,7 @@ const TokenContainer = props => {
     } else {
       return (
         <span className={token.balance / 1000 >= 1 ? "ml-3" : "mr-2"}>
-          {token.balance}
+          {round2Decimals(token.balance)}
         </span>
       );
     }

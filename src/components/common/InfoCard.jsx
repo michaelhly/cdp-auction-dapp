@@ -3,14 +3,11 @@ import { Link } from "react-router-dom";
 import {
   calcValue,
   convertExpiryBlocks,
-  trimHexString
+  trimHexString,
+  round2Decimals
 } from "../../utils/helpers";
 import { fetchCdpData } from "../../services/requestMKR";
 import DisplayLoading from "./DisplayLoading";
-
-const round2 = number => {
-  return Math.round(number * 100) / 100;
-};
 
 const InfoCard = props => {
   const [info, setInfo] = useState(null);
@@ -30,19 +27,21 @@ const InfoCard = props => {
 
     switch (topic) {
       case "L":
-        return info.liquidation ? round2(info.liquidation) : "0";
+        return info.liquidation ? round2Decimals(info.liquidation) : "0";
       case "C":
-        return info.collateral ? round2(info.collateral) : "0";
+        return info.collateral ? round2Decimals(info.collateral) : "0";
       case "D":
-        return info.debt ? round2(info.debt) : "0";
+        return info.debt ? round2Decimals(info.debt) : "0";
       case "F":
-        return info.fee ? round2(info.fee) : "0";
+        return info.fee ? round2Decimals(info.fee) : "0";
       case "V":
         return info
           ? calcValue(info.collateral, info.debt, info.fee, info.ethPrice)
           : "0";
       default:
-        return info.debt && info.fee ? round2(info.debt + info.fee) : "0";
+        return info.debt && info.fee
+          ? round2Decimals(info.debt + info.fee)
+          : "0";
     }
   };
 

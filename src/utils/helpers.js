@@ -77,3 +77,7 @@ export const auctionStatus = state => {
       return "Active";
   }
 };
+
+export const round2Decimals = number => {
+  return Math.round(number * 100) / 100;
+};
