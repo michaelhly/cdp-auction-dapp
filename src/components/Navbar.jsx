@@ -1,13 +1,7 @@
-import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const [search, setSearch] = useState("");
-
-  const handleInput = e => {
-    setSearch(e.currentTarget.value);
-  };
-
   return (
     <nav className="navbar navbar-light bg-light shadow-sm p-3 mb-4">
       <div className="navbar-brand" to="/">
