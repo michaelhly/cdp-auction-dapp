@@ -17,15 +17,27 @@ const AuctionOrderbook = props => {
     setBook(bids);
   };
 
+  const stageRevokeBid = bidId => {
+    props.onModal("revokeBid", { id: bidId }, props.onRemoveBid);
+  };
+
   const toggleButtons = bid => {
     const account = props.account;
     if (account.toLowerCase() === bid.buyer.toLowerCase()) {
       return convertExpiryBlocks(bid.expiry) === "Expired" ? (
-        <button type="button" class="btn btn-outline-dark btn-sm">
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onClick={() => stageRevokeBid(bid.id)}
+        >
           Retrieve Tokens
         </button>
       ) : (
-        <button type="button" className="btn btn-danger btn-sm">
+        <button
+          type="button"
+          className="btn btn-danger btn-sm"
+          onClick={() => stageRevokeBid(bid.id)}
+        >
           Cancel
         </button>
       );

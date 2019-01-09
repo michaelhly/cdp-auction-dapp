@@ -60,21 +60,21 @@ const Auction = props => {
     setTokens(tokenArray);
   };
 
-  const addBidId = event => {
+  const handleNewBid = event => {
     const copy = auction;
-    const update = event.LogSubmittedBid;
-    const newBidId = update.returnValues.bidId;
+    const newBidId = event.LogSubmittedBid.returnValues.bidId;
     copy.bids = [newBidId, ...copy.bids];
     setAuction(copy);
   };
 
-  /*
-  TODO
-  const removeBidId = event => {
-     const copy = auction;
-    console.log(event);
+  const handleRemoveBid = event => {
+    const removedBidId = event.LogRevokedBid.returnValues.bidId;
+    const copy = auction;
+    copy.bids = copy.bids.filter(bid => bid !== removedBidId);
+    setAuction(copy);
   };
 
+  /*
   const concludeAuction = event => {
      const copy = auction;
     console.log(event);
@@ -139,7 +139,11 @@ const Auction = props => {
   };
 
   const actionBox = () => {
-    if (auction.seller !== web3.account && auction.state < 2) {
+    if (
+      auction.seller !== web3.account &&
+      auction.state < 2 &&
+      convertExpiryBlocks(auction.expiry) !== "Expired"
+    ) {
       return (
         <React.Fragment>
           {expiryBanner()}
@@ -152,7 +156,7 @@ const Auction = props => {
             formInputs={orderInputs}
             onFormInput={handleOrderInputs}
             onModal={props.onModal}
-            onNewBid={addBidId}
+            onNewBid={handleNewBid}
             handleApproval={approveToken}
           />
         </React.Fragment>
@@ -210,6 +214,7 @@ const Auction = props => {
                   auctioneer={auction.seller}
                   auctionState={auction.state}
                   account={web3.account}
+                  onRemoveBid={handleRemoveBid}
                   onModal={props.onModal}
                 />
               </div>
