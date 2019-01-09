@@ -109,6 +109,15 @@ const App = () => {
     setCdps(newCdps);
   };
 
+  const updateAuction = updatedAuction => {
+    const copy = [...auctions];
+    const index = copy.findIndex(auction => {
+      return auction.id === updateAuction.id;
+    });
+    copy[index] = updatedAuction;
+    setAuctions(copy);
+  };
+
   const triggerModal = (method, params, callback) => {
     const copy = { ...modalProps };
     copy.show = true;

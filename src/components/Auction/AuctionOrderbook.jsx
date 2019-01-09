@@ -59,14 +59,16 @@ const AuctionOrderbook = props => {
       <div>Currently there are no offers for this auction.</div>
     ) : (
       <React.Fragment>
-        <Table headers={["Bidder", "Offer", "Expiration", "Action"]}>
+        <Table headers={["Bidder", "Offer", "Status", "Action"]}>
           {book.map(bid => (
             <tr key={bid.id}>
               <td>{trimHexString(bid.buyer, 30)}</td>
               <td>
                 {round2Decimals(bid.value)} {getTokenSymbolByAddress(bid.token)}
               </td>
-              <td>{convertExpiryBlocks(bid.expiry)}</td>
+              <td>
+                {bid.revoked ? "Cancelled" : convertExpiryBlocks(bid.expiry)}
+              </td>
               <td>{toggleButtons(bid)}</td>
             </tr>
           ))}
