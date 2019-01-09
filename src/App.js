@@ -55,8 +55,7 @@ const App = () => {
       try {
         var result = await loadCdps(
           user,
-          maker.service("proxy").currentProxy(),
-          0
+          maker.service("proxy").currentProxy()
         );
         setCdps(result);
         if (!copy.mainLoad) {
@@ -129,7 +128,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchAuctionData(10);
+    fetchAuctionData();
     fetchCdps();
   }, []);
 

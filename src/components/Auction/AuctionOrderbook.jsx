@@ -43,7 +43,7 @@ const AuctionOrderbook = props => {
       <div>Currently there are no offers for this auction.</div>
     ) : (
       <React.Fragment>
-        <Table headers={["Bidder", "Offer", "Expires in", "Action"]}>
+        <Table headers={["Bidder", "Offer", "Expiration", "Action"]}>
           {book.map(bid => (
             <tr key={bid.id}>
               <td>{trimHexString(bid.buyer, 36)}</td>

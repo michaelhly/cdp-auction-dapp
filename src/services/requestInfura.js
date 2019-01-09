@@ -13,7 +13,7 @@ const getAuctionInstance = async () => {
   return new web3.eth.Contract(Auction.abi, AddressBook.kovan.auction);
 };
 
-export const loadCdps = async (user, proxy, block) => {
+export const loadCdps = async (user, proxy, block = 0) => {
   const tubInstance = await getTubInstance();
   const cdps = [];
 
@@ -39,7 +39,7 @@ export const loadCdps = async (user, proxy, block) => {
   return cdps;
 };
 
-export const loadAuctions = async limit => {
+export const loadAuctions = async (limit = false) => {
   const auctionInstance = await getAuctionInstance();
 
   try {
@@ -50,7 +50,7 @@ export const loadAuctions = async limit => {
   }
 
   const auctions = [];
-  const count = totalListings - limit < 0 ? totalListings : limit;
+  const count = totalListings - limit < 0 || !limit ? totalListings : limit;
 
   for (let i = totalListings; i > totalListings - count; i--) {
     try {
