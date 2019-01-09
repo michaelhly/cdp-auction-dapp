@@ -5,7 +5,7 @@ const NoProxy = props => {
   const maker = props.requestMaker;
 
   const createProxy = async () => {
-    let copy = { ...props.loading };
+    const copy = { ...props.loading };
     copy.effectsLoad = true;
     props.onSetLoading(copy);
     var tx = null;

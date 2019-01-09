@@ -61,7 +61,7 @@ const Auction = props => {
   };
 
   const addBidId = event => {
-    let copy = auction;
+    const copy = auction;
     const update = event.LogSubmittedBid;
     const newBidId = update.returnValues.bidId;
     copy.bids = [newBidId, ...copy.bids];
@@ -71,18 +71,18 @@ const Auction = props => {
   /*
   TODO
   const removeBidId = event => {
-    let copy = auction;
+     const copy = auction;
     console.log(event);
   };
 
   const concludeAuction = event => {
-    let copy = auction;
+     const copy = auction;
     console.log(event);
   };
   */
 
   const approveToken = async token => {
-    let copy = [...tokens];
+    const copy = [...tokens];
     const index = tokens.indexOf(token);
     copy[index] = { ...token };
     copy[index].approving = true;

@@ -28,7 +28,7 @@ const App = () => {
   });
 
   const fetchAuctionData = async count => {
-    let copy = { ...loading };
+    const copy = { ...loading };
     if (!copy.mainLoad) {
       copy.mainLoad = true;
       setLoading(copy);
@@ -47,7 +47,7 @@ const App = () => {
   };
 
   const fetchCdps = async () => {
-    let copy = { ...loading };
+    const copy = { ...loading };
     await maker.authenticate();
     setProxy(maker.service("proxy").currentProxy());
     if (maker.service("proxy").currentProxy()) {
@@ -104,7 +104,7 @@ const App = () => {
   };
 
   const triggerModal = (method, params, callback) => {
-    let copy = { ...modalProps };
+    const copy = { ...modalProps };
     copy.show = true;
     copy.method = method;
     copy.params = params;
@@ -113,7 +113,7 @@ const App = () => {
   };
 
   const closeModal = () => {
-    let copy = { ...modalProps };
+    const copy = { ...modalProps };
     copy.show = false;
     copy.method = "false";
     copy.params = [];
@@ -127,7 +127,7 @@ const App = () => {
   }, []);
 
   useAccountEffect(() => {
-    let copy = { ...loading };
+    const copy = { ...loading };
     if (!copy.mainLoad) {
       copy.effectsLoad = true;
       setLoading(copy);
