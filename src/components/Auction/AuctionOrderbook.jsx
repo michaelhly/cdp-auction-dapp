@@ -27,7 +27,8 @@ const AuctionOrderbook = props => {
       );
     } else if (
       account.toLowerCase() === props.auctioneer.toLowerCase() &&
-      convertExpiryBlocks(bid.expiry) !== "Expired"
+      convertExpiryBlocks(bid.expiry) !== "Expired" &&
+      props.auctionState === 2
     ) {
       return (
         <button type="button" className="btn btn-primary btn-sm">

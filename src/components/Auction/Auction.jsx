@@ -208,6 +208,7 @@ const Auction = props => {
                 <AuctionOrderbook
                   bidIds={auction.bids}
                   auctioneer={auction.seller}
+                  auctionState={auction.state}
                   account={web3.account}
                   onModal={props.onModal}
                 />
