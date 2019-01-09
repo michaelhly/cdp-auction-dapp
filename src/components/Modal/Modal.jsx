@@ -43,6 +43,12 @@ const Modal = props => {
   const modalProps = props.modal;
   const BN = web3.web3js.utils.BN;
 
+  const handleClose = () => {
+    setTxHash(null);
+    setState(STATE.READY);
+    props.onClose();
+  };
+
   const getCallDataForProxy = parameters => {
     const functionAbi = extractFunction(AuctionProxy.abi, "createAuction");
     return web3.web3js.eth.abi.encodeFunctionCall(functionAbi, parameters);
@@ -91,7 +97,7 @@ const Modal = props => {
           setState(STATE.PENDING);
         });
     } catch (err) {
-      console.log("Error", err);
+      console.log(err);
     }
     return transaction;
   };
@@ -102,8 +108,6 @@ const Modal = props => {
     const value = web3.web3js.utils.toWei(params.value.toString(), "ether");
     const salt = getSalt();
 
-    console.log(props.proxy);
-
     try {
       var transaction = await auctionInstance.methods
         .submitBid(params.id, props.proxy, token, value, expiryBlocks, salt)
@@ -113,7 +117,7 @@ const Modal = props => {
           setState(STATE.PENDING);
         });
     } catch (err) {
-      console.log("Error", err);
+      console.log(err);
     }
 
     return transaction;
@@ -134,17 +138,21 @@ const Modal = props => {
         case "submitBid":
           tx = await submitBid(auctionInstance, params);
           break;
-        case "cancelAuction":
-          tx = await auctionInstance.methods[`${modalProps.method}`](params.id)
-            .send({ from: web3.account })
-            .on("transactionHash", function(hash) {
-              setTxHash(hash);
-              setState(STATE.PENDING);
-            });
+        default:
+          try {
+            tx = await auctionInstance.methods[modalProps.method](params.id)
+              .send({ from: web3.account })
+              .on("transactionHash", function(hash) {
+                setTxHash(hash);
+                setState(STATE.PENDING);
+              });
+          } catch (err) {
+            console.log(err);
+          }
+
           break;
       }
     }
-    console.log(tx);
     if (tx) {
       setState(STATE.CONFIRMED);
       modalProps.callback(tx.events);
@@ -202,12 +210,12 @@ const Modal = props => {
         <Ready
           values={modalProps}
           account={web3.account}
-          onClose={props.onClose}
+          onClose={handleClose}
           proxy={props.proxy}
           auctionAddr={addressBook.kovan.auction}
         />
       ) : (
-        <Confirmed onClose={props.onClose} />
+        <Confirmed onClose={handleClose} />
       );
     }
   };
@@ -219,7 +227,7 @@ const Modal = props => {
   return (
     <ReactModal
       isOpen={modalProps.show}
-      onRequestClose={props.onClose}
+      onRequestClose={handleClose}
       style={customStyles}
     >
       {toggleModal()}
