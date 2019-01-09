@@ -91,18 +91,21 @@ export const loadBidInfo = async bidIds => {
   const bids = [];
   for (let i = bidIds.length - 1; i >= 0; i--) {
     try {
-      let bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
-      bids.push({
-        id: bidIds[i],
-        auctionId: bid.auctionId,
-        buyer: bid.buyer,
-        cdpId: web3.utils.hexToNumber(bid.cdp),
-        expiry: parseInt(bid.expiry) - parseInt(currentBlock),
-        proxy: bid.proxy,
-        token: bid.token,
-        value: web3.utils.fromWei(bid.value, "ether"),
-        loading: false
-      });
+      let revoked = await auctionInstance.methods.revokedBids(bidIds[i]).call();
+      if (!revoked) {
+        let bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
+        bids.push({
+          id: bidIds[i],
+          auctionId: bid.auctionId,
+          buyer: bid.buyer,
+          cdpId: web3.utils.hexToNumber(bid.cdp),
+          expiry: parseInt(bid.expiry) - parseInt(currentBlock),
+          proxy: bid.proxy,
+          token: bid.token,
+          value: web3.utils.fromWei(bid.value, "ether"),
+          loading: false
+        });
+      }
     } catch (err) {
       console.log(err);
     }
