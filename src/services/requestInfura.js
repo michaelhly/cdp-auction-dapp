@@ -33,7 +33,7 @@ export const loadCdps = async (user, proxy, block) => {
       }
     }
   } catch (err) {
-    console.log("Error:", err.reason);
+    console.log(err);
   }
 
   return cdps;
@@ -46,7 +46,7 @@ export const loadAuctions = async limit => {
     var totalListings = await auctionInstance.methods.totalListings().call();
     var currentBlock = await web3.eth.getBlockNumber();
   } catch (err) {
-    console.log("Error:", err.reason);
+    console.log(err);
   }
 
   const auctions = [];
@@ -58,13 +58,13 @@ export const loadAuctions = async limit => {
         .getAuctionInfoByIndex(i)
         .call();
     } catch (err) {
-      console.log("Error:", err.reason);
+      console.log(err);
     }
     if (parseInt(auction.state) < 2) {
       try {
         var bids = await auctionInstance.methods.getBids(auction.id).call();
       } catch (err) {
-        console.log("Error:", err.reason);
+        console.log(err);
       }
 
       const auctionEntry = {
@@ -91,9 +91,10 @@ export const loadBidInfo = async bidIds => {
   const bids = [];
   for (let i = bidIds.length - 1; i >= 0; i--) {
     try {
-      const bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
+      let bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
       bids.push({
         id: bidIds[i],
+        auctionId: bid.auctionId,
         buyer: bid.buyer,
         cdpId: web3.utils.hexToNumber(bid.cdp),
         expiry: parseInt(bid.expiry) - parseInt(currentBlock),
@@ -102,8 +103,7 @@ export const loadBidInfo = async bidIds => {
         value: web3.utils.fromWei(bid.value, "ether")
       });
     } catch (err) {
-      console.log("Error:", err.reason);
-      return err.reason;
+      console.log(err);
     }
   }
   return bids;
@@ -116,7 +116,7 @@ export const getAuction = async auctionId => {
     var bids = await auctionInstance.methods.getBids(auctionId).call();
     var currentBlock = await web3.eth.getBlockNumber();
   } catch (err) {
-    console.log("Error:", err.reason);
+    console.log(err);
   }
 
   try {
@@ -124,7 +124,7 @@ export const getAuction = async auctionId => {
       .getAuctionInfo(auctionId)
       .call();
   } catch (err) {
-    console.log("Error:", err.reason);
+    console.log(err);
   }
 
   return {
@@ -148,8 +148,7 @@ export const loadUserAuctions = async account => {
       .getAuctionsByUser(account)
       .call();
   } catch (err) {
-    console.log(err.reason);
-    return err.reason;
+    console.log(err);
   }
 
   const auctions = [];
@@ -158,10 +157,22 @@ export const loadUserAuctions = async account => {
       const auction = await getAuction(auctionIds[i]);
       auctions.push(auction);
     } catch (err) {
-      console.log("Error:", err.reason);
+      console.log(err);
     }
   }
   return auctions;
+};
+
+export const loadUserBids = async account => {
+  const auctionInstance = await getAuctionInstance();
+
+  try {
+    const bidIds = await auctionInstance.methods.getBidsByUser(account).call();
+    var bids = await loadBidInfo(bidIds);
+  } catch (err) {
+    console.log(err);
+  }
+  return bids;
 };
 
 const random = max => Math.floor(Math.random() * (max + 1));
