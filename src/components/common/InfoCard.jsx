@@ -18,7 +18,7 @@ const InfoCard = props => {
       const cdpInfo = await fetchCdpData(auction.cdpId);
       setInfo(cdpInfo);
     } catch (err) {
-      console.log(err.reason);
+      console.log(err);
     }
   };
 

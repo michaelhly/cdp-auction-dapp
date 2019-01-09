@@ -91,7 +91,7 @@ const Modal = props => {
           setState(STATE.PENDING);
         });
     } catch (err) {
-      console.log("Error", err.reason);
+      console.log("Error", err);
     }
     return transaction;
   };
@@ -113,7 +113,7 @@ const Modal = props => {
           setState(STATE.PENDING);
         });
     } catch (err) {
-      console.log("Error", err.reason);
+      console.log("Error", err);
     }
 
     return transaction;
