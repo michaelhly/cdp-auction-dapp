@@ -20,7 +20,11 @@ const AuctionOrderbook = props => {
   const toggleButtons = bid => {
     const account = props.account;
     if (account.toLowerCase() === bid.buyer.toLowerCase()) {
-      return (
+      return convertExpiryBlocks(bid.expiry) === "Expired" ? (
+        <button type="button" class="btn btn-outline-dark btn-sm">
+          Retrieve Tokens
+        </button>
+      ) : (
         <button type="button" className="btn btn-danger btn-sm">
           Cancel
         </button>
@@ -46,7 +50,7 @@ const AuctionOrderbook = props => {
         <Table headers={["Bidder", "Offer", "Expiration", "Action"]}>
           {book.map(bid => (
             <tr key={bid.id}>
-              <td>{trimHexString(bid.buyer, 36)}</td>
+              <td>{trimHexString(bid.buyer, 30)}</td>
               <td>
                 {round2Decimals(bid.value)} {getTokenSymbolByAddress(bid.token)}
               </td>

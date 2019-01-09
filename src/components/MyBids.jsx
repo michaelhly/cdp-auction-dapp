@@ -76,9 +76,15 @@ const MyBids = props => {
             </td>
             <td>{convertExpiryBlocks(bid.expiry)}</td>
             <td>
-              <button type="button" class="btn btn-danger btn-sm">
-                Cancel
-              </button>
+              {convertExpiryBlocks(bid.expiry) === "Expired" ? (
+                <button type="button" class="btn btn-outline-dark btn-sm">
+                  Retrieve Tokens
+                </button>
+              ) : (
+                <button type="button" class="btn btn-danger btn-sm">
+                  Cancel
+                </button>
+              )}
             </td>
           </tr>
         ))}
