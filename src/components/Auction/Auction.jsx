@@ -67,13 +67,6 @@ const Auction = props => {
     setAuction(copy);
   };
 
-  const handleRemoveBid = event => {
-    const removedBidId = event.LogRevokedBid.returnValues.bidId;
-    const copy = auction;
-    copy.bids = copy.bids.filter(bid => bid !== removedBidId);
-    setAuction(copy);
-  };
-
   /*
   const concludeAuction = event => {
      const copy = auction;
@@ -81,7 +74,7 @@ const Auction = props => {
   };
   */
 
-  const approveToken = async token => {
+  const handleApproval = async token => {
     const copy = [...tokens];
     const index = tokens.indexOf(token);
     copy[index] = { ...token };
@@ -149,15 +142,13 @@ const Auction = props => {
           {expiryBanner()}
           <AuctionOrderbox
             tokenStates={tokens}
-            id={auction.id}
-            expiry={auction.expiry}
-            askTokenAddr={auction.token}
-            ask={auction.ask}
+            auction={auction}
             formInputs={orderInputs}
             onFormInput={handleOrderInputs}
+            onUpdate={props.updateAuction}
             onModal={props.onModal}
             onNewBid={handleNewBid}
-            handleApproval={approveToken}
+            onApprove={handleApproval}
           />
         </React.Fragment>
       );
@@ -178,7 +169,7 @@ const Auction = props => {
               <TokenPanel
                 tokens={tokens}
                 account={web3.account}
-                handleApproval={approveToken}
+                onApprove={handleApproval}
               />
             </div>
             <div
@@ -214,7 +205,6 @@ const Auction = props => {
                   auctioneer={auction.seller}
                   auctionState={auction.state}
                   account={web3.account}
-                  onRemoveBid={handleRemoveBid}
                   onModal={props.onModal}
                 />
               </div>

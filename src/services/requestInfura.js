@@ -91,7 +91,6 @@ export const loadBidInfo = async bidIds => {
   const bids = [];
   for (let i = bidIds.length - 1; i >= 0; i--) {
     try {
-      let revoked = await auctionInstance.methods.revokedBids(bidIds[i]).call();
       let bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
       bids.push({
         id: bidIds[i],
@@ -102,7 +101,8 @@ export const loadBidInfo = async bidIds => {
         proxy: bid.proxy,
         token: bid.token,
         value: web3.utils.fromWei(bid.value, "ether"),
-        revoked: Boolean(revoked),
+        revoked: Boolean(bid.revoked),
+        won: Boolean(bid.won),
         loading: false
       });
     } catch (err) {

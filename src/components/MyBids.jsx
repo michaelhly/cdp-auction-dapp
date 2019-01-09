@@ -23,6 +23,20 @@ const MyBids = props => {
     setMyBids(bids);
   };
 
+  const handleRemoveBid = event => {
+    const copy = [...myBids];
+    const revokedBid = event.LogRevokedBid.returnValues;
+    const index = copy.findIndex(bid => {
+      return bid.id === revokedBid.bidId;
+    });
+    copy[index].revoked = true;
+    setMyBids(copy);
+  };
+
+  const stageRevokeBid = bidId => {
+    props.onModal("revokeBid", { id: bidId }, handleRemoveBid);
+  };
+
   const linkToAuction = async bid => {
     const copy = [...myBids];
     const index = myBids.indexOf(bid);
@@ -45,13 +59,35 @@ const MyBids = props => {
     setMyBids(copy);
   };
 
+  const toggleButtons = bid => {
+    if (bid.revoked) return null;
+
+    return (
+      <button
+        type="button"
+        class={
+          convertExpiryBlocks(bid.expiry) === "Expired"
+            ? "btn btn-outline-dark btn-sm"
+            : "btn btn-danger btn-sm"
+        }
+        onClick={() => stageRevokeBid(bid.id)}
+      >
+        {convertExpiryBlocks(bid.expiry) === "Expired"
+          ? "Retrieve Tokens"
+          : "Cancel"}
+      </button>
+    );
+  };
+
   const toggleTable = () => {
     if (!myBids) return <DisplayLoading size="large" />;
     console.log(myBids);
     return myBids.length === 0 ? (
       <div>You have not submitted any bid orders.</div>
     ) : (
-      <Table headers={["BidId", "AuctionId", "Offer", "Expire in", "Action"]}>
+      <Table
+        headers={["BidId", "AuctionId", "Offer", "Status/Expiry", "Action"]}
+      >
         {myBids.map(bid => (
           <tr key={bid.id}>
             <td>{trimHexString(bid.id, 20)}</td>
@@ -74,18 +110,10 @@ const MyBids = props => {
             <td>
               {bid.value} {getTokenSymbolByAddress(bid.token)}
             </td>
-            <td>{convertExpiryBlocks(bid.expiry)}</td>
             <td>
-              {convertExpiryBlocks(bid.expiry) === "Expired" ? (
-                <button type="button" class="btn btn-outline-dark btn-sm">
-                  Retrieve Tokens
-                </button>
-              ) : (
-                <button type="button" class="btn btn-danger btn-sm">
-                  Cancel
-                </button>
-              )}
+              {bid.revoked ? "Cancelled" : convertExpiryBlocks(bid.expiry)}
             </td>
+            <td>{toggleButtons(bid)}</td>
           </tr>
         ))}
       </Table>

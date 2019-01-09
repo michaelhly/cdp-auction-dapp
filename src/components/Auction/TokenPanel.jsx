@@ -19,7 +19,7 @@ const TokenPanel = props => {
         <div>
           <TokenContainer
             tokens={props.tokens}
-            handleApproval={props.handleApproval}
+            onApprove={props.handleApproval}
           />
         </div>
       </SidePanel>

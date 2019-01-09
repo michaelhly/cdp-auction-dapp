@@ -4,7 +4,8 @@ import OrderForm from "../common/OrderForm";
 import DisplayLoading from "../common/DisplayLoading";
 
 const AuctionOrderbox = props => {
-  const ask = parseInt(props.ask);
+  const auction = props.auction;
+  const ask = parseInt(auction.ask);
 
   const stageBidOrder = button => {
     const formInputs = { ...props.formInputs };
@@ -12,9 +13,9 @@ const AuctionOrderbox = props => {
     const token =
       button === "BID"
         ? formInputs.token
-        : getTokenSymbolByAddress(props.askTokenAddr, props.tokenStates);
+        : getTokenSymbolByAddress(auction.token, props.tokenStates);
     const params = {
-      id: props.id,
+      id: auction.id,
       token: token,
       value: value,
       expiry: formInputs.expiry
@@ -43,7 +44,7 @@ const AuctionOrderbox = props => {
         <button
           type="button"
           className="btn btn-success"
-          onClick={() => props.handleApproval(token)}
+          onClick={() => props.onApprove(token)}
         >
           Approve Token
         </button>
@@ -78,11 +79,10 @@ const AuctionOrderbox = props => {
           </h6>
           <div className="p-0">
             <p className="ask price" style={{ fontSize: "48px" }}>
-              {ask}{" "}
-              {getTokenSymbolByAddress(props.askTokenAddr, props.tokenStates)}
+              {ask} {getTokenSymbolByAddress(auction.token, props.tokenStates)}
             </p>
             <div style={{ marginTop: "72px" }}>
-              {toggleButtons("address", props.askTokenAddr, "BUY")}
+              {toggleButtons("address", auction.token, "BUY")}
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ const TokenContainer = props => {
           <button
             type="button"
             className="btn btn-link btn-sm"
-            onClick={() => props.handleApproval(token)}
+            onClick={() => props.onApprove(token)}
             style={{ textDecoration: "none", color: "grey", outline: "none" }}
           >
             {token.balance}

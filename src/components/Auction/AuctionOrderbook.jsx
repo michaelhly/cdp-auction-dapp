@@ -17,13 +17,23 @@ const AuctionOrderbook = props => {
     setBook(bids);
   };
 
+  const handleRemoveBid = event => {
+    const copy = [...book];
+    const revokedBid = event.LogRevokedBid.returnValues;
+    const index = copy.findIndex(bid => {
+      return bid.id === revokedBid.bidId;
+    });
+    copy[index].revoked = true;
+    setBook(copy);
+  };
+
   const stageRevokeBid = bidId => {
-    props.onModal("revokeBid", { id: bidId }, props.onRemoveBid);
+    props.onModal("revokeBid", { id: bidId }, handleRemoveBid);
   };
 
   const toggleButtons = bid => {
     const account = props.account;
-    if (account.toLowerCase() === bid.buyer.toLowerCase()) {
+    if (account.toLowerCase() === bid.buyer.toLowerCase() && !bid.revoked) {
       return convertExpiryBlocks(bid.expiry) === "Expired" ? (
         <button
           type="button"
@@ -43,6 +53,7 @@ const AuctionOrderbook = props => {
       );
     } else if (
       account.toLowerCase() === props.auctioneer.toLowerCase() &&
+      !bid.revoked &&
       convertExpiryBlocks(bid.expiry) !== "Expired" &&
       props.auctionState === 2
     ) {
@@ -56,10 +67,10 @@ const AuctionOrderbook = props => {
 
   const toggleTableContent = () => {
     return book.length === 0 ? (
-      <div>Currently there are no offers for this auction.</div>
+      <div>There are no offers for this auction.</div>
     ) : (
       <React.Fragment>
-        <Table headers={["Bidder", "Offer", "Status", "Action"]}>
+        <Table headers={["Bidder", "Offer", "Expiry/Status", "Action"]}>
           {book.map(bid => (
             <tr key={bid.id}>
               <td>{trimHexString(bid.buyer, 30)}</td>
