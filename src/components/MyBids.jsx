@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
-import { loadUserBids } from "../services/requestInfura";
+import { loadUserBids, getAuction } from "../services/requestInfura";
 import DisplayLoading from "./common/DisplayLoading";
 import Table from "./common/Table";
 import {
@@ -9,7 +9,7 @@ import {
   trimHexString
 } from "../utils/helpers";
 
-const MyBids = () => {
+const MyBids = props => {
   const web3 = useWeb3Context();
   const [myBids, setMyBids] = useState(null);
 
@@ -23,6 +23,28 @@ const MyBids = () => {
     setMyBids(bids);
   };
 
+  const linkToAuction = async bid => {
+    const copy = [...myBids];
+    const index = myBids.indexOf(bid);
+    copy[index] = { ...bid };
+    copy[index].loading = true;
+    setMyBids(copy);
+
+    try {
+      var auction = await getAuction(bid.auctionId);
+    } catch (err) {
+      console.log(err);
+      copy[index].loading = false;
+      setMyBids(copy);
+    }
+    props.history.push({
+      pathname: `/${bid.auctionId}`,
+      state: { auction: auction }
+    });
+    copy[index].loading = false;
+    setMyBids(copy);
+  };
+
   const toggleTable = () => {
     if (!myBids) return <DisplayLoading size="large" />;
     console.log(myBids);
@@ -33,10 +55,21 @@ const MyBids = () => {
         {myBids.map(bid => (
           <tr key={bid.id}>
             <td>{trimHexString(bid.id, 20)}</td>
-            <td>
-              <button type="button" class="btn btn-link">
-                {trimHexString(bid.auctionId, 20)}
-              </button>
+            <td style={{ width: "30%" }}>
+              {bid.loading ? (
+                <div className="d-flex mr-3 w-100">
+                  <DisplayLoading />
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  class="btn btn-link p-0"
+                  style={{ verticalAlign: "top" }}
+                  onClick={() => linkToAuction(bid)}
+                >
+                  {trimHexString(bid.auctionId, 20)}
+                </button>
+              )}
             </td>
             <td>
               {bid.value} {getTokenSymbolByAddress(bid.token)}
