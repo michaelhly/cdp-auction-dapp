@@ -80,7 +80,7 @@ const App = () => {
     }
   };
 
-  const updateData = async events => {
+  const handleNewListing = async events => {
     let loadCopy = { ...loading };
     loadCopy.mainLoad = true;
     setLoading(loadCopy);
@@ -103,12 +103,19 @@ const App = () => {
     setLoading(loadCdps);
   };
 
+  const handleListingRemoval = (auctionId, cdp) => {
+    const newAuctions = auctions.filter(auction => auction.id !== auctionId);
+    setAuctions(newAuctions);
+    const newCdps = [cdp, ...cdps];
+    setCdps(newCdps);
+  };
+
   const triggerModal = (method, params, callback) => {
     const copy = { ...modalProps };
     copy.show = true;
     copy.method = method;
     copy.params = params;
-    copy.callback = !callback ? updateData : callback;
+    copy.callback = !callback ? handleNewListing : callback;
     setModalProps(copy);
   };
 
@@ -122,7 +129,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchAuctionData(2);
+    fetchAuctionData(10);
     fetchCdps();
   }, []);
 
@@ -152,7 +159,13 @@ const App = () => {
           <Route
             exact
             path="/myauctions"
-            render={props => <MyAuctions onModal={triggerModal} {...props} />}
+            render={props => (
+              <MyAuctions
+                onModal={triggerModal}
+                onCancel={handleListingRemoval}
+                {...props}
+              />
+            )}
           />
           <Route
             exact

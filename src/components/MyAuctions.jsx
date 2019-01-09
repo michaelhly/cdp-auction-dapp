@@ -21,12 +21,18 @@ const MyAuctions = props => {
   const handleCancelEvent = event => {
     const updates = event.LogEndedAuction.returnValues;
     const copy = myAuctions.map(auction => {
-      if (auction.auctionId === updates.auctionId) {
-        auction.state = updates.state;
+      if (auction.id === updates.auctionId) {
+        auction.state = parseInt(updates.state);
       }
       return auction;
     });
     setMyAuctions(copy);
+
+    const cdp = {
+      cup: updates.cdp,
+      id: web3.web3js.utils.hexToNumber(updates.cdp)
+    };
+    props.onCancel(updates.auctionId, cdp);
   };
 
   const stageCancel = auctionId => {
@@ -60,7 +66,7 @@ const MyAuctions = props => {
               <td>{auction.bids.length}</td>
               <td>{auctionStatus(auction.state)}</td>
               <td>
-                {auctionStatus(auction.state) === "Active" ? (
+                {auction.state === 0 ? (
                   <button
                     type="button"
                     class="btn btn-danger btn-sm"
