@@ -67,11 +67,11 @@ export const trimHexString = (str, end) => {
 
 export const auctionStatus = state => {
   switch (state) {
-    case "2":
+    case 2:
       return "Cancelled";
-    case "3":
+    case 3:
       return "Ended";
-    case "4":
+    case 4:
       return "Expired";
     default:
       return "Active";

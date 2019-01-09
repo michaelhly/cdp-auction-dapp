@@ -75,7 +75,7 @@ export const loadAuctions = async limit => {
         token: auction.token,
         ask: web3.utils.fromWei(auction.ask, "ether"),
         expiry: parseInt(auction.expiry) - parseInt(currentBlock),
-        state: auction.state,
+        state: parseInt(auction.state),
         bids: bids
       };
 
@@ -135,7 +135,7 @@ export const getAuction = async auctionId => {
     token: auction.token,
     ask: web3.utils.fromWei(auction.ask, "ether"),
     expiry: parseInt(auction.expiry) - parseInt(currentBlock),
-    state: auction.state,
+    state: parseInt(auction.state),
     bids: bids
   };
 };
