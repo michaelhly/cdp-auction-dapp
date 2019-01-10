@@ -63,7 +63,7 @@ const MyAuctions = props => {
                 </button>
               </td>
               <td>{auction.bids.length}</td>
-              <td>{auctionStatus(auction.state)}</td>
+              <td>{auctionStatus(auction.state, auction.expiry)}</td>
               <td>
                 {auction.state === 0 ? (
                   <button

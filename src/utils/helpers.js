@@ -65,7 +65,9 @@ export const trimHexString = (str, end) => {
   return [str.substring(0, end), "..."];
 };
 
-export const auctionStatus = state => {
+export const auctionStatus = (state, expiry) => {
+  if (convertExpiryBlocks(expiry) === "Expired") return "Expired";
+
   switch (state) {
     case 2:
       return "Cancelled";

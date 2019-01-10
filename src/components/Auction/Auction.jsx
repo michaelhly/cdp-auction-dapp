@@ -167,6 +167,40 @@ const Auction = props => {
     );
   };
 
+  const toggleBadge = () => {
+    const status = auctionStatus(auction.state, auction.expiry);
+    return status === "Active" ? (
+      <span className="badge badge-pill badge-success">Live</span>
+    ) : (
+      <span className="badge badge-pill badge-dark">
+        {auctionStatus(auction.state, auction.expiry)}
+      </span>
+    );
+  };
+
+  const toggleButton = () => {
+    if (web3.account !== auction.seller) return null;
+    const active =
+      auction.state === 0 &&
+      auctionStatus(auction.state, auction.expiry) !== "Expired";
+
+    return (
+      <span>
+        <button
+          type="button"
+          class={
+            active
+              ? "btn btn-outline-danger btn-sm float-right mt-1"
+              : "btn btn-outline-secondary btn-sm float-right mt-1"
+          }
+          onClick={() => stageCancel()}
+        >
+          {active ? "End Auction" : "Retrieve CDP"}
+        </button>
+      </span>
+    );
+  };
+
   const actionBox = () => {
     if (
       auction.seller !== web3.account &&
@@ -225,27 +259,8 @@ const Auction = props => {
                       >
                         CDP {auction.cdpId}{" "}
                       </h2>
-                      {auctionStatus(auction.state) === "Active" ? (
-                        <span className="badge badge-pill badge-success">
-                          Live
-                        </span>
-                      ) : (
-                        <span className="badge badge-pill badge-dark">
-                          {auctionStatus(auction.state)}
-                        </span>
-                      )}
-                      {web3.account === auction.seller &&
-                      auction.state === 0 ? (
-                        <span>
-                          <button
-                            type="button"
-                            class="btn btn-outline-danger btn-sm float-right mt-1"
-                            onClick={() => stageCancel()}
-                          >
-                            End Auction
-                          </button>
-                        </span>
-                      ) : null}
+                      {toggleBadge()}
+                      {toggleButton()}
                     </div>
                   </div>
                 </div>
