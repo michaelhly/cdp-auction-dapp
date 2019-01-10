@@ -18,14 +18,13 @@ const MyAuctions = props => {
     setMyAuctions(auctions);
   };
 
-  const handleCancelEvent = event => {
+  const handleCancel = event => {
     const updates = event.LogEndedAuction.returnValues;
-    const copy = myAuctions.map(auction => {
-      if (auction.id === updates.auctionId) {
-        auction.state = parseInt(updates.state);
-      }
-      return auction;
+    const copy = [...myAuctions];
+    const index = copy.findIndex(auction => {
+      return auction.id === updates.id;
     });
+    copy[index].state = parseInt(updates.state);
     setMyAuctions(copy);
 
     const cdp = {
@@ -36,7 +35,7 @@ const MyAuctions = props => {
   };
 
   const stageCancel = auctionId => {
-    props.onModal("cancelAuction", { id: auctionId }, handleCancelEvent);
+    props.onModal("cancelAuction", { id: auctionId }, handleCancel);
   };
 
   const toggleTable = () => {
