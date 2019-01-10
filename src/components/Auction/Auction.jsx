@@ -67,12 +67,20 @@ const Auction = props => {
     setAuction(copy);
   };
 
-  /*
-  const concludeAuction = event => {
-     const copy = auction;
-    console.log(event);
+  const handleSale = event => {
+    const transferLog = event.LogCDPTransfer.returnValues;
+    const saleLog = event.LogConclusion.returnValues;
+    const copy = auction;
+    copy.state = 3;
+    copy.bids = [saleLog.bidId, ...copy.bids];
+    setAuction(copy);
+
+    const cdp = {
+      cup: transferLog.cdp,
+      id: web3.web3js.utils.hexToNumber(transferLog.cdp)
+    };
+    props.onSale(auction.id, transferLog.to, cdp);
   };
-  */
 
   const handleApproval = async token => {
     const copy = [...tokens];
@@ -145,9 +153,9 @@ const Auction = props => {
             auction={auction}
             formInputs={orderInputs}
             onFormInput={handleOrderInputs}
-            onUpdate={props.updateAuction}
-            onModal={props.onModal}
+            onSale={handleSale}
             onNewBid={handleNewBid}
+            onModal={props.onModal}
             onApprove={handleApproval}
           />
         </React.Fragment>
@@ -155,10 +163,13 @@ const Auction = props => {
     }
   };
 
-  useAccountEffect(() => {
-    setTokens([]);
-    fetchTokens();
-  });
+  useAccountEffect(
+    () => {
+      setTokens([]);
+      fetchTokens();
+    },
+    [auction.bids]
+  );
 
   return (
     <React.Fragment>

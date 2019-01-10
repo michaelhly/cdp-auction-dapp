@@ -10,6 +10,7 @@ const AuctionOrderbox = props => {
   const stageBidOrder = button => {
     const formInputs = { ...props.formInputs };
     const value = button === "BID" ? formInputs.amount : ask;
+    const expiry = button === "BID" ? formInputs.expiry : 100;
     const token =
       button === "BID"
         ? formInputs.token
@@ -18,10 +19,12 @@ const AuctionOrderbox = props => {
       id: auction.id,
       token: token,
       value: value,
-      expiry: formInputs.expiry
+      expiry: expiry
     };
     if (button === "BID") {
       props.onModal("submitBid", params, props.onNewBid);
+    } else {
+      props.onModal("submitBid", params, props.onSale);
     }
   };
 

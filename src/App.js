@@ -102,9 +102,24 @@ const App = () => {
     setLoading(loadCdps);
   };
 
+  const handleSaleTransfer = (auctionId, newOwner, cdp) => {
+    removeAuction(auctionId);
+    if (newOwner === proxy) {
+      addNewCDP(cdp);
+    }
+  };
+
   const handleListingRemoval = (auctionId, cdp) => {
+    removeAuction(auctionId);
+    addNewCDP(cdp);
+  };
+
+  const removeAuction = auctionId => {
     const newAuctions = auctions.filter(auction => auction.id !== auctionId);
     setAuctions(newAuctions);
+  };
+
+  const addNewCDP = cdp => {
     const newCdps = [cdp, ...cdps];
     setCdps(newCdps);
   };
@@ -185,7 +200,7 @@ const App = () => {
             render={props => (
               <Auction
                 onModal={triggerModal}
-                onUpdate={updateAuction}
+                onSale={handleSaleTransfer}
                 {...props}
               />
             )}

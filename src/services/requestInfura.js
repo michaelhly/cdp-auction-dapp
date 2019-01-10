@@ -36,6 +36,26 @@ export const loadCdps = async (user, proxy, block = 0) => {
     console.log(err);
   }
 
+  try {
+    const auctionInstance = await getAuctionInstance();
+    const events = await auctionInstance.getPastEvents("LogCDPTransfer", {
+      filter: { to: proxy },
+      fromBlock: block,
+      toBlock: "latest"
+    });
+
+    for (let i = events.length - 1; i >= 0; i--) {
+      const cup = events[i].returnValues.cdp;
+      const ink = await tubInstance.methods.ink(cup).call();
+      const lad = await tubInstance.methods.lad(cup).call();
+      if (ink > 0 && lad === proxy) {
+        cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
   return cdps;
 };
 
