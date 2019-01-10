@@ -181,7 +181,7 @@ const Modal = props => {
       return (
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           onClick={() => sendTransaction()}
         >
           Confirm
@@ -190,7 +190,7 @@ const Modal = props => {
     } else if (txHash) {
       return (
         <a
-          class="btn btn-link"
+          className="btn btn-link"
           href={getEtherscanLink(web3.networkId, "transaction", txHash)}
           target="_blank"
           role="button"

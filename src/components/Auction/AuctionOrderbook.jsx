@@ -57,7 +57,7 @@ const AuctionOrderbook = props => {
       return bidStatus === "Expired" ? (
         <button
           type="button"
-          class="btn btn-outline-dark btn-sm"
+          className="btn btn-outline-dark btn-sm"
           onClick={() => stageRevokeBid(bid.id)}
         >
           Retrieve Tokens
@@ -81,7 +81,7 @@ const AuctionOrderbook = props => {
       return auctionStatus === "Expired" ? (
         <button
           type="button"
-          class="btn btn-outline-secondary btn-sm"
+          className="btn btn-outline-secondary btn-sm"
           onClick={() => {
             stageResolveAuction(bid.id, props.onEnded);
           }}

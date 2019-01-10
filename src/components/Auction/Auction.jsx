@@ -188,7 +188,7 @@ const Auction = props => {
       <span>
         <button
           type="button"
-          class={
+          className={
             active
               ? "btn btn-outline-danger btn-sm float-right mt-1"
               : "btn btn-outline-secondary btn-sm float-right mt-1"

@@ -70,7 +70,7 @@ const MyBids = props => {
     return (
       <button
         type="button"
-        class={
+        className={
           convertExpiryBlocks(bid.expiry) === "Expired"
             ? "btn btn-outline-dark btn-sm"
             : "btn btn-danger btn-sm"
@@ -103,7 +103,7 @@ const MyBids = props => {
               ) : (
                 <button
                   type="button"
-                  class="btn btn-link p-0"
+                  className="btn btn-link p-0"
                   style={{ verticalAlign: "top" }}
                   onClick={() => linkToAuction(bid)}
                 >

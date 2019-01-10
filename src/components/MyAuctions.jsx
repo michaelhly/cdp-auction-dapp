@@ -47,11 +47,11 @@ const MyAuctions = props => {
       <Table headers={["AuctionId", "Bids", "Status", "Action"]}>
         {myAuctions.map(auction => (
           <React.Fragment>
-            <tr>
+            <tr key={auction.id}>
               <td>
                 <button
                   type="button"
-                  class="btn btn-link"
+                  className="btn btn-link"
                   onClick={() =>
                     props.history.push({
                       pathname: `/${auction.id}`,
@@ -68,7 +68,7 @@ const MyAuctions = props => {
                 {auction.state === 0 ? (
                   <button
                     type="button"
-                    class="btn btn-danger btn-sm"
+                    className="btn btn-danger btn-sm"
                     onClick={() => stageCancel(auction.id)}
                   >
                     Cancel

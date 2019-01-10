@@ -13,7 +13,7 @@ const NoCdp = props => {
         <a
           href="https://cdp.makerdao.com/"
           target="_blank"
-          class="btn btn-dark btn active mt-1"
+          className="btn btn-dark btn active mt-1"
           role="button"
           aria-pressed="true"
         >

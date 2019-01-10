@@ -4,11 +4,11 @@ const Ready = props => {
   const modalProps = props.values;
   return (
     <div>
-      <div class="modal-header">
-        <h5 class="modal-title">Submitting transaction</h5>
+      <div className="modal-header">
+        <h5 className="modal-title">Submitting transaction</h5>
         <button
           type="button"
-          class="close"
+          className="close"
           data-dismiss="modal"
           aria-label="Close"
           onClick={() => props.onClose()}
@@ -16,7 +16,7 @@ const Ready = props => {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div className="modal-body">
         <p className="text-nowrap">From: {props.account}</p>
         <p className="text-nowrap">
           To:{" "}
