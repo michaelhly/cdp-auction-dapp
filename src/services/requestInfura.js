@@ -27,11 +27,13 @@ export const loadCdps = async (user, proxy, block = 0) => {
 
     for (let i = events.length - 1; i >= 0; i--) {
       const cup = events[i].returnValues.cup;
-      const ink = await tubInstance.methods.ink(cup).call();
       const lad = await tubInstance.methods.lad(cup).call();
-      if (ink > 0 && lad === proxy) {
+      if (lad === proxy) {
         seen[cup] = true;
-        cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
+        const ink = await tubInstance.methods.ink(cup).call();
+        if (ink > 0) {
+          cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
+        }
       }
     }
   } catch (err) {
@@ -48,11 +50,12 @@ export const loadCdps = async (user, proxy, block = 0) => {
 
     for (let i = events.length - 1; i >= 0; i--) {
       const cup = events[i].returnValues.cdp;
-      const ink = await tubInstance.methods.ink(cup).call();
-      const lad = await tubInstance.methods.lad(cup).call();
-      if (ink > 0 && lad === proxy && !seen[cup]) {
-        seen[cup] = true;
-        cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
+      if (!seen[cup]) {
+        const lad = await tubInstance.methods.lad(cup).call();
+        if (lad === proxy) {
+          seen[cup] = true;
+          cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
+        }
       }
     }
   } catch (err) {
