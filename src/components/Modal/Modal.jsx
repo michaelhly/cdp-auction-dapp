@@ -237,7 +237,7 @@ const Modal = props => {
   };
 
   useAccountEffect(() => {
-    props.onClose();
+    handleClose();
   });
 
   return (
