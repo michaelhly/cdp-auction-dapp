@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAccountEffect } from "web3-react/hooks";
 import { Route, Switch, Redirect } from "react-router-dom";
-import MyAuctions from "./components/MyAuctions";
-import MyBids from "./components/MyBids";
-import Home from "./components/Home/Homepage";
 import Navbar from "./components/Navbar";
+import MyBids from "./components/MyBids";
+import MyAuctions from "./components/MyAuctions";
+import Home from "./components/Home/Homepage";
 import Auction from "./components/Auction/Auction";
+import TokenFaucet from "./components/TokenFaucet";
 import ConfirmationModal from "./components/Modal/Modal";
 import { loadCdps, loadAuctions, getAuction } from "./services/requestInfura";
 
@@ -179,6 +180,7 @@ const App = () => {
       />
       <main className="container">
         <Switch>
+          <Route path="/faucet" component={TokenFaucet} />
           <Route
             exact
             path="/myauctions"
