@@ -1,35 +1,28 @@
 import React from "react";
 import { Icon } from "antd";
+import ModalHeader from "../common/ModalHeader";
+import ViewTransaction from "./ViewTransaction";
 
 const Confirmed = props => {
   return (
-    <div>
-      <div className="modal-header">
-        <h5 className="modal-title">Transaction confirmed!</h5>
-        <button
-          type="button"
-          className="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          onClick={() => props.onClose()}
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    <ModalHeader onClose={props.onClose} title="Transaction Confirmed!">
       <div className="modal-body">
         <div className="container-fluid">
           <div className="row">
             <div className="d-flex mx-auto mt-5 p-3">
               <Icon
                 type="check-circle"
-                style={{ fontSize: "82px", color: "green" }}
+                style={{ fontSize: "68px", color: "green" }}
                 theme="outlined"
               />
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <div class="modal-footer mt-5">
+        <ViewTransaction network={props.network} txHash={props.txHash} />
+      </div>
+    </ModalHeader>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
-import { getEtherscanLink } from "web3-react/utilities";
 import { useWeb3Context, useAccountEffect } from "web3-react/hooks";
 import {
   random,
@@ -8,11 +7,11 @@ import {
   BLOCKS_PER_DAY,
   getTokenAddressBySymbol
 } from "../../utils/helpers";
-import NoProxy from "../common/NoProxy";
-import DisplayLoading from "../common/DisplayLoading";
 import Ready from "./Ready";
 import Confirmed from "./Confirmed";
 import Failed from "./Failed";
+import Pending from "./Pending";
+import NoProxy from "../common/NoProxy";
 
 ReactModal.setAppElement(document.getElementById("root"));
 
@@ -25,7 +24,7 @@ const customStyles = {
   content: {
     position: "relative",
     margin: "auto",
-    height: "430px",
+    height: "460px",
     width: "600px"
   }
 };
@@ -176,40 +175,15 @@ const Modal = props => {
     }
   };
 
-  const toggleButtons = () => {
-    if (state === STATE.READY) {
-      return (
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => sendTransaction()}
-        >
-          Confirm
-        </button>
-      );
-    } else if (txHash) {
-      return (
-        <a
-          className="btn btn-link"
-          href={getEtherscanLink(web3.networkId, "transaction", txHash)}
-          target="_blank"
-          rel="noopener noreferrer"
-          role="button"
-          style={{ marginTop: "307px" }}
-        >
-          View transaction
-        </a>
-      );
-    }
-  };
-
   const toggleModal = () => {
-    if (state === STATE.FAILED) return <Failed />;
+    if (state === STATE.FAILED) return <Failed onClose={handleClose} />;
     if (props.loading || state === STATE.PENDING || props.proxy === "pending") {
       return (
-        <div style={{ textAlign: "center" }}>
-          <DisplayLoading size="large" />
-        </div>
+        <Pending
+          onClose={handleClose}
+          network={web3.networkId}
+          txHash={txHash}
+        />
       );
     }
 
@@ -225,14 +199,19 @@ const Modal = props => {
     } else {
       return state === STATE.READY ? (
         <Ready
+          proxy={props.proxy}
           values={modalProps}
           account={web3.account}
           onClose={handleClose}
-          proxy={props.proxy}
+          onSend={sendTransaction}
           auctionAddr={addressBook.kovan.auction}
         />
       ) : (
-        <Confirmed onClose={handleClose} />
+        <Confirmed
+          onClose={handleClose}
+          network={web3.networkId}
+          txHash={txHash}
+        />
       );
     }
   };
@@ -248,7 +227,6 @@ const Modal = props => {
       style={customStyles}
     >
       {toggleModal()}
-      <div style={{ textAlign: "center" }}>{toggleButtons()}</div>
     </ReactModal>
   );
 };

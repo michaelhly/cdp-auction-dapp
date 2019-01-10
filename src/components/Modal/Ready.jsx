@@ -1,21 +1,10 @@
 import React from "react";
+import ModalHeader from "../common/ModalHeader";
 
 const Ready = props => {
   const modalProps = props.values;
   return (
-    <div>
-      <div className="modal-header">
-        <h5 className="modal-title">Submitting transaction</h5>
-        <button
-          type="button"
-          className="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          onClick={() => props.onClose()}
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    <ModalHeader onClose={props.onClose} title="Submitting Transaction">
       <div className="modal-body">
         <p className="text-nowrap">From: {props.account}</p>
         <p className="text-nowrap">
@@ -30,7 +19,16 @@ const Ready = props => {
           {JSON.stringify(modalProps.params)}
         </textarea>
       </div>
-    </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          className="btn btn-primary mx-auto"
+          onClick={() => props.onSend()}
+        >
+          Confirm
+        </button>
+      </div>
+    </ModalHeader>
   );
 };
 

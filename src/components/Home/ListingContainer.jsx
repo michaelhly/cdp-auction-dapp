@@ -18,7 +18,10 @@ const ListingContainer = props => {
               return auction.state <= 1;
             })
             .map(auction => (
-              <div className="shadow w-100 float-right mb-4 bg-white rounded">
+              <div
+                className="shadow w-100 float-right bg-white rounded"
+                style={{ marginBottom: "2.25em" }}
+              >
                 <InfoCard key={auction.id} auction={auction} type="HOME" />
               </div>
             ))}
