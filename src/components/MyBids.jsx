@@ -59,8 +59,14 @@ const MyBids = props => {
     setMyBids(copy);
   };
 
+  const toggleStatus = bid => {
+    if (bid.revoked) return "Cancelled";
+    if (bid.won) return "Winner";
+    return convertExpiryBlocks(bid.expiry);
+  };
+
   const toggleButtons = bid => {
-    if (bid.revoked) return null;
+    if (bid.revoked || bid.won) return null;
 
     return (
       <button
@@ -110,9 +116,7 @@ const MyBids = props => {
             <td>
               {bid.value} {getTokenSymbolByAddress(bid.token)}
             </td>
-            <td>
-              {bid.revoked ? "Cancelled" : convertExpiryBlocks(bid.expiry)}
-            </td>
+            <td>{toggleStatus(bid)}</td>
             <td>{toggleButtons(bid)}</td>
           </tr>
         ))}

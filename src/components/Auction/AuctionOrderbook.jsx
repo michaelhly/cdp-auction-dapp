@@ -31,9 +31,19 @@ const AuctionOrderbook = props => {
     props.onModal("revokeBid", { id: bidId }, handleRemoveBid);
   };
 
+  const toggleStatus = bid => {
+    if (bid.revoked) return "Cancelled";
+    if (bid.won) return "Winner";
+    return convertExpiryBlocks(bid.expiry);
+  };
+
   const toggleButtons = bid => {
     const account = props.account;
-    if (account.toLowerCase() === bid.buyer.toLowerCase() && !bid.revoked) {
+    if (
+      account.toLowerCase() === bid.buyer.toLowerCase() &&
+      !bid.revoked &&
+      !bid.won
+    ) {
       return convertExpiryBlocks(bid.expiry) === "Expired" ? (
         <button
           type="button"
@@ -77,9 +87,7 @@ const AuctionOrderbook = props => {
               <td>
                 {round2Decimals(bid.value)} {getTokenSymbolByAddress(bid.token)}
               </td>
-              <td>
-                {bid.revoked ? "Cancelled" : convertExpiryBlocks(bid.expiry)}
-              </td>
+              <td>{toggleStatus(bid)}</td>
               <td>{toggleButtons(bid)}</td>
             </tr>
           ))}
