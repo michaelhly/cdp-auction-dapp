@@ -15,6 +15,7 @@ const getAuctionInstance = async () => {
 
 export const loadCdps = async (user, proxy, block = 0) => {
   const tubInstance = await getTubInstance();
+  const seen = {};
   const cdps = [];
 
   try {
@@ -29,6 +30,7 @@ export const loadCdps = async (user, proxy, block = 0) => {
       const ink = await tubInstance.methods.ink(cup).call();
       const lad = await tubInstance.methods.lad(cup).call();
       if (ink > 0 && lad === proxy) {
+        seen[cup] = true;
         cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
       }
     }
@@ -48,7 +50,8 @@ export const loadCdps = async (user, proxy, block = 0) => {
       const cup = events[i].returnValues.cdp;
       const ink = await tubInstance.methods.ink(cup).call();
       const lad = await tubInstance.methods.lad(cup).call();
-      if (ink > 0 && lad === proxy) {
+      if (ink > 0 && lad === proxy && !seen[cup]) {
+        seen[cup] = true;
         cdps.push({ cup: cup, id: web3.utils.hexToNumber(cup) });
       }
     }
