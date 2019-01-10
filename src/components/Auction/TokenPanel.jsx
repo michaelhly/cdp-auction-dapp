@@ -17,10 +17,7 @@ const TokenPanel = props => {
       <SidePanel>
         <Blockie address={props.account} label="Account" />
         <div>
-          <TokenContainer
-            tokens={props.tokens}
-            onApprove={props.handleApproval}
-          />
+          <TokenContainer tokens={props.tokens} onApprove={props.onApprove} />
         </div>
       </SidePanel>
     );
