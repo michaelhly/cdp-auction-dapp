@@ -110,13 +110,17 @@ const InfoCard = props => {
             <div className="row">
               <div className="col-4">
                 <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                  Collateral:{" "}
+                  Collateral:{" Ξ "}
                   <span style={{ color: "black" }}>{displayInfo("C")}</span>
                 </h6>
               </div>
               <div className="col-4">
                 <h6 style={{ color: "rgb(85, 85, 85)" }}>
-                  Debt: <span style={{ color: "black" }}>{displayInfo()}</span>
+                  Debt:{" "}
+                  <span style={{ color: "black" }}>
+                    {displayInfo()}
+                    {" DAI"}
+                  </span>
                 </h6>
               </div>
               <div className="col-4">
