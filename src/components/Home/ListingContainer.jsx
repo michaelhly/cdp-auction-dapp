@@ -12,13 +12,13 @@ const ListingContainer = props => {
     } else {
       return (
         <React.Fragment>
-          <h2 className="title mb-4">Live Auctions</h2>
+          <h2 className="title mb-3">Live Auctions</h2>
           {props.auctions
             .filter(auction => {
               return auction.state <= 1;
             })
             .map(auction => (
-              <div className="shadow w-100 float-right mb-5 bg-white rounded">
+              <div className="shadow w-100 float-right mb-4 bg-white rounded">
                 <InfoCard key={auction.id} auction={auction} type="HOME" />
               </div>
             ))}

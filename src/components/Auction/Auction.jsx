@@ -254,7 +254,7 @@ const Auction = props => {
                   <div className="col p-0">
                     <div>
                       <h2
-                        className="title mb-4 mr-2"
+                        className="title mb-3 mr-2"
                         style={{ display: "inline-block" }}
                       >
                         CDP {auction.cdpId}{" "}

@@ -131,7 +131,7 @@ const MyBids = props => {
 
   return (
     <div>
-      <h2 className="mb-4">My Bids</h2>
+      <h2 className="mb-3">My Bids</h2>
       <div className="container">
         <div className="row">
           <div className="col-12" />
