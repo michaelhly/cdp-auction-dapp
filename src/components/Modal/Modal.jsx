@@ -61,6 +61,11 @@ const Modal = props => {
 
   const getSalt = () => new BN(random(100000000)).toString();
 
+  const waitForConfirmation = txHash => {
+    setTxHash(txHash);
+    setState(STATE.PENDING);
+  };
+
   const createAuction = async () => {
     const inputParams = { ...modalProps.params };
 
@@ -93,8 +98,7 @@ const Modal = props => {
       )
         .send({ from: web3.account })
         .on("transactionHash", function(hash) {
-          setTxHash(hash);
-          setState(STATE.PENDING);
+          waitForConfirmation(hash);
         });
     } catch (err) {
       console.log(err);
@@ -113,8 +117,7 @@ const Modal = props => {
         .submitBid(params.id, props.proxy, token, value, expiryBlocks, salt)
         .send({ from: web3.account })
         .on("transactionHash", function(hash) {
-          setTxHash(hash);
-          setState(STATE.PENDING);
+          waitForConfirmation(hash);
         });
     } catch (err) {
       console.log(err);
@@ -138,18 +141,31 @@ const Modal = props => {
         case "submitBid":
           tx = await submitBid(auctionInstance, params);
           break;
+        case "resolveAuction":
+          const { auctionId, bidId } = params;
+          console.log(auctionId);
+          console.log(bidId);
+          try {
+            tx = await auctionInstance.methods
+              .resolveAuction(auctionId, bidId)
+              .send({ from: web3.account })
+              .on("transactionHash", function(hash) {
+                waitForConfirmation(hash);
+              });
+          } catch (err) {
+            console.log(err);
+          }
+          break;
         default:
           try {
             tx = await auctionInstance.methods[modalProps.method](params.id)
               .send({ from: web3.account })
               .on("transactionHash", function(hash) {
-                setTxHash(hash);
-                setState(STATE.PENDING);
+                waitForConfirmation(hash);
               });
           } catch (err) {
             console.log(err);
           }
-
           break;
       }
     }

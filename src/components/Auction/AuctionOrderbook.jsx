@@ -10,10 +10,12 @@ import {
 import DisplayLoading from "../common/DisplayLoading";
 
 const AuctionOrderbook = props => {
+  const auction = props.auction;
+  console.log(props);
   const [book, setBook] = useState(null);
 
   const fetchBook = async () => {
-    const bids = await loadBidInfo(props.bidIds);
+    const bids = await loadBidInfo(auction.bids);
     setBook(bids);
   };
 
@@ -31,6 +33,15 @@ const AuctionOrderbook = props => {
     props.onModal("revokeBid", { id: bidId }, handleRemoveBid);
   };
 
+  const stageTakeOffer = bidId => {
+    console.log(props);
+    props.onModal(
+      "resolveAuction",
+      { auctionId: auction.id, bidId: bidId },
+      props.onSale
+    );
+  };
+
   const toggleStatus = bid => {
     if (bid.revoked) return "Cancelled";
     if (bid.won) return "Winner";
@@ -44,7 +55,8 @@ const AuctionOrderbook = props => {
       !bid.revoked &&
       !bid.won
     ) {
-      return convertExpiryBlocks(bid.expiry) === "Expired" ? (
+      return convertExpiryBlocks(bid.expiry) === "Expired" ||
+        auction.state > 1 ? (
         <button
           type="button"
           class="btn btn-outline-dark btn-sm"
@@ -62,13 +74,19 @@ const AuctionOrderbook = props => {
         </button>
       );
     } else if (
-      account.toLowerCase() === props.auctioneer.toLowerCase() &&
+      account.toLowerCase() === auction.seller.toLowerCase() &&
       !bid.revoked &&
       convertExpiryBlocks(bid.expiry) !== "Expired" &&
-      props.auctionState === 1
+      auction.state < 2
     ) {
       return (
-        <button type="button" className="btn btn-outline-primary btn-sm">
+        <button
+          type="button"
+          className="btn btn-outline-primary btn-sm"
+          onClick={() => {
+            stageTakeOffer(bid.id);
+          }}
+        >
           Take Offer
         </button>
       );
@@ -100,7 +118,7 @@ const AuctionOrderbook = props => {
     () => {
       fetchBook();
     },
-    [props.bidIds]
+    [auction.bids]
   );
 
   return (

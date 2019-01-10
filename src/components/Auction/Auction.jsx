@@ -72,7 +72,10 @@ const Auction = props => {
     const saleLog = event.LogConclusion.returnValues;
     const copy = auction;
     copy.state = 3;
-    copy.bids = [saleLog.bidId, ...copy.bids];
+    const index = copy.bids.indexOf(saleLog.bidId);
+    //Force re-render if no new bidId
+    copy.bids =
+      index === -1 ? [saleLog.bidId, ...copy.bids] : ["0x0", ...copy.bids];
     setAuction(copy);
 
     const cdp = {
@@ -168,7 +171,7 @@ const Auction = props => {
       setTokens([]);
       fetchTokens();
     },
-    [auction.bids]
+    [auction ? auction.bids : null]
   );
 
   return (
@@ -212,10 +215,9 @@ const Auction = props => {
                 <InfoCard auction={auction} type="AUCTION" />
                 <div className="row shadow-sm mb-3">{actionBox()}</div>
                 <AuctionOrderbook
-                  bidIds={auction.bids}
-                  auctioneer={auction.seller}
-                  auctionState={auction.state}
+                  auction={auction}
                   account={web3.account}
+                  onSale={handleSale}
                   onModal={props.onModal}
                 />
               </div>

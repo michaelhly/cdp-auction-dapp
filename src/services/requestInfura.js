@@ -113,23 +113,25 @@ export const loadBidInfo = async bidIds => {
   const currentBlock = await web3.eth.getBlockNumber();
   const bids = [];
   for (let i = bidIds.length - 1; i >= 0; i--) {
-    try {
-      let bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
-      bids.push({
-        id: bidIds[i],
-        auctionId: bid.auctionId,
-        buyer: bid.buyer,
-        cdpId: web3.utils.hexToNumber(bid.cdp),
-        expiry: parseInt(bid.expiry) - parseInt(currentBlock),
-        proxy: bid.proxy,
-        token: bid.token,
-        value: web3.utils.fromWei(bid.value, "ether"),
-        revoked: Boolean(bid.revoked),
-        won: Boolean(bid.won),
-        loading: false
-      });
-    } catch (err) {
-      console.log(err);
+    if (bidIds[i] !== "0x0") {
+      try {
+        let bid = await auctionInstance.methods.getBidInfo(bidIds[i]).call();
+        bids.push({
+          id: bidIds[i],
+          auctionId: bid.auctionId,
+          buyer: bid.buyer,
+          cdpId: web3.utils.hexToNumber(bid.cdp),
+          expiry: parseInt(bid.expiry) - parseInt(currentBlock),
+          proxy: bid.proxy,
+          token: bid.token,
+          value: web3.utils.fromWei(bid.value, "ether"),
+          revoked: Boolean(bid.revoked),
+          won: Boolean(bid.won),
+          loading: false
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
   return bids;
