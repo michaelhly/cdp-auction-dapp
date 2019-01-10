@@ -32,12 +32,16 @@ const AuctionOrderbook = props => {
     props.onModal("revokeBid", { id: bidId }, handleRemoveBid);
   };
 
-  const stageTakeOffer = bidId => {
+  const stageResolveAuction = (bidId, callback) => {
     props.onModal(
       "resolveAuction",
       { auctionId: auction.id, bidId: bidId },
-      props.onSale
+      callback
     );
+  };
+
+  const stageCancel = () => {
+    props.onModal("cancelAuction", { id: auction.id }, props.onEnded);
   };
 
   const toggleStatus = bid => {
@@ -53,8 +57,8 @@ const AuctionOrderbook = props => {
       !bid.revoked &&
       !bid.won
     ) {
-      return convertExpiryBlocks(bid.expiry) === "Expired" ||
-        auction.state > 1 ? (
+      const bidStatus = convertExpiryBlocks(bid.expiry);
+      return bidStatus === "Expired" ? (
         <button
           type="button"
           class="btn btn-outline-dark btn-sm"
@@ -77,12 +81,23 @@ const AuctionOrderbook = props => {
       convertExpiryBlocks(bid.expiry) !== "Expired" &&
       auction.state < 2
     ) {
-      return (
+      const auctionStatus = convertExpiryBlocks(auction.expiry);
+      return auctionStatus === "Expired" ? (
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          onClick={() => {
+            stageResolveAuction(bid.id, props.onEnded);
+          }}
+        >
+          Retrieve CDP
+        </button>
+      ) : (
         <button
           type="button"
           className="btn btn-outline-primary btn-sm"
           onClick={() => {
-            stageTakeOffer(bid.id);
+            stageResolveAuction(bid.id, props.onSale);
           }}
         >
           Take Offer
@@ -99,7 +114,7 @@ const AuctionOrderbook = props => {
         <Table headers={["Bidder", "Offer", "Expiry/Status", "Action"]}>
           {book.map(bid => (
             <tr key={bid.id}>
-              <td>{trimHexString(bid.buyer, 30)}</td>
+              <td>{trimHexString(bid.buyer, 20)}</td>
               <td>
                 {round2Decimals(bid.value)} {getTokenSymbolByAddress(bid.token)}
               </td>
@@ -122,8 +137,19 @@ const AuctionOrderbook = props => {
   return (
     <div className="row">
       <div className="col p-0">
-        <h3>Offers</h3>
-        {!book ? <DisplayLoading size="large" /> : toggleTableContent()}
+        <h3 style={{ display: "inline-block" }}>Offers</h3>
+        {props.account === auction.seller && auction.state === 0 ? (
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm float-right"
+            onClick={() => stageCancel()}
+          >
+            End Auction
+          </button>
+        ) : null}
+        <div>
+          {!book ? <DisplayLoading size="large" /> : toggleTableContent()}
+        </div>
       </div>
     </div>
   );

@@ -85,6 +85,19 @@ const Auction = props => {
     props.onSale(auction.id, transferLog.to, cdp);
   };
 
+  const handleEndAuction = event => {
+    const updates = event.LogEndedAuction.returnValues;
+    const copy = auction;
+    copy.state = parseInt(updates.state);
+    setAuction(copy);
+
+    const cdp = {
+      cup: updates.cdp,
+      id: web3.web3js.utils.hexToNumber(updates.cdp)
+    };
+    props.onCancel(updates.auctionId, cdp);
+  };
+
   const handleApproval = async token => {
     const copy = [...tokens];
     const index = tokens.indexOf(token);
@@ -217,6 +230,7 @@ const Auction = props => {
                 <AuctionOrderbook
                   auction={auction}
                   account={web3.account}
+                  onEnded={handleEndAuction}
                   onSale={handleSale}
                   onModal={props.onModal}
                 />

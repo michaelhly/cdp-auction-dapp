@@ -201,6 +201,7 @@ const App = () => {
               <Auction
                 onModal={triggerModal}
                 onSale={handleSaleTransfer}
+                onCancel={handleListingRemoval}
                 {...props}
               />
             )}
