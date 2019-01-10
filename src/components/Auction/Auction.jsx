@@ -180,10 +180,10 @@ const Auction = props => {
 
   const toggleButton = () => {
     if (web3.account !== auction.seller) return null;
+    if (auction.state > 1) return null;
     const active =
       auction.state === 0 &&
       auctionStatus(auction.state, auction.expiry) !== "Expired";
-
     return (
       <span>
         <button
