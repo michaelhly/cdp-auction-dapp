@@ -40,10 +40,6 @@ const AuctionOrderbook = props => {
     );
   };
 
-  const stageCancel = () => {
-    props.onModal("cancelAuction", { id: auction.id }, props.onEnded);
-  };
-
   const toggleStatus = bid => {
     if (bid.revoked) return "Cancelled";
     if (bid.won) return "Winner";
@@ -137,19 +133,8 @@ const AuctionOrderbook = props => {
   return (
     <div className="row">
       <div className="col p-0">
-        <h3 style={{ display: "inline-block" }}>Offers</h3>
-        {props.account === auction.seller && auction.state === 0 ? (
-          <button
-            type="button"
-            class="btn btn-outline-danger btn-sm float-right"
-            onClick={() => stageCancel()}
-          >
-            End Auction
-          </button>
-        ) : null}
-        <div>
-          {!book ? <DisplayLoading size="large" /> : toggleTableContent()}
-        </div>
+        <h3>Offers</h3>
+        {!book ? <DisplayLoading size="large" /> : toggleTableContent()}
       </div>
     </div>
   );

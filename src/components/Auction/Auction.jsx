@@ -60,29 +60,41 @@ const Auction = props => {
     setTokens(tokenArray);
   };
 
+  const stageCancel = () => {
+    props.onModal("cancelAuction", { id: auction.id }, handleEndAuction);
+  };
+
   const handleNewBid = event => {
-    const copy = auction;
-    const newBidId = event.LogSubmittedBid.returnValues.bidId;
-    copy.bids = [newBidId, ...copy.bids];
-    setAuction(copy);
+    if (event.LogEndedAuction) {
+      handleEndAuction(event);
+    } else {
+      const copy = auction;
+      const newBidId = event.LogSubmittedBid.returnValues.bidId;
+      copy.bids = [newBidId, ...copy.bids];
+      setAuction(copy);
+    }
   };
 
   const handleSale = event => {
-    const transferLog = event.LogCDPTransfer.returnValues;
-    const saleLog = event.LogConclusion.returnValues;
-    const copy = auction;
-    copy.state = 3;
-    const index = copy.bids.indexOf(saleLog.bidId);
-    //Force re-render if no new bidId
-    copy.bids =
-      index === -1 ? [saleLog.bidId, ...copy.bids] : ["0x0", ...copy.bids];
-    setAuction(copy);
+    if (event.LogEndedAuction) {
+      handleEndAuction(event);
+    } else {
+      const transferLog = event.LogCDPTransfer.returnValues;
+      const saleLog = event.LogConclusion.returnValues;
+      const copy = auction;
+      copy.state = 3;
+      const index = copy.bids.indexOf(saleLog.bidId);
+      //Force re-render if no new bidId
+      copy.bids =
+        index === -1 ? [saleLog.bidId, ...copy.bids] : ["0x0", ...copy.bids];
+      setAuction(copy);
 
-    const cdp = {
-      cup: transferLog.cdp,
-      id: web3.web3js.utils.hexToNumber(transferLog.cdp)
-    };
-    props.onSale(auction.id, transferLog.to, cdp);
+      const cdp = {
+        cup: transferLog.cdp,
+        id: web3.web3js.utils.hexToNumber(transferLog.cdp)
+      };
+      props.onSale(auction.id, transferLog.to, cdp);
+    }
   };
 
   const handleEndAuction = event => {
@@ -222,6 +234,18 @@ const Auction = props => {
                           {auctionStatus(auction.state)}
                         </span>
                       )}
+                      {web3.account === auction.seller &&
+                      auction.state === 0 ? (
+                        <span>
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm float-right mt-1"
+                            onClick={() => stageCancel()}
+                          >
+                            End Auction
+                          </button>
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                 </div>
