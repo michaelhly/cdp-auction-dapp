@@ -65,10 +65,10 @@ const AuctionOrderbook = props => {
       account.toLowerCase() === props.auctioneer.toLowerCase() &&
       !bid.revoked &&
       convertExpiryBlocks(bid.expiry) !== "Expired" &&
-      props.auctionState === 2
+      props.auctionState === 1
     ) {
       return (
-        <button type="button" className="btn btn-primary btn-sm">
+        <button type="button" className="btn btn-outline-primary btn-sm">
           Take Offer
         </button>
       );
