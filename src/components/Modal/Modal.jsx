@@ -193,6 +193,7 @@ const Modal = props => {
           className="btn btn-link"
           href={getEtherscanLink(web3.networkId, "transaction", txHash)}
           target="_blank"
+          rel="noopener noreferrer"
           role="button"
           style={{ marginTop: "307px" }}
         >
