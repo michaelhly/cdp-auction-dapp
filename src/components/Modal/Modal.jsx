@@ -12,6 +12,7 @@ import NoProxy from "../common/NoProxy";
 import DisplayLoading from "../common/DisplayLoading";
 import Ready from "./Ready";
 import Confirmed from "./Confirmed";
+import Failed from "./Failed";
 
 ReactModal.setAppElement(document.getElementById("root"));
 
@@ -202,6 +203,7 @@ const Modal = props => {
   };
 
   const toggleModal = () => {
+    if (state === STATE.FAILED) return <Failed />;
     if (props.loading || state === STATE.PENDING || props.proxy === "pending") {
       return (
         <div style={{ textAlign: "center" }}>
