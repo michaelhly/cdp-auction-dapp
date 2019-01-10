@@ -143,8 +143,6 @@ const Modal = props => {
           break;
         case "resolveAuction":
           const { auctionId, bidId } = params;
-          console.log(auctionId);
-          console.log(bidId);
           try {
             tx = await auctionInstance.methods
               .resolveAuction(auctionId, bidId)

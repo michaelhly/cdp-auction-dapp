@@ -11,7 +11,6 @@ import DisplayLoading from "../common/DisplayLoading";
 
 const AuctionOrderbook = props => {
   const auction = props.auction;
-  console.log(props);
   const [book, setBook] = useState(null);
 
   const fetchBook = async () => {
@@ -34,7 +33,6 @@ const AuctionOrderbook = props => {
   };
 
   const stageTakeOffer = bidId => {
-    console.log(props);
     props.onModal(
       "resolveAuction",
       { auctionId: auction.id, bidId: bidId },

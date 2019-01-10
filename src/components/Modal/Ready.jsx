@@ -2,7 +2,6 @@ import React from "react";
 
 const Ready = props => {
   const modalProps = props.values;
-  console.log(modalProps);
   return (
     <div>
       <div class="modal-header">

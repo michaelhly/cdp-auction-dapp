@@ -16,7 +16,6 @@ const MyBids = props => {
   const fetchMyBids = async () => {
     try {
       var bids = await loadUserBids(web3.account);
-      console.log(bids);
     } catch (err) {
       console.log(err);
     }
@@ -87,7 +86,6 @@ const MyBids = props => {
 
   const toggleTable = () => {
     if (!myBids) return <DisplayLoading size="large" />;
-    console.log(myBids);
     return myBids.length === 0 ? (
       <div>You have not submitted any bid orders.</div>
     ) : (
