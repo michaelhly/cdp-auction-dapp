@@ -9,7 +9,7 @@ const DisplayLoading = props => {
 
   return (
     <React.Fragment>
-      <Spin size={props.size} style={{ padding: "0" }} />
+      <Spin size={props.size} />
     </React.Fragment>
   );
 };
