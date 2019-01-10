@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-light bg-light shadow-sm p-3 mb-4">
       <div className="navbar-brand" to="/">
-        CDP.Auction
+        cdp.Auction
       </div>
 
       <ul className="navbar-nav navbar-expand mr-auto">
