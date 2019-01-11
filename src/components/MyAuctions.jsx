@@ -22,7 +22,7 @@ const MyAuctions = props => {
     const updates = event.LogEndedAuction.returnValues;
     const copy = [...myAuctions];
     const index = copy.findIndex(auction => {
-      return auction.id === updates.id;
+      return auction.id === updates.auctionId;
     });
     copy[index].state = parseInt(updates.state);
     setMyAuctions(copy);
