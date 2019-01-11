@@ -18,7 +18,7 @@ const NoCdp = props => {
           role="button"
           aria-pressed="true"
         >
-          CDP Protal
+          CDP Portal
         </a>
       </div>
     </div>
