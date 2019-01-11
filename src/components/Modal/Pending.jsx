@@ -25,7 +25,7 @@ const Pending = props => {
         </div>
       </div>
       {props.txHash ? (
-        <div class="modal-footer mt-5">
+        <div class="modal-footer" style={{ marginTop: "115px" }}>
           <ViewTransaction network={props.network} txHash={props.txHash} />
         </div>
       ) : null}

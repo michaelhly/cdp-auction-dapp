@@ -19,7 +19,7 @@ const Confirmed = props => {
           </div>
         </div>
       </div>
-      <div class="modal-footer mt-5">
+      <div class="modal-footer" style={{ marginTop: "95px" }}>
         <ViewTransaction network={props.network} txHash={props.txHash} />
       </div>
     </ModalHeader>
