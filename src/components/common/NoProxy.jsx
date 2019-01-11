@@ -32,8 +32,7 @@ const NoProxy = props => {
       />
       <p style={{ marginTop: "2em" }}>No proxy found.</p>
       <p style={{ maringTop: "1em" }}>
-        Please create a proxy profile with Maker before listing your CDP to
-        auction.
+        Please create a proxy profile with Maker.
       </p>
       <button
         className="btn btn-primary"
