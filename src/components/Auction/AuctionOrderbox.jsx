@@ -46,7 +46,7 @@ const AuctionOrderbox = props => {
       return (
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-outline-success"
           onClick={() => props.onApprove(token)}
         >
           Approve Token
