@@ -12,6 +12,7 @@ import Confirmed from "./Confirmed";
 import Failed from "./Failed";
 import Pending from "./Pending";
 import NoProxy from "../common/NoProxy";
+import NoProxyModal from "./NoProxyModal";
 
 ReactModal.setAppElement(document.getElementById("root"));
 
@@ -177,7 +178,7 @@ const Modal = props => {
 
   const toggleModal = () => {
     if (state === STATE.FAILED) return <Failed onClose={handleClose} />;
-    if (props.loading || state === STATE.PENDING || props.proxy === "pending") {
+    if (state === STATE.PENDING || props.proxy === "pending") {
       return (
         <Pending
           onClose={handleClose}
@@ -189,11 +190,10 @@ const Modal = props => {
 
     if (!props.proxy) {
       return (
-        <NoProxy
+        <NoProxyModal
           requestMaker={props.maker}
-          loading={props.loading}
-          onSetLoading={props.onSetLoading}
           onSetProxy={props.onSetProxy}
+          onClose={handleClose}
         />
       );
     } else {

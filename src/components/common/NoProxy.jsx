@@ -2,29 +2,25 @@ import React from "react";
 import { Icon } from "antd";
 
 const NoProxy = props => {
+  const { onSetProxy } = props;
   const maker = props.requestMaker;
 
   const createProxy = async () => {
-    const copy = { ...props.loading };
-    copy.effectsLoad = true;
-    props.onSetLoading(copy);
+    onSetProxy("pending");
     var tx = null;
     try {
       tx = await maker.service("proxy").build();
     } catch (err) {
-      copy.effectsLoad = false;
-      props.onSetLoading(copy);
+      onSetProxy(null);
     }
     if (tx) {
       await maker.authenticate();
-      props.onSetProxy(maker.service("proxy").currentProxy());
-      copy.effectsLoad = false;
-      props.onSetLoading(copy);
+      onSetProxy(maker.service("proxy").currentProxy());
     }
   };
 
   return (
-    <div>
+    <div className="text-align-center">
       <Icon
         type="exclamation-circle"
         style={{ fontSize: "42px", color: "red" }}
