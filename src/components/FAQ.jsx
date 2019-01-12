@@ -12,7 +12,7 @@ const FAQ = () => {
   return (
     <React.Fragment>
       <h2 className="mb-3">FAQ</h2>
-      <div className="mb-5">
+      <div className="mb-5 p-3">
         <Accordion>
           <AccordionItem>
             <AccordionItemTitle>

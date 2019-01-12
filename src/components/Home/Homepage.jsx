@@ -69,6 +69,32 @@ const Homepage = props => {
           </div>
         </div>
       </div>
+      <div className="fixed-bottom mb-2 ml-2">
+        {" "}
+        <a
+          href="https://github.com/michaelhly/cdp-auction-contracts"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Github
+        </a>{" "}
+        |{" "}
+        <a
+          href="https://makerdao.com/en/whitepaper"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Maker
+        </a>{" "}
+        |{" "}
+        <a
+          href="https://cdp.makerdao.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CDP Portal
+        </a>{" "}
+      </div>
     </React.Fragment>
   );
 };
