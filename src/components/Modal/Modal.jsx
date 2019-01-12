@@ -11,7 +11,6 @@ import Ready from "./Ready";
 import Confirmed from "./Confirmed";
 import Failed from "./Failed";
 import Pending from "./Pending";
-import NoProxy from "../common/NoProxy";
 import NoProxyModal from "./NoProxyModal";
 
 ReactModal.setAppElement(document.getElementById("root"));

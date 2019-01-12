@@ -9,7 +9,9 @@ const TokenPanel = props => {
   if (props.tokens.length === 0) {
     return (
       <SidePanel>
-        <DisplayLoading size="large" />
+        <div className="mt-4">
+          <DisplayLoading size="large" />
+        </div>
       </SidePanel>
     );
   } else {
