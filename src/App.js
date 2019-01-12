@@ -94,26 +94,13 @@ const App = () => {
 
   const handleListingRemoval = (auctionId, cdp) => {
     removeAuction(auctionId);
-    addCDP(cdp);
+    const newCdps = [cdp, ...cdps];
+    setCdps(newCdps);
   };
 
   const removeAuction = auctionId => {
     const newAuctions = auctions.filter(auction => auction.id !== auctionId);
     setAuctions(newAuctions);
-  };
-
-  const addCDP = cdp => {
-    const newCdps = [cdp, ...cdps];
-    setCdps(newCdps);
-  };
-
-  const updateAuction = updatedAuction => {
-    const copy = auctions.slice();
-    const index = copy.findIndex(auction => {
-      return auction.id === updateAuction.id;
-    });
-    copy[index] = updatedAuction;
-    setAuctions(copy);
   };
 
   const triggerModal = (method, params, callback) => {
