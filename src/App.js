@@ -9,6 +9,7 @@ import Auction from "./components/Auction/Auction";
 import TokenFaucet from "./components/TokenFaucet";
 import ConfirmationModal from "./components/Modal/Modal";
 import { loadCdps, loadAuctions, getAuction } from "./services/requestInfura";
+import FAQ from "./components/FAQ";
 
 const Maker = require("@makerdao/dai");
 
@@ -181,6 +182,7 @@ const App = () => {
       <main className="container">
         <Switch>
           <Route path="/faucet" component={TokenFaucet} />
+          <Route path="/faq" component={FAQ} />
           <Route
             exact
             path="/myauctions"

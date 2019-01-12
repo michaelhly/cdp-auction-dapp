@@ -24,7 +24,14 @@ const Navbar = () => {
             My Bids
           </NavLink>
         </li>
-        <li className="nav-item m-2">
+      </ul>
+      <ul className="navbar-nav navbar-expand float-right">
+        <li className="nav-item m-2 float-right">
+          <NavLink className="nav-link" to="/faq">
+            FAQ
+          </NavLink>
+        </li>
+        <li className="nav-item m-2 float-right">
           <NavLink className="nav-link" to="/faucet">
             Get Tokens
           </NavLink>

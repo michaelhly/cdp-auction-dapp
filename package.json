@@ -10,6 +10,7 @@
     "ethereum-blockies-base64": "^1.0.2",
     "lodash": "^4.17.11",
     "react": "^16.7.0-alpha.2",
+    "react-accessible-accordion": "^2.4.5",
     "react-dom": "^16.7.0-alpha.2",
     "react-modal": "^3.8.1",
     "react-router-dom": "^4.3.1",
