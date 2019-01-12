@@ -104,16 +104,17 @@ const App = () => {
     setLoading(loadCdps);
   };
 
-  const handleSaleTransfer = (auctionId, newOwner, cdp) => {
+  const handleSaleTransfer = auctionId => {
     removeAuction(auctionId);
-    if (newOwner === proxy) {
-      addNewCDP(cdp);
-    }
+    const copy = { ...loading };
+    copy.effectsLoad = true;
+    setLoading(copy);
+    fetchCdps();
   };
 
   const handleListingRemoval = (auctionId, cdp) => {
     removeAuction(auctionId);
-    addNewCDP(cdp);
+    addCDP(cdp);
   };
 
   const removeAuction = auctionId => {
@@ -121,7 +122,7 @@ const App = () => {
     setAuctions(newAuctions);
   };
 
-  const addNewCDP = cdp => {
+  const addCDP = cdp => {
     const newCdps = [cdp, ...cdps];
     setCdps(newCdps);
   };
