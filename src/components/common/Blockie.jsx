@@ -10,7 +10,7 @@ const CircleImage = styled.img`
 
 const Blockie = props => {
   return (
-    <div>
+    <div className="mt-4">
       <CircleImage
         src={makeBlockie(props.address)}
         width="42px"

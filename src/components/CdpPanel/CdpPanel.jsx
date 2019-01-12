@@ -6,6 +6,7 @@ import ListingForm from "./ListingForm";
 import NoProxy from "../common/NoProxy";
 import SidePanel from "../common/SidePanel";
 import DisplayLoading from "../common/DisplayLoading";
+import { Icon } from "antd";
 
 const CdpPanel = props => {
   const { maker, proxy, cdps, onSetProxy } = props;
@@ -22,6 +23,22 @@ const CdpPanel = props => {
     setForm(false);
   };
 
+  const refreshButton = () => {
+    return (
+      <button
+        type="button"
+        className="btn btn-link p-0 float-right"
+        onClick={() => props.onRefresh()}
+        style={{
+          textDecoration: "none",
+          marginTop: "-10px"
+        }}
+      >
+        <Icon type="reload" style={{ color: "green" }} theme="outlined" />
+      </button>
+    );
+  };
+
   const displayPanel = () => {
     if (form)
       return (
@@ -34,15 +51,29 @@ const CdpPanel = props => {
       );
 
     if (proxy === "pending" || !cdps) {
-      return <DisplayLoading size="large" />;
+      return (
+        <div className="mt-3">
+          <DisplayLoading size="large" />
+        </div>
+      );
     } else {
       if (!proxy) {
-        return <NoProxy requestMaker={maker} onSetProxy={onSetProxy} />;
+        return (
+          <div className="mt-3">
+            <NoProxy requestMaker={maker} onSetProxy={onSetProxy} />{" "}
+          </div>
+        );
       } else {
         return cdps.length === 0 ? (
-          <NoCdp proxy={proxy} />
+          <React.Fragment>
+            {refreshButton()}
+            <NoCdp proxy={proxy} />
+          </React.Fragment>
         ) : (
-          <CdpList proxy={proxy} cdps={cdps} onListCdp={handleCdpListing} />
+          <React.Fragment>
+            {refreshButton()}
+            <CdpList proxy={proxy} cdps={cdps} onListCdp={handleCdpListing} />
+          </React.Fragment>
         );
       }
     }

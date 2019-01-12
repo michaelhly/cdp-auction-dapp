@@ -181,6 +181,7 @@ const App = () => {
                 proxy={proxy}
                 onSetProxy={setProxy}
                 onModal={triggerModal}
+                onRefresh={{ rAuctions: fetchAuctionData, rCdps: fetchCdps }}
               />
             )}
           />

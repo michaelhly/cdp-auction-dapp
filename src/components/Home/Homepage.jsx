@@ -6,6 +6,7 @@ import Pagination from "./Pagination";
 import DisplayLoading from "../common/DisplayLoading";
 
 const Homepage = props => {
+  const { rAuctions, rCdps } = props.onRefresh;
   const [pageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -32,7 +33,10 @@ const Homepage = props => {
             className="col-12"
             style={{ display: "flex", alignItems: "flex-start" }}
           />
-          <ListingContainer auctions={paginatedAuctions} />
+          <ListingContainer
+            auctions={paginatedAuctions}
+            onRefresh={rAuctions}
+          />
           <div className="mx-auto">
             <Pagination
               itemCount={props.auctions.length}
@@ -55,8 +59,9 @@ const Homepage = props => {
               maker={props.maker}
               proxy={props.proxy}
               cdps={props.cdp}
-              onSetProxy={props.onSetProxy}
               onModal={props.onModal}
+              onRefresh={rCdps}
+              onSetProxy={props.onSetProxy}
             />
           </div>
           <div className="col-8">
