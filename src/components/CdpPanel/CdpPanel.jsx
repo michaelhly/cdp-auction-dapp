@@ -8,8 +8,7 @@ import SidePanel from "../common/SidePanel";
 import DisplayLoading from "../common/DisplayLoading";
 
 const CdpPanel = props => {
-  const { maker, proxy, cdps, onSetProxy, onSetLoading } = props;
-  const { mainLoad, effectsLoad } = props.loading;
+  const { maker, proxy, cdps, onSetProxy } = props;
   const [form, setForm] = useState(false);
   const [selected, setSelected] = useState([]);
 
@@ -34,18 +33,11 @@ const CdpPanel = props => {
         />
       );
 
-    if (mainLoad || effectsLoad || proxy === "pending" || cdps === "pending") {
+    if (proxy === "pending" || !cdps) {
       return <DisplayLoading size="large" />;
     } else {
       if (!proxy) {
-        return (
-          <NoProxy
-            requestMaker={maker}
-            loading={props.loading}
-            onSetLoading={onSetLoading}
-            onSetProxy={onSetProxy}
-          />
-        );
+        return <NoProxy requestMaker={maker} onSetProxy={onSetProxy} />;
       } else {
         return cdps.length === 0 ? (
           <NoCdp proxy={proxy} />

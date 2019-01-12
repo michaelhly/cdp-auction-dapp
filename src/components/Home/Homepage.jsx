@@ -6,7 +6,6 @@ import Pagination from "./Pagination";
 import DisplayLoading from "../common/DisplayLoading";
 
 const Homepage = props => {
-  const { mainLoad } = props.loading;
   const [pageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -17,7 +16,7 @@ const Homepage = props => {
   const paginatedAuctions = paginate(props.auctions, currentPage, pageSize);
 
   const toggleListings = () => {
-    if (mainLoad) {
+    if (!props.auctions) {
       return (
         <div
           className="mx-auto align-items-center"
@@ -57,8 +56,6 @@ const Homepage = props => {
               proxy={props.proxy}
               cdps={props.cdp}
               onSetProxy={props.onSetProxy}
-              loading={props.loading}
-              onSetLoading={props.onSetLoading}
               onModal={props.onModal}
             />
           </div>
